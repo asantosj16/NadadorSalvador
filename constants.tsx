@@ -217,6 +217,23 @@ export const QUIZ_CHAPTERS: QuizChapter[] = [
       { id: 'q8-9', question: 'A vigilância em piscinas deve ser feita:', options: ['Sempre a andar', 'A partir de postos fixos estrategicamente colocados', 'Sentado no chão', 'De costas'], correctAnswer: 1, explanation: 'Garante a cobertura total do espelho de água.' },
       { id: 'q8-10', question: 'Qual o dever do NS após um incidente grave?', options: ['Ir embora', 'Preencher relatório e informar coordenação/autoridades', 'Não contar a ninguém', 'Limpar tudo e esquecer'], correctAnswer: 1, explanation: 'O fecho operacional e documental é parte do dever profissional.' }
     ]
+  },
+  {
+    id: 'cap-9',
+    title: '9. Oxigenoterapia no Salvamento Aquático',
+    description: 'Protocolos de administração, segurança e equipamentos de oxigénio.',
+    questions: [
+      { id: 'q9-1', question: 'Qual o débito de oxigénio recomendado para uma vítima de afogamento Grau 2 (Szpilman)?', options: ['1-2 L/min', '5 L/min', '15 L/min', 'Não se administra O2'], correctAnswer: 1, explanation: 'Vítimas Grau 2 (pouca espuma) beneficiam de 5L/min via máscara simples ou óculos nasais.' },
+      { id: 'q9-2', question: 'Nas vítimas Grau 3, 4, 5 e 6 da Escala de Szpilman, qual o débito de oxigénio indicado?', options: ['5 L/min', '10 L/min', '15 L/min', 'Apenas SBV'], correctAnswer: 2, explanation: 'Afogados graves (G3 a G6) necessitam de alta concentração de O2 (15L/min).' },
+      { id: 'q9-3', question: 'Por que razão nunca se deve usar gorduras ou óleos perto das válvulas das garrafas de oxigénio?', options: ['Suja o material', 'Risco de explosão/combustão espontânea na presença de O2 sob pressão', 'Estraga a borracha', 'Não tem contraindicação'], correctAnswer: 1, explanation: 'O oxigénio sob pressão reage violentamente com hidrocarbonetos (gorduras), podendo causar explosão.' },
+      { id: 'q9-4', question: 'Qual a função do saco reservatório numa máscara de alta concentração (não-reinalante)?', options: ['Armazenar o ar exalado', 'Permitir a administração de O2 próximo dos 100%', 'Apenas conforto', 'Humidificar o ar'], correctAnswer: 1, explanation: 'O reservatório garante que a vítima inspire quase exclusivamente O2 puro do balão.' },
+      { id: 'q9-5', question: 'Qual a cor padrão da ogiva (topo) das garrafas de oxigénio medicinal em Portugal?', options: ['Verde', 'Azul', 'Branca', 'Preta'], correctAnswer: 2, explanation: 'A cor branca identifica o oxigénio para fins medicinais.' },
+      { id: 'q9-6', question: 'O manómetro da garrafa de oxigénio indica:', options: ['O fluxo por minuto', 'A pressão interna da garrafa (quantidade de gás restante)', 'A temperatura do gás', 'A pureza do O2'], correctAnswer: 1, explanation: 'O manómetro mede a pressão; o fluxómetro mede o débito em L/min.' },
+      { id: 'q9-7', question: 'O que deve ser verificado antes de colocar a máscara de reservatório na vítima?', options: ['Se a vítima está a dormir', 'Se o saco reservatório está insuflado', 'A cor dos olhos da vítima', 'Se há vento'], correctAnswer: 1, explanation: 'Deve-se tapar a válvula com o dedo para insuflar o balão antes de aplicar no rosto.' },
+      { id: 'q9-8', question: 'Numa vítima em paragem respiratória (Grau 5), o O2 deve ser acoplado a:', options: ['Óculos nasais', 'Máscara de Venturi', 'Insuflador manual (Ambu) com reservatório', 'Não se usa O2'], correctAnswer: 2, explanation: 'Vítimas que não respiram necessitam de ventilação assistida com O2 a 15L/min acoplado ao insuflador.' },
+      { id: 'q9-9', question: 'O oxímetro de pulso é fiável em vítimas em estado de choque ou hipotermia grave?', options: ['Sim, sempre', 'Não, devido à má perfusão periférica (vasoconstrição)', 'Só se for caro', 'Apenas em crianças'], correctAnswer: 1, explanation: 'O frio e o choque causam vasoconstrição, impedindo a leitura correta da saturação.' },
+      { id: 'q9-10', question: 'Qual o principal objetivo da oxigenoterapia no afogado?', options: ['Arrefecer a vítima', 'Tratar a hipoxémia (baixa concentração de O2 no sangue)', 'Secar os pulmões', 'Aumentar a pressão arterial'], correctAnswer: 1, explanation: 'O afogamento é essencialmente um problema de falta de oxigénio; a reposição precoce é vital.' }
+    ]
   }
 ];
 
