@@ -87,76 +87,16 @@ export const QUIZ_CHAPTERS: QuizChapter[] = [
     title: '1. Atividade e Perfil do Nadador-Salvador',
     description: 'Enquadramento legal, certificação e deveres éticos.',
     questions: [
-      {
-        id: 'q1-1',
-        question: 'Qual a validade atual da certificação de Nadador-Salvador em Portugal?',
-        options: ['2 anos', '3 anos', '5 anos', 'Vitalícia'],
-        correctAnswer: 1,
-        explanation: 'A certificação técnica de Nadador-Salvador é válida por 3 anos, findos os quais deve ser realizado exame de recertificação.'
-      },
-      {
-        id: 'q1-2',
-        question: 'Quem é a autoridade técnica responsável pela atividade de salvamento aquático em Portugal?',
-        options: ['Polícia Marítima', 'Proteção Civil', 'Instituto de Socorros a Náufragos (ISN)', 'Marinha Portuguesa'],
-        correctAnswer: 2,
-        explanation: 'O ISN é o organismo regulador e certificador técnico da atividade, sob a dependência da Autoridade Marítima Nacional.'
-      },
-      {
-        id: 'q1-3',
-        question: 'Um Nadador-Salvador pode abandonar o posto se não houver banhistas na água?',
-        options: ['Sim, se avisar o colega', 'Não, deve manter vigilância durante todo o período de serviço', 'Sim, se as condições do mar forem calmas', 'Apenas para refeições sem aviso'],
-        correctAnswer: 1,
-        explanation: 'O abandono do posto de vigilância sem substituição é uma falta grave. A vigilância deve ser ininterrupta durante o horário fixado.'
-      },
-      {
-        id: 'q1-4',
-        question: 'Qual o diploma que estabelece o regime jurídico da assistência a banhistas?',
-        options: ['DL 118/2011', 'DL 24/2024', 'Lei 58/2005', 'DL 35/2004'],
-        correctAnswer: 0,
-        explanation: 'O Decreto-Lei n.º 118/2011 é a base legal fundamental que regula a profissão e a assistência nas praias.'
-      },
-      {
-        id: 'q1-5',
-        question: 'Constitui dever do Nadador-Salvador colaborar com as autoridades de proteção civil?',
-        options: ['Apenas em caso de tsunami', 'Sim, é um dever legal e moral em situações de emergência', 'Não, apenas com a Polícia Marítima', 'Só se for pago extra'],
-        correctAnswer: 1,
-        explanation: 'O Nadador-Salvador é um agente de proteção civil e deve colaborar com todas as autoridades em situações de socorro.'
-      },
-      {
-        id: 'q1-6',
-        question: 'O Nadador-Salvador pode aplicar coimas por comportamentos de risco?',
-        options: ['Sim', 'Não, deve apenas sensibilizar e contactar a Polícia Marítima se necessário', 'Apenas em praias concessionadas', 'Sim, se for o coordenador'],
-        correctAnswer: 1,
-        explanation: 'O NS não tem autoridade policial. O seu papel é preventivo e de socorro. Infrações devem ser reportadas à Polícia Marítima.'
-      },
-      {
-        id: 'q1-7',
-        question: 'A quem deve o Nadador-Salvador prestar contas diariamente no final do turno?',
-        options: ['Ao dono do bar', 'Ao ISN diretamente', 'Ao concessionário ou coordenador de praia', 'À Câmara Municipal'],
-        correctAnswer: 2,
-        explanation: 'O NS reporta ao concessionário (entidade empregadora) e ao Coordenador de Praia, mantendo os registos de ocorrência em dia.'
-      },
-      {
-        id: 'q1-8',
-        question: 'Qual o equipamento de proteção individual (EPI) obrigatório para vigilância estática?',
-        options: ['Apenas calções', 'T-shirt, chapéu de sol, óculos escuros e protetor solar', 'Fato de mergulho completo', 'Capa de chuva'],
-        correctAnswer: 1,
-        explanation: 'A proteção contra radiação UV e insolação é crítica para manter a capacidade de vigilância e saúde do NS.'
-      },
-      {
-        id: 'q1-9',
-        question: 'Um NS certificado noutro país da UE pode trabalhar em Portugal sem equivalência?',
-        options: ['Sim, automaticamente', 'Não, deve obter o reconhecimento de qualificações pelo ISN', 'Apenas em piscinas privadas', 'Só se falar português'],
-        correctAnswer: 1,
-        explanation: 'As qualificações estrangeiras devem ser submetidas a um processo de equivalência técnica no ISN.'
-      },
-      {
-        id: 'q1-10',
-        question: 'Qual o principal objetivo da "prevenção" no salvamento aquático?',
-        options: ['Evitar que o acidente ocorra', 'Limpar a areia', 'Contar os banhistas', 'Vender gelados'],
-        correctAnswer: 0,
-        explanation: 'A prevenção é a ferramenta mais eficaz. Evitar que a pessoa entre em perigo poupa vidas e evita salvamentos de risco.'
-      }
+      { id: 'q1-1', question: 'Qual a validade atual da certificação de Nadador-Salvador em Portugal?', options: ['2 anos', '3 anos', '5 anos', 'Vitalícia'], correctAnswer: 1, explanation: 'A certificação técnica é válida por 3 anos (Decreto-Lei 118/2011).' },
+      { id: 'q1-2', question: 'Qual a entidade responsável pela certificação técnica de Nadadores-Salvadores?', options: ['Polícia Marítima', 'ISN - Instituto de Socorros a Náufragos', 'Cruz Vermelha', 'Proteção Civil'], correctAnswer: 1, explanation: 'O ISN é a autoridade técnica responsável pela formação e certificação.' },
+      { id: 'q1-3', question: 'Um Nadador-Salvador em serviço pode abandonar o seu posto para auxiliar noutra zona da praia?', options: ['Sim, livremente', 'Não, exceto se articulado com o dispositivo de segurança', 'Apenas se for para almoçar', 'Sim, se avisar um banhista'], correctAnswer: 1, explanation: 'A vigilância deve ser contínua e qualquer movimentação deve ser coordenada com a equipa.' },
+      { id: 'q1-4', question: 'Qual o diploma legal que regula a assistência a banhistas em Portugal?', options: ['Lei 58/2005', 'Decreto-Lei 118/2011', 'DL 35/2004', 'Código Marítimo'], correctAnswer: 1, explanation: 'O DL 118/2011 estabelece o regime jurídico da assistência a banhistas.' },
+      { id: 'q1-5', question: 'É dever do Nadador-Salvador utilizar o uniforme oficial durante o horário de serviço?', options: ['Apenas se estiver frio', 'Sim, é obrigatório para identificação rápida', 'Não, pode usar roupa civil', 'Só em praias fluviais'], correctAnswer: 1, explanation: 'O uso de uniforme é obrigatório por lei para identificação clara por parte dos banhistas e autoridades.' },
+      { id: 'q1-6', question: 'O Nadador-Salvador é considerado um Agente de Proteção Civil?', options: ['Não', 'Apenas os bombeiros', 'Sim, nos termos da Lei de Bases da Proteção Civil', 'Só se trabalhar para a Câmara'], correctAnswer: 2, explanation: 'Os Nadadores-Salvadores integram o sistema de proteção civil em situações de socorro.' },
+      { id: 'q1-7', question: 'Qual a idade mínima para ingressar no curso de Nadador-Salvador?', options: ['16 anos', '17 anos', '18 anos', '21 anos'], correctAnswer: 2, explanation: 'A idade mínima legal para a certificação é de 18 anos.' },
+      { id: 'q1-8', question: 'Constitui falta grave o consumo de bebidas alcoólicas durante o serviço?', options: ['Sim, passível de cassação do título', 'Apenas se ficar embriagado', 'Não, se for moderado', 'Apenas em piscinas'], correctAnswer: 0, explanation: 'O consumo de substâncias que alterem a capacidade psicomotora é estritamente proibido.' },
+      { id: 'q1-9', question: 'A quem deve o Nadador-Salvador reportar infrações de banhistas que ponham em risco a segurança?', options: ['Ao dono do bar', 'À Polícia Marítima', 'Aos pais da vítima', 'Não deve reportar'], correctAnswer: 1, explanation: 'A Polícia Marítima é a autoridade policial competente na orla costeira.' },
+      { id: 'q1-10', question: 'O título de Nadador-Salvador pode ser cassado por negligência grave?', options: ['Não', 'Apenas por tribunal', 'Sim, pelo ISN após processo disciplinar', 'Só se houver morte'], correctAnswer: 2, explanation: 'O ISN pode retirar a certificação técnica em casos de falta de zelo ou competência demonstrada.' }
     ]
   },
   {
@@ -164,76 +104,16 @@ export const QUIZ_CHAPTERS: QuizChapter[] = [
     title: '2. Suporte Básico de Vida (Meio Aquático)',
     description: 'Protocolos ERC/ISN específicos para afogamento.',
     questions: [
-      {
-        id: 'q2-1',
-        question: 'No SBV adaptado ao afogamento, qual o primeiro passo após verificar que a vítima não respira?',
-        options: ['30 compressões', 'Ligar 112', '5 ventilações de resgate', 'Posição Lateral de Segurança'],
-        correctAnswer: 2,
-        explanation: 'No afogamento (paragem hipóxica), as 5 ventilações iniciais são prioritárias para oxigenar o sangue e os pulmões.'
-      },
-      {
-        id: 'q2-2',
-        question: 'Qual o rácio de compressões/ventilações num SBV de adulto realizado por um NS?',
-        options: ['15:2', '30:2', '5:1', 'Continuous compressions'],
-        correctAnswer: 1,
-        explanation: 'O rácio padrão para SBV de adulto, mesmo no afogamento após as ventilações iniciais, é de 30 compressões para 2 ventilações.'
-      },
-      {
-        id: 'q2-3',
-        question: 'Quanto tempo deve durar a avaliação da respiração (VOS)?',
-        options: ['Até 5 segundos', 'Exatamente 10 segundos', 'Entre 5 a 10 segundos', '20 segundos'],
-        correctAnswer: 2,
-        explanation: 'Deve-se Ver, Ouvir e Sentir a respiração por no máximo 10 segundos para não atrasar o início das manobras.'
-      },
-      {
-        id: 'q2-4',
-        question: 'Onde devem ser colocadas as mãos para realizar compressões torácicas num adulto?',
-        options: ['No lado esquerdo do peito', 'No centro do tórax (metade inferior do esterno)', 'No estômago', 'Perto do pescoço'],
-        correctAnswer: 1,
-        explanation: 'As mãos devem ser colocadas no centro do peito, na metade inferior do osso esterno.'
-      },
-      {
-        id: 'q2-5',
-        question: 'Qual a profundidade recomendada para as compressões num adulto?',
-        options: ['2 a 3 cm', '5 a 6 cm', '7 a 10 cm', 'O máximo possível'],
-        correctAnswer: 1,
-        explanation: 'As compressões devem ter uma profundidade de 5 a 6 cm para serem eficazes na ejeção de sangue.'
-      },
-      {
-        id: 'q2-6',
-        question: 'A que frequência deve realizar as compressões torácicas?',
-        options: ['60-80 por minuto', '100-120 por minuto', '140-160 por minuto', 'Ao ritmo do batimento cardíaco do NS'],
-        correctAnswer: 1,
-        explanation: 'A frequência correta é entre 100 a 120 compressões por minuto (ritmo de "Stayin\' Alive").'
-      },
-      {
-        id: 'q2-7',
-        question: 'Se a vítima vomitar durante o SBV, o que deve fazer?',
-        options: ['Parar o SBV e desistir', 'Limpar a boca e continuar imediatamente', 'Virar a vítima de lado, limpar a via aérea e retomar o SBV', 'Ignorar'],
-        correctAnswer: 2,
-        explanation: 'É comum vomitar água/ar durante o SBV no afogamento. Limpar rapidamente a via aérea evita aspiração para os pulmões.'
-      },
-      {
-        id: 'q2-8',
-        question: 'O DAE (Desfibrilhador) pode ser usado numa vítima de afogamento molhada?',
-        options: ['Não, nunca', 'Sim, após secar rapidamente o tórax da vítima', 'Apenas se estiver em terra firme', 'Sim, mesmo dentro de água'],
-        correctAnswer: 1,
-        explanation: 'Deve-se secar o peito da vítima para garantir a adesão dos elétrodos e evitar dispersão da corrente elétrica, mas nunca dentro de água.'
-      },
-      {
-        id: 'q2-9',
-        question: 'Quando é que o NS deve parar o SBV?',
-        options: ['Quando estiver cansado', 'Quando chegar ajuda diferenciada ou a vítima recuperar sinais de vida', 'Após 10 minutos', 'Quando o sol se puser'],
-        correctAnswer: 1,
-        explanation: 'O socorro só pára se o NS estiver exausto sem alternativa, se a ajuda especializada assumir ou se a vítima recuperar.'
-      },
-      {
-        id: 'q2-10',
-        question: 'Em SBV pediátrico (Criança), qual o rácio recomendado para profissionais de saúde/socorro?',
-        options: ['30:2', '15:2', '5:1', '10:1'],
-        correctAnswer: 1,
-        explanation: 'Para profissionais de socorro em pediatria, o rácio recomendado é 15:2 após as 5 ventilações iniciais.'
-      }
+      { id: 'q2-1', question: 'Qual a primeira ação no algoritmo de SBV para uma vítima de afogamento que não respira?', options: ['30 compressões', 'Chamar o 112', '5 ventilações de resgate', 'Posição Lateral de Segurança'], correctAnswer: 2, explanation: 'No afogamento (paragem hipóxica), as 5 ventilações iniciais são críticas.' },
+      { id: 'q2-2', question: 'Qual o rácio de compressões/ventilações num adulto após as ventilações iniciais?', options: ['15:2', '30:2', '5:1', 'Continuous'], correctAnswer: 1, explanation: 'O rácio padrão para adultos é 30 compressões para 2 ventilações.' },
+      { id: 'q2-3', question: 'Por quanto tempo deve avaliar a respiração (VOS) na vítima inconsciente?', options: ['5 segundos', 'Exatamente 10 segundos', 'Até 10 segundos', '20 segundos'], correctAnswer: 2, explanation: 'A avaliação deve durar no máximo 10 segundos para não atrasar as manobras.' },
+      { id: 'q2-4', question: 'Numa paragem por afogamento, o que causa a paragem cardíaca na maioria dos casos?', options: ['Enfarte', 'Hipóxia (falta de oxigénio)', 'Frio excessivo', 'Pânico'], correctAnswer: 1, explanation: 'O coração pára devido à falta de oxigénio prolongada resultante da submersão.' },
+      { id: 'q2-5', question: 'Onde devem ser feitas as compressões torácicas num adulto?', options: ['Lado esquerdo', 'Centro do tórax', 'Abdómen superior', 'Perto do pescoço'], correctAnswer: 1, explanation: 'As compressões devem ser feitas no centro do tórax, na metade inferior do esterno.' },
+      { id: 'q2-6', question: 'Qual a profundidade recomendada para as compressões no adulto?', options: ['2-3 cm', '5-6 cm', '7-8 cm', 'O máximo possível'], correctAnswer: 1, explanation: 'Compressões de 5 a 6 cm garantem a ejeção de sangue eficaz.' },
+      { id: 'q2-7', question: 'A que frequência devem ser realizadas as compressões?', options: ['60-80 por minuto', '100-120 por minuto', '140-160 por minuto', 'Ritmo livre'], correctAnswer: 1, explanation: 'O ritmo ideal situa-se entre 100 e 120 compressões por minuto.' },
+      { id: 'q2-8', question: 'Pode-se utilizar o DAE em vítimas molhadas?', options: ['Não, nunca', 'Sim, após secar o tórax da vítima', 'Sim, mesmo dentro de água', 'Apenas se tiver luvas'], correctAnswer: 1, explanation: 'O tórax deve ser seco para os elétrodos aderirem e evitar condução elétrica superficial indesejada.' },
+      { id: 'q2-9', question: 'Se a vítima vomitar durante o SBV, qual a conduta?', options: ['Desistir', 'Virar de lado, limpar via aérea e retomar SBV', 'Ignorar e continuar', 'Dar água'], correctAnswer: 1, explanation: 'É comum o vómito; deve-se limpar a via aérea para evitar aspiração e obstrução.' },
+      { id: 'q2-10', question: 'Quando se pode interromper o SBV?', options: ['Quando estiver cansado', 'Chegada de ajuda diferenciada ou recuperação da vítima', 'Após 10 minutos', 'Quando o sol se puser'], correctAnswer: 1, explanation: 'A reanimação só pára com a entrega a equipas médicas, exaustão do socorrista ou sucesso na manobra.' }
     ]
   },
   {
@@ -241,76 +121,16 @@ export const QUIZ_CHAPTERS: QuizChapter[] = [
     title: '3. Socorrismo Avançado e Trauma',
     description: 'Trauma, hemorragias e picadas de animais marinhos.',
     questions: [
-      {
-        id: 'q3-1',
-        question: 'Qual o tratamento imediato para uma picada de Peixe-Aranha?',
-        options: ['Gelo local', 'Água quente (40-45ºC)', 'Vinagre', 'Álcool'],
-        correctAnswer: 1,
-        explanation: 'O veneno do peixe-aranha é termolábil (destrói-se com o calor). Imergir a zona em água quente por 30-90 min alivia a dor.'
-      },
-      {
-        id: 'q3-2',
-        question: 'Como tratar uma queimadura de Alforreca ou Caravela Portuguesa?',
-        options: ['Lavar com água doce', 'Esfregar com areia', 'Lavar com água do mar e aplicar vinagre', 'Urinar na ferida'],
-        correctAnswer: 2,
-        explanation: 'Água doce ativa as células urticantes (cnidócitos). Deve usar-se água salgada e vinagre para inativar o veneno.'
-      },
-      {
-        id: 'q3-3',
-        question: 'Numa suspeita de trauma vertebral (salto para água), qual a prioridade?',
-        options: ['Retirar a vítima rapidamente da água', 'Imobilização cervical manual imediata e alinhamento neutro', 'Verificar se a vítima consegue nadar', 'Massajar o pescoço'],
-        correctAnswer: 1,
-        explanation: 'A estabilização da coluna cervical é vital para evitar lesões medulares irreversíveis. A extração deve ser feita com plano rígido.'
-      },
-      {
-        id: 'q3-4',
-        question: 'O que caracteriza uma hemorragia arterial?',
-        options: ['Sangue escuro e constante', 'Sangue vermelho vivo que sai em jatos rítmicos', 'Pequenas gotas', 'Sangue azul'],
-        correctAnswer: 1,
-        explanation: 'As hemorragias arteriais são as mais graves, pulsando ao ritmo do coração e com sangue oxigenado (claro).'
-      },
-      {
-        id: 'q3-5',
-        question: 'Qual a primeira medida para controlar uma hemorragia externa grave?',
-        options: ['Aplicar torniquete', 'Pressão direta sobre a ferida', 'Elevar o membro', 'Lavar com soro'],
-        correctAnswer: 1,
-        explanation: 'A compressão manual direta é a medida inicial mais eficaz e segura para a maioria das hemorragias.'
-      },
-      {
-        id: 'q3-6',
-        question: 'Quando deve ser aplicado um torniquete?',
-        options: ['Em qualquer corte', 'Apenas em hemorragias massivas em membros onde a pressão direta falhou', 'Sempre que houver sangue', 'No pescoço'],
-        correctAnswer: 1,
-        explanation: 'O torniquete é uma medida de último recurso para hemorragias catastróficas em braços ou pernas.'
-      },
-      {
-        id: 'q3-7',
-        question: 'Vítima com queimadura solar grave. Qual o procedimento?',
-        options: ['Aplicar manteiga', 'Arrefecer com água corrente e aplicar compressas húmidas', 'Furar as bolhas', 'Expor mais ao sol'],
-        correctAnswer: 1,
-        explanation: 'O arrefecimento suave e hidratação são as chaves. Nunca furar bolhas devido ao risco elevado de infeção.'
-      },
-      {
-        id: 'q3-8',
-        question: 'O que é a Posição Lateral de Segurança (PLS)?',
-        options: ['Vítima de barriga para baixo', 'Vítima deitada de lado para manter a via aérea desobstruída', 'Sentada', 'De cabeça para baixo'],
-        correctAnswer: 1,
-        explanation: 'A PLS evita que a língua ou vómito obstruam a via aérea em vítimas inconscientes que respiram.'
-      },
-      {
-        id: 'q3-9',
-        question: 'Como imobilizar uma fratura exposta?',
-        options: ['Empurrar o osso para dentro', 'Cobrir com gaze húmida e imobilizar a articulação acima e abaixo', 'Lavar com lixívia', 'Não mexer'],
-        correctAnswer: 1,
-        explanation: 'Nunca se deve tentar reduzir a fratura. Proteção da ferida e imobilização estável são as prioridades.'
-      },
-      {
-        id: 'q3-10',
-        question: 'O que fazer perante uma insolação (Golpe de Calor)?',
-        options: ['Dar café quente', 'Retirar do sol, arrefecer o corpo e dar água se consciente', 'Pedir para correr', 'Fazer SBV'],
-        correctAnswer: 1,
-        explanation: 'A insolação é uma emergência médica. Baixar a temperatura corporal de forma gradual é fundamental.'
-      }
+      { id: 'q3-1', question: 'Qual o tratamento imediato para uma picada de peixe-aranha?', options: ['Gelo local', 'Água quente (40-45ºC)', 'Vinagre', 'Amoníaco'], correctAnswer: 1, explanation: 'As toxinas são termolábeis e destroem-se com o calor.' },
+      { id: 'q3-2', question: 'Como tratar uma queimadura de alforreca (medusa)?', options: ['Água doce', 'Água do mar e vinagre', 'Gelo', 'Esfregar areia'], correctAnswer: 1, explanation: 'A água doce ativa os nematocistos; a água salgada e o vinagre inativam-nos.' },
+      { id: 'q3-3', question: 'Suspeita de trauma cervical num salto para a água: qual a prioridade?', options: ['Retirar rápido', 'Estabilização manual da coluna cervical', 'Massagem', 'Fazer SBV'], correctAnswer: 1, explanation: 'A imobilização manual imediata previne lesões medulares secundárias.' },
+      { id: 'q3-4', question: 'O que caracteriza uma hemorragia arterial?', options: ['Sangue escuro', 'Sangue vermelho vivo em jatos rítmicos', 'Pequenas gotas', 'Sangue azul'], correctAnswer: 1, explanation: 'A pressão arterial faz o sangue sair em jatos pulsáteis.' },
+      { id: 'q3-5', question: 'Qual o rácio de ventilações num afogado grau 5 (Paragem Respiratória)?', options: ['10-12 por minuto', '20-24 por minuto', '30 por minuto', '1 por minuto'], correctAnswer: 0, explanation: 'Em paragem respiratória com pulso (Grau 5), fazem-se ventilações de resgate (1 cada 5-6 seg).' },
+      { id: 'q3-6', question: 'Qual a primeira medida para controlar uma hemorragia externa?', options: ['Torniquete', 'Pressão direta na ferida', 'Elevar o membro', 'Dar água'], correctAnswer: 1, explanation: 'A compressão direta é o método inicial mais eficaz.' },
+      { id: 'q3-7', question: 'Vítima com queimadura solar de 2º grau (bolhas): deve-se furar as bolhas?', options: ['Sim', 'Não, risco de infeção', 'Apenas as grandes', 'Só se doer'], correctAnswer: 1, explanation: 'As bolhas protegem a pele nova e previnem infeções.' },
+      { id: 'q3-8', question: 'O que é a manobra de Heimlich?', options: ['Manobra de natação', 'Desobstrução da via aérea por corpo estranho', 'Técnica de mergulho', 'Protocolo de rádio'], correctAnswer: 1, explanation: 'Utilizada para expulsar objetos que causam asfixia.' },
+      { id: 'q3-9', question: 'Uma vítima inconsciente que respira deve ser colocada em:', options: ['Sentada', 'Barriga para cima', 'Posição Lateral de Segurança (PLS)', 'De pé'], correctAnswer: 2, explanation: 'A PLS evita a queda da língua e aspiração de vómito.' },
+      { id: 'q3-10', question: 'Qual o principal sinal de choque hipovolémico?', options: ['Febre', 'Pulso rápido e fraco, palidez, suores frios', 'Fome', 'Hipertensão'], correctAnswer: 1, explanation: 'O choque é uma falha circulatória aguda que exige cuidados urgentes.' }
     ]
   },
   {
@@ -318,76 +138,16 @@ export const QUIZ_CHAPTERS: QuizChapter[] = [
     title: '4. Oceanografia e Meio Aquático',
     description: 'Correntes, marés, ondas e riscos costeiros.',
     questions: [
-      {
-        id: 'q4-1',
-        question: 'O que deve fazer um banhista apanhado por uma corrente de retorno (rip current)?',
-        options: ['Nadar contra a corrente em direção à areia', 'Nadar paralelamente à costa até sair da corrente', 'Gritar e debater-se muito', 'Mergulhar até ao fundo'],
-        correctAnswer: 1,
-        explanation: 'Lutar contra a corrente causa exaustão rápida. Nadar para o lado (paralelo à areia) permite sair do canal da corrente.'
-      },
-      {
-        id: 'q4-2',
-        question: 'Onde se localiza normalmente a corrente de retorno?',
-        options: ['Onde as ondas quebram com mais força', 'Numa zona de águas aparentemente mais calmas entre rebentações', 'Apenas em rios', 'No topo das dunas'],
-        correctAnswer: 1,
-        explanation: 'A ausência de ondas numa zona cercada por rebentação indica um canal por onde a água volta para o mar.'
-      },
-      {
-        id: 'q4-3',
-        question: 'Qual a principal força geradora das marés?',
-        options: ['Vento', 'Atração gravitacional da Lua e do Sol', 'Sismos submarinos', 'Rotação da Terra apenas'],
-        correctAnswer: 1,
-        explanation: 'A Lua, pela proximidade, exerce a maior influência no ciclo das marés terrestres.'
-      },
-      {
-        id: 'q4-4',
-        question: 'O que é a "baixa-mar"?',
-        options: ['O nível máximo da água', 'O nível mínimo da água no ciclo da maré', 'Uma onda pequena', 'Água doce'],
-        correctAnswer: 1,
-        explanation: 'Baixa-mar é o ponto mais baixo da maré recuada.'
-      },
-      {
-        id: 'q4-5',
-        question: 'Qual o risco de uma "ondulação de fundo" (Swell)?',
-        options: ['Nenhum', 'Pode causar rebentação forte e inesperada mesmo em dias sem vento local', 'Faz a água ficar doce', 'Cria nevoeiro'],
-        correctAnswer: 1,
-        explanation: 'O swell transporta energia de tempestades distantes, podendo criar ondas perigosas em praias calmas.'
-      },
-      {
-        id: 'q4-6',
-        question: 'O que define uma maré de "viva" ou "sizígia"?',
-        options: ['Marés com pouca amplitude', 'Marés com grande amplitude (marés muito cheias e muito vazias)', 'Apenas maré alta', 'Maré de inverno'],
-        correctAnswer: 1,
-        explanation: 'Ocorre quando a Lua e o Sol estão alinhados, somando as suas forças gravitacionais.'
-      },
-      {
-        id: 'q4-7',
-        question: 'O que é o "Shorebreak" (rebentação na areia)?',
-        options: ['Ondas que quebram longe da costa', 'Ondas que quebram diretamente na face da praia', 'Um tipo de peixe', 'Uma corrente lateral'],
-        correctAnswer: 1,
-        explanation: 'O shorebreak é perigoso para a coluna e pescoço, pois a onda tem pouca profundidade para amortecer a queda.'
-      },
-      {
-        id: 'q4-8',
-        question: 'Como a temperatura da água afeta o socorro?',
-        options: ['Não afeta', 'Água fria acelera a hipotermia e o cansaço da vítima e do NS', 'Água quente é tóxica', 'Torna o nadador mais rápido'],
-        correctAnswer: 1,
-        explanation: 'A temperatura da água em Portugal exige atenção constante ao estado térmico das vítimas resgatadas.'
-      },
-      {
-        id: 'q4-9',
-        question: 'O que indica a presença de "água acastanhada" movendo-se para o largo?',
-        options: ['Poluição', 'Uma corrente de retorno ativa transportando sedimentos', 'Presença de baleias', 'Maré a subir'],
-        correctAnswer: 1,
-        explanation: 'O canal de retorno muitas vezes escava o fundo, levando areia em suspensão para fora.'
-      },
-      {
-        id: 'q4-10',
-        question: 'Qual o perigo de rochas e arribas instáveis?',
-        options: ['Sombra excessiva', 'Desmoronamentos e cortes graves no socorro', 'Nenhum', 'Atraem raios'],
-        correctAnswer: 1,
-        explanation: 'O NS deve delimitar zonas de risco perto de arribas para evitar acidentes por queda de pedras.'
-      }
+      { id: 'q4-1', question: 'O que deve um banhista fazer se for apanhado por uma corrente de retorno (rip current)?', options: ['Nadar contra ela', 'Nadar paralelamente à costa', 'Parar de nadar', 'Mergulhar'], correctAnswer: 1, explanation: 'Nadar para o lado permite sair do canal da corrente de retorno.' },
+      { id: 'q4-2', question: 'As marés são provocadas principalmente por:', options: ['Vento', 'Atração gravitacional da Lua e do Sol', 'Sismos', 'Rotação da Terra apenas'], correctAnswer: 1, explanation: 'A Lua exerce a maior influência sobre as marés devido à proximidade.' },
+      { id: 'q4-3', question: 'O que é a "baixa-mar"?', options: ['Onda pequena', 'Ponto mais baixo da maré', 'Maré de inverno', 'Corrente forte'], correctAnswer: 1, explanation: 'É o momento de nível mínimo de água no ciclo da maré.' },
+      { id: 'q4-4', question: 'O que é o "Swell"?', options: ['Ondulação de fundo gerada por tempestades distantes', 'Ondas de vento local', 'Espuma da onda', 'Vento de terra'], correctAnswer: 0, explanation: 'O swell são ondas regulares que viajam longas distâncias.' },
+      { id: 'q4-5', question: 'A zona de "rebentação" é onde a onda:', options: ['Nasce', 'Quebra e liberta energia', 'Desaparece', 'Aumenta de velocidade'], correctAnswer: 1, explanation: 'A rebentação ocorre quando a profundidade é insuficiente para manter a forma da onda.' },
+      { id: 'q4-6', question: 'O que indica a água com tom acastanhado a ir para o largo?', options: ['Poluição', 'Corrente de retorno ativa', 'Baleias', 'Maré a subir'], correctAnswer: 1, explanation: 'As correntes de retorno transportam sedimentos da praia para o mar.' },
+      { id: 'q4-7', question: 'O que é uma maré de "Sizígia"?', options: ['Maré pequena', 'Maré de grande amplitude (vivas)', 'Apenas maré cheia', 'Maré sem ondas'], correctAnswer: 1, explanation: 'Ocorre no alinhamento Sol-Terra-Lua (Lua Cheia/Nova).' },
+      { id: 'q4-8', question: 'Qual o risco do "shorebreak"?', options: ['Nenhum', 'Lesões na coluna por quebra direta na areia', 'Peixes', 'Queimaduras'], correctAnswer: 1, explanation: 'Ondas que quebram na face da praia são muito perigosas para o pescoço.' },
+      { id: 'q4-9', question: 'O vento "Nortada" em Portugal sopra de:', options: ['Sul', 'Oeste', 'Norte/Noroeste', 'Este'], correctAnswer: 2, explanation: 'É o vento predominante de Verão na costa Oeste portuguesa.' },
+      { id: 'q4-10', question: 'Arribas instáveis: qual a distância de segurança recomendada?', options: ['1 metro', '1,5 vezes a altura da arriba', '10 metros fixos', 'Não há risco'], correctAnswer: 1, explanation: 'Deve-se manter uma distância de segurança proporcional à altura da arriba.' }
     ]
   },
   {
@@ -395,76 +155,16 @@ export const QUIZ_CHAPTERS: QuizChapter[] = [
     title: '5. Vigilância e Prevenção',
     description: 'Scanning, sinais de afogamento e bandeiras.',
     questions: [
-      {
-        id: 'q5-1',
-        question: 'A regra do "10/20" na vigilância significa:',
-        options: ['10 minutos de pausa, 20 de trabalho', 'Varrer a zona em 10 seg. e chegar a qualquer ponto em 20 seg.', '10 banhistas por cada 20 metros', 'Beber 10cl de água a cada 20 min.'],
-        correctAnswer: 1,
-        explanation: 'É o padrão de scanning internacional para garantir vigilância ativa e resposta rápida.'
-      },
-      {
-        id: 'q5-2',
-        question: 'Qual destes NÃO é um sinal típico de afogamento real?',
-        options: ['Gritos altos e pedidos de socorro', 'Boca ao nível da água e cabeça inclinada para trás', 'Movimentos de subir escadas sem sair do lugar', 'Olhar vidrado e vazio'],
-        correctAnswer: 0,
-        explanation: 'O afogamento é silencioso. Quem grita está em "dificuldades", quem se afoga não consegue respirar para gritar.'
-      },
-      {
-        id: 'q5-3',
-        question: 'O que significa a bandeira AMARELA?',
-        options: ['Banho permitido', 'Banho proibido, permitido apenas molhar os pés', 'Perigo extremo, proibição total de entrada', 'Praia sem vigilância'],
-        correctAnswer: 1,
-        explanation: 'A bandeira amarela exige prudência e proíbe a natação (nadar para o largo).'
-      },
-      {
-        id: 'q5-4',
-        question: 'Qual a função principal do "scanning" (varrimento visual)?',
-        options: ['Ver se há amigos na praia', 'Detetar comportamentos de risco e vítimas precocemente', 'Contar as gaivotas', 'Ler o jornal discretamente'],
-        correctAnswer: 1,
-        explanation: 'O varrimento sistemático evita a "cegueira por desatenção" e permite intervir antes do acidente.'
-      },
-      {
-        id: 'q5-5',
-        question: 'Qual a zona de maior risco numa praia com correntes de retorno?',
-        options: ['A areia seca', 'As zonas de rebentação lateral', 'Os canais de água calma entre espumeiros', 'A beira-mar'],
-        correctAnswer: 2,
-        explanation: 'As pessoas tendem a entrar onde não há ondas, que é exatamente onde a corrente as puxa para o largo.'
-      },
-      {
-        id: 'q5-6',
-        question: 'O que indica a bandeira XADREZ (Preto e Branco)?',
-        options: ['Início de corrida de barcos', 'Posto de vigilância temporariamente sem Nadador-Salvador', 'Banho livre', 'Zona de surf apenas'],
-        correctAnswer: 1,
-        explanation: 'Indica que o NS se ausentou (ex: salvamento noutra zona ou fim de turno) e a praia não está vigiada.'
-      },
-      {
-        id: 'q5-7',
-        question: 'Como deve ser a postura do NS na cadeira de vigilância?',
-        options: ['Deitado e relaxado', 'Sentado direito, com óculos de sol e atento à água', 'De costas para o mar', 'A dormir'],
-        correctAnswer: 1,
-        explanation: 'A postura transmite autoridade e permite um campo visual otimizado.'
-      },
-      {
-        id: 'q5-8',
-        question: 'Qual o perigo de vigiar sempre o mesmo ponto fixo?',
-        options: ['Fadiga ocular e perda de noção do resto da zona', 'Nenhum', 'Fica-se especialista naquele ponto', 'O ponto desaparece'],
-        correctAnswer: 0,
-        explanation: 'A visão periférica e o varrimento constante são necessários para cobrir toda a área de responsabilidade.'
-      },
-      {
-        id: 'q5-9',
-        question: 'O que fazer ao ver uma criança sozinha perto da água?',
-        options: ['Esperar que os pais apareçam', 'Aproximar-se preventivamente e tentar localizar os responsáveis', 'Ignorar', 'Gritar com a criança'],
-        correctAnswer: 1,
-        explanation: 'Crianças desacompanhadas são o grupo de maior risco. A intervenção precoce evita afogamentos fatais.'
-      },
-      {
-        id: 'q5-10',
-        question: 'Qual a importância de usar óculos de sol polarizados?',
-        options: ['Ficar com estilo', 'Eliminar o reflexo do sol na água para ver o que está submerso', 'Esconder os olhos', 'Proteger do vento'],
-        correctAnswer: 1,
-        explanation: 'Lentes polarizadas permitem ver através da superfície da água, facilitando a deteção de vítimas submersas.'
-      }
+      { id: 'q5-1', question: 'Qual a regra do "10/20" na vigilância?', options: ['10 min pausa, 20 trabalho', 'Varrer zona em 10 seg e chegar em 20 seg', '10 banhistas por 20 metros', 'Pausa a cada 10 min'], correctAnswer: 1, explanation: 'É o padrão internacional para deteção e resposta rápida.' },
+      { id: 'q5-2', question: 'O afogamento real é geralmente:', options: ['Ruidoso e com muitos gritos', 'Silencioso e rápido', 'Demorado', 'Só acontece à noite'], correctAnswer: 1, explanation: 'Vítimas de afogamento não conseguem pedir ajuda verbalmente (Instinctive Drowning Response).' },
+      { id: 'q5-3', question: 'O que significa a bandeira AMARELA?', options: ['Banho proibido', 'Banho permitido com prudência (proibido nadar)', 'Banho livre', 'Praia fechada'], correctAnswer: 1, explanation: 'Exige atenção e proíbe nadar para o largo ou mergulhar.' },
+      { id: 'q5-4', question: 'O "scanning" deve ser feito de que forma?', options: ['Fixar um ponto', 'Movimentos oculares sistemáticos em toda a área', 'Olhar só para as crianças', 'Dormir'], correctAnswer: 1, explanation: 'O varrimento ocular evita a fadiga e pontos cegos.' },
+      { id: 'q5-5', question: 'Qual a importância de usar óculos de sol polarizados?', options: ['Estilo', 'Eliminar reflexo e ver melhor submersos', 'Proteção do vento', 'Não têm utilidade'], correctAnswer: 1, explanation: 'Permitem ver através da superfície da água eliminando o brilho do sol.' },
+      { id: 'q5-6', question: 'Bandeira XADREZ significa:', options: ['Vento forte', 'Posto de vigilância sem Nadador-Salvador', 'Banho livre', 'Regata'], correctAnswer: 1, explanation: 'Indica a ausência temporária do NS no seu posto.' },
+      { id: 'q5-7', question: 'Onde deve estar focado o NS durante a vigilância?', options: ['No telemóvel', 'Na água (zonas de risco e banhistas)', 'Na areia', 'No bar'], correctAnswer: 1, explanation: 'A prioridade absoluta é a monitorização dos banhistas no meio aquático.' },
+      { id: 'q5-8', question: 'Crianças desacompanhadas são consideradas:', options: ['Banhistas normais', 'Grupo de alto risco', 'Apenas barulho', 'Vigilância fácil'], correctAnswer: 1, explanation: 'Crianças exigem vigilância redobrada e intervenção preventiva imediata.' },
+      { id: 'q5-9', question: 'A vigilância estática é feita a partir de:', options: ['Cadeira/Torre de vigilância', 'Caminhando na areia', 'Dentro de água', 'Do bar'], correctAnswer: 0, explanation: 'A posição elevada permite um campo visual superior e abrangente.' },
+      { id: 'q5-10', question: 'Qual o sinal sonoro para iniciar um salvamento?', options: ['Apito longo', '3 toques curtos de apito', 'Gritar', 'Sirene'], correctAnswer: 1, explanation: 'É a sinalização padrão para alertar a equipa e banhistas.' }
     ]
   },
   {
@@ -472,76 +172,16 @@ export const QUIZ_CHAPTERS: QuizChapter[] = [
     title: '6. Técnicas e Equipamentos de Salvamento',
     description: 'Bóias, carretos, motas de água e embarcações.',
     questions: [
-      {
-        id: 'q6-1',
-        question: 'Qual a principal vantagem do "Flutuador" (bóia torpedo/baywatch)?',
-        options: ['É bonito', 'Oferece flutuabilidade imediata e segurança ao NS e à vítima', 'Serve de remo', 'É leve para correr'],
-        correctAnswer: 1,
-        explanation: 'O flutuador permite ao NS manter a vítima à tona sem contacto direto perigoso, servindo também de apoio ao próprio NS.'
-      },
-      {
-        id: 'q6-2',
-        question: 'Como deve ser transportada a bóia circular num salvamento?',
-        options: ['Lançada de terra com o cabo seguro', 'Levada a nadar', 'Colocada na cabeça', 'Apenas para decoração'],
-        correctAnswer: 0,
-        explanation: 'A bóia circular com retenida é um meio de salvamento à distância para ser lançado de cais ou embarcações.'
-      },
-      {
-        id: 'q6-3',
-        question: 'Para que serve o "Carreto"?',
-        options: ['Pescar', 'Resgate com cabo de aço e cinto em zonas de corrente forte', 'Puxar barcos', 'Enrolar mangueiras'],
-        correctAnswer: 1,
-        explanation: 'O carreto permite um resgate seguro em praias com correntes fortes, onde o NS é puxado de volta por colegas em terra.'
-      },
-      {
-        id: 'q6-4',
-        question: 'Qual a regra de ouro ao abordar uma vítima em pânico?',
-        options: ['Agarrar logo o pescoço', 'Manter distância e oferecer o meio de flutuação primeiro', 'Nadar por baixo dela', 'Gritar para ela ter calma'],
-        correctAnswer: 1,
-        explanation: 'Uma vítima em pânico pode afogar o socorrista. O flutuador deve ser a barreira de segurança.'
-      },
-      {
-        id: 'q6-5',
-        question: 'A mota de salvamento aquático (VSA) deve ser operada por:',
-        options: ['Qualquer pessoa', 'Nadador-Salvador com formação específica de tripulante de VSA', 'Apenas pela Marinha', 'O dono da concessão'],
-        correctAnswer: 1,
-        explanation: 'A condução de motas de água de salvamento exige certificação adicional devido à complexidade e risco.'
-      },
-      {
-        id: 'q6-6',
-        question: 'O que é a "Prancha de Salvamento"?',
-        options: ['Uma prancha de surf normal', 'Uma prancha mais longa e estável desenhada para resgate e transporte', 'Uma mesa', 'Um flutuador pequeno'],
-        correctAnswer: 1,
-        explanation: 'A prancha permite chegar rapidamente à vítima e transportá-la sobre o casco, reduzindo o esforço do NS.'
-      },
-      {
-        id: 'q6-7',
-        question: 'Qual o cuidado principal com os rádios VHF?',
-        options: ['Manter o volume no máximo', 'Garantir estanquicidade e bateria carregada no Canal 16', 'Falar com pescadores', 'Não usar'],
-        correctAnswer: 1,
-        explanation: 'A comunicação rádio é o elo de ligação com o MRCC e capitanias em caso de emergência grave.'
-      },
-      {
-        id: 'q6-8',
-        question: 'Como limpar o equipamento após o turno?',
-        options: ['Deixar ao sol', 'Lavar com água doce e secar à sombra', 'Lavar com detergente forte', 'Não precisa de limpeza'],
-        correctAnswer: 1,
-        explanation: 'O sal corrói e o sol degrada os plásticos e tecidos. A manutenção prolonga a vida útil dos meios de socorro.'
-      },
-      {
-        id: 'q6-9',
-        question: 'Num resgate com cinto e cabo, quem controla a velocidade da puxada?',
-        options: ['O nadador que está na água', 'O sinaleiro/equipa em terra conforme as ondas', 'Ninguém, puxa-se o mais rápido possível', 'A vítima'],
-        correctAnswer: 1,
-        explanation: 'A equipa de terra deve coordenar a força para não afogar o NS e a vítima durante a passagem da rebentação.'
-      },
-      {
-        id: 'q6-10',
-        question: 'O que é um "Plano Rígido"?',
-        options: ['Uma folha de papel', 'Uma maca de imobilização para trauma e extração da água', 'Um plano de férias', 'Uma prancha de surf'],
-        correctAnswer: 1,
-        explanation: 'O plano rígido é essencial para resgatar vítimas com suspeita de lesão na coluna, mantendo o alinhamento corporal.'
-      }
+      { id: 'q6-1', question: 'Qual a principal vantagem do "Flutuador" (torpedo)?', options: ['Leveza', 'Flutuabilidade para o NS e vítima', 'Cor viva', 'Barato'], correctAnswer: 1, explanation: 'Permite manter a vítima à tona sem contacto direto perigoso.' },
+      { id: 'q6-2', question: 'Para que serve o "Carreto"?', options: ['Puxar barcos', 'Salvamento com cabo em zonas de corrente', 'Transportar malas', 'Treino de força'], correctAnswer: 1, explanation: 'Utilizado para resgates onde o NS é puxado de volta por colegas em terra.' },
+      { id: 'q6-3', question: 'A Prancha de Salvamento é ideal para:', options: ['Surfar', 'Vigilância móvel e resgates rápidos', 'Dormir', 'Substituir a torre'], correctAnswer: 1, explanation: 'Oferece rapidez e permite transportar a vítima sobre a prancha.' },
+      { id: 'q6-4', question: 'Como se deve abordar uma vítima consciente em pânico?', options: ['Agarrar logo', 'Manter distância e oferecer o flutuador', 'Dar um estalo', 'Nadar por baixo'], correctAnswer: 1, explanation: 'O contacto direto pode pôr em risco o socorrista.' },
+      { id: 'q6-5', question: 'O que é a VSA?', options: ['Vela de Salvamento', 'Mota de Água de Salvamento (Embarcação de Alta Velocidade)', 'Viatura de Apoio', 'Vigilância Ativa'], correctAnswer: 1, explanation: 'Veículo de Socorro Aquático (mota de água adaptada).' },
+      { id: 'q6-6', question: 'Qual o equipamento obrigatório num posto de praia?', options: ['Gira-discos', 'Bóia circular, torpedo, mala primeiros socorros, rádio', 'Apenas calções', 'Pranchas de surf'], correctAnswer: 1, explanation: 'São os meios mínimos definidos por lei para intervenção.' },
+      { id: 'q6-7', question: 'O cinto de salvamento do carreto deve ser colocado:', options: ['No pescoço', 'À volta da cintura ou peito', 'Na mão', 'Não se usa cinto'], correctAnswer: 1, explanation: 'Deve estar seguro ao corpo do NS para que possa nadar com as mãos livres.' },
+      { id: 'q6-8', question: 'O "Plano Rígido" serve para:', options: ['Mesa de apoio', 'Imobilização e extração de vítimas de trauma', 'Remar', 'Vigilância'], correctAnswer: 1, explanation: 'Essencial para manter o alinhamento da coluna.' },
+      { id: 'q6-9', question: 'Como deve ser limpo o material após o turno?', options: ['Deixar ao sol', 'Lavar com água doce e secar à sombra', 'Lavar com lixívia', 'Não precisa de limpeza'], correctAnswer: 1, explanation: 'A água doce remove o sal que degrada os materiais.' },
+      { id: 'q6-10', question: 'Qual a distância máxima recomendada para usar a bóia circular com retenida?', options: ['100 metros', '20-25 metros (comprimento do cabo)', '1 metro', 'Distância infinita'], correctAnswer: 1, explanation: 'A bóia circular é para lançamentos curtos a partir de terra ou embarcações.' }
     ]
   },
   {
@@ -549,76 +189,16 @@ export const QUIZ_CHAPTERS: QuizChapter[] = [
     title: '7. Comunicações e Coordenação de Emergência',
     description: 'Apitos, sinais gestuais e rádio VHF.',
     questions: [
-      {
-        id: 'q7-1',
-        question: 'O que significam 3 toques curtos de apito?',
-        options: ['Atenção banhista', 'Mudança de posto', 'Entrada na água para salvamento', 'Fim de turno'],
-        correctAnswer: 2,
-        explanation: 'É o sinal sonoro padrão que alerta a equipa e banhistas de que um socorro real está a começar.'
-      },
-      {
-        id: 'q7-2',
-        question: 'Qual o significado de 1 toque longo de apito?',
-        options: ['Emergência geral / Ordem para sair da água', 'Bom dia', 'Chamar o concessionário', 'Pedido de café'],
-        correctAnswer: 0,
-        explanation: 'Um toque longo serve para captar atenção massiva ou ordenar a evacuação da água por perigo iminente.'
-      },
-      {
-        id: 'q7-3',
-        question: 'Sinal gestual: Um braço levantado verticalmente e estático significa:',
-        options: ['Preciso de ajuda', 'Vítima localizada / Está tudo bem', 'Vão-se embora', 'Adeus'],
-        correctAnswer: 1,
-        explanation: 'Indica ao colega em terra ou na cadeira que a situação está sob controlo ou a vítima foi alcançada.'
-      },
-      {
-        id: 'q7-4',
-        question: 'Sinal gestual: Agitar os dois braços acima da cabeça significa:',
-        options: ['Olá', 'Preciso de ajuda urgente / Apoio no salvamento', 'Está muito sol', 'Fim do salvamento'],
-        correctAnswer: 1,
-        explanation: 'É o sinal de socorro para o próprio Nadador-Salvador pedir reforços.'
-      },
-      {
-        id: 'q7-5',
-        question: 'Qual o canal de socorro internacional em rádios VHF Marítimo?',
-        options: ['Canal 9', 'Canal 16', 'Canal 68', 'Canal 11'],
-        correctAnswer: 1,
-        explanation: 'O Canal 16 é monitorizado permanentemente pelas estações costeiras e Marinha para emergências.'
-      },
-      {
-        id: 'q7-6',
-        question: 'O que significa a palavra "MAYDAY" repetida 3 vezes ao rádio?',
-        options: ['Pedido de informações', 'Perigo grave e iminente para a vida humana', 'Teste de rádio', 'Saudação'],
-        correctAnswer: 1,
-        explanation: 'Mayday é o sinal de socorro máximo e deve ser usado apenas em situações de vida ou morte.'
-      },
-      {
-        id: 'q7-7',
-        question: 'Qual a informação MAIS importante ao ligar para o 112?',
-        options: ['O nome do NS', 'A localização exata e o número de vítimas', 'A cor do mar', 'O tempo que falta para o almoço'],
-        correctAnswer: 1,
-        explanation: 'Sem localização exata, os meios de socorro não conseguem chegar. O tipo de ocorrência ajuda a despachar os meios certos.'
-      },
-      {
-        id: 'q7-8',
-        question: 'Como confirmar que recebeu uma mensagem via rádio?',
-        options: ['Dizer "Recebido", "Copiado" ou "Roger"', 'Balançar o rádio', 'Gritar', 'Não responder'],
-        correctAnswer: 0,
-        explanation: 'A confirmação é essencial para garantir que a cadeia de comando e comunicação está ativa e sem erros.'
-      },
-      {
-        id: 'q7-9',
-        question: 'O apito deve ser usado para que fim principal?',
-        options: ['Assustar pessoas', 'Comunicação tática e avisos de prevenção a banhistas', 'Música', 'Treinar os pulmões'],
-        correctAnswer: 1,
-        explanation: 'O apito é uma ferramenta de trabalho séria. O uso excessivo retira-lhe a autoridade e eficácia.'
-      },
-      {
-        id: 'q7-10',
-        question: 'Numa equipa de 2 NS, qual a função do NS que fica em terra durante um salvamento?',
-        options: ['Dormir', 'Vigiar o resto da praia, coordenar o 112 e preparar material de apoio', 'Ir almoçar', 'Tirar fotos'],
-        correctAnswer: 1,
-        explanation: 'O apoio em terra é tão vital quanto o resgate. Garante a segurança do colega e a continuidade da assistência médica.'
-      }
+      { id: 'q7-1', question: 'O que significam 3 toques curtos de apito?', options: ['Atenção banhista', 'Vou entrar para salvamento', 'Fim de turno', 'Chamada para almoço'], correctAnswer: 1, explanation: 'Sinal de início de operação de socorro.' },
+      { id: 'q7-2', question: 'Qual o canal de rádio VHF de socorro marítimo?', options: ['Canal 9', 'Canal 16', 'Canal 68', 'Canal 10'], correctAnswer: 1, explanation: 'O Canal 16 é a frequência internacional de emergência.' },
+      { id: 'q7-3', question: 'Sinal gestual: Um braço levantado verticalmente parado significa:', options: ['Socorro!', 'Vítima localizada / Está tudo bem', 'Vou sair', 'Não vejo nada'], correctAnswer: 1, explanation: 'Comunica ao colega que a situação está sob controlo.' },
+      { id: 'q7-4', question: 'O que dizer ao rádio antes de começar a falar?', options: ['Olá', 'Identificação do posto e para quem fala', 'Qualquer coisa', 'Nada'], correctAnswer: 1, explanation: 'A disciplina de rádio exige identificação clara.' },
+      { id: 'q7-5', question: 'Qual a informação prioritária ao ligar 112?', options: ['Nome do NS', 'Localização exata e tipo de ocorrência', 'Cor das ondas', 'Número da licença'], correctAnswer: 1, explanation: 'A localização permite o despacho correto dos meios.' },
+      { id: 'q7-6', question: 'Sinal gestual: Agitar os dois braços acima da cabeça significa:', options: ['Adeus', 'Preciso de ajuda urgente / Apoio', 'Vou mergulhar', 'Está frio'], correctAnswer: 1, explanation: 'Sinal de pedido de reforço para o NS na água.' },
+      { id: 'q7-7', question: 'O toque longo de apito serve para:', options: ['Sinalizar perigo iminente a banhistas', 'Acordar colegas', 'Festejar', 'Chamar o barco'], correctAnswer: 0, explanation: 'Utilizado para captar a atenção geral para um perigo.' },
+      { id: 'q7-8', question: 'Ao rádio, a palavra "COPIADO" significa:', options: ['Vou copiar o papel', 'Entendi a mensagem', 'O rádio está estragado', 'Repita'], correctAnswer: 1, explanation: 'Confirmação de receção de informação.' },
+      { id: 'q7-9', question: 'Numa equipa de 2, quem coordena o socorro em terra?', options: ['O NS que fica no posto', 'O banhista', 'O dono da praia', 'Ninguém'], correctAnswer: 0, explanation: 'O NS de apoio garante comunicações e material de suporte.' },
+      { id: 'q7-10', question: 'Para que servem os binóculos?', options: ['Ver pessoas ao longe', 'Identificar precocemente perigos e vítimas distantes', 'Decorar o posto', 'Proteção solar'], correctAnswer: 1, explanation: 'Ferramenta de extensão visual indispensável na vigilância.' }
     ]
   },
   {
@@ -626,76 +206,16 @@ export const QUIZ_CHAPTERS: QuizChapter[] = [
     title: '8. Piscinas, Parques Aquáticos e Logística',
     description: 'Especificidades de águas confinadas e documentação.',
     questions: [
-      {
-        id: 'q8-1',
-        question: 'Qual o principal risco em piscinas relacionado com a sucção?',
-        options: ['Ficar com sede', 'Ficar preso nos ralos de fundo', 'Nenhum', 'A água sair toda'],
-        correctAnswer: 1,
-        explanation: 'A força de sucção dos filtros pode prender cabelos ou membros, causando afogamento mesmo em água pouco profunda.'
-      },
-      {
-        id: 'q8-2',
-        question: 'A vigilância em piscinas exige atenção especial a:',
-        options: ['Cores das toalhas', 'Entradas de cabeça em zonas pouco profundas', 'Temperatura do bar', 'Música ambiente'],
-        correctAnswer: 1,
-        explanation: 'Traumas cervicais por mergulhos em zonas rasas são acidentes comuns e graves em piscinas.'
-      },
-      {
-        id: 'q8-3',
-        question: 'Onde deve ser feito o registo oficial de um salvamento?',
-        options: ['No Facebook', 'No Relatório de Ocorrência oficial (modelo ISN)', 'Num guardanapo', 'Não é necessário registo'],
-        correctAnswer: 1,
-        explanation: 'O relatório oficial é um documento jurídico e estatístico obrigatório para todos os salvamentos.'
-      },
-      {
-        id: 'q8-4',
-        question: 'Qual o tempo máximo de resposta recomendado numa piscina?',
-        options: ['10 minutos', 'O mais rápido possível, idealmente em menos de 30 segundos', '5 minutos', 'Quando o banhista pedir'],
-        correctAnswer: 1,
-        explanation: 'Em ambientes confinados, a resposta deve ser quase instantânea devido à visibilidade facilitada.'
-      },
-      {
-        id: 'q8-5',
-        question: 'O que deve o NS verificar diariamente no kit de primeiros socorros?',
-        options: ['Se tem pastilhas elásticas', 'Validade dos consumíveis e presença de O2/DAE operacionais', 'Se a mala é bonita', 'Nada'],
-        correctAnswer: 1,
-        explanation: 'Material fora de validade ou baterias de DAE descarregadas podem custar vidas numa emergência.'
-      },
-      {
-        id: 'q8-6',
-        question: 'Em parques aquáticos, a maior causa de conflito e risco é:',
-        options: ['Falta de gelados', 'Incumprimento das regras de saída dos escorregas', 'A cor da água', 'O preço do bilhete'],
-        correctAnswer: 1,
-        explanation: 'Colisões em escorregas por não respeitar o sinal de "livre" causam muitos traumas e fraturas.'
-      },
-      {
-        id: 'q8-7',
-        question: 'O NS de piscina pode ser obrigado a limpar a zona envolvente?',
-        options: ['Sim, é o trabalho dele', 'Não, a função é exclusivamente vigilância e socorro (DL 118/2011)', 'Apenas se não houver banhistas', 'Sim, se o patrão mandar'],
-        correctAnswer: 1,
-        explanation: 'A lei protege o NS de realizar tarefas que desviem a sua atenção da vigilância dos banhistas.'
-      },
-      {
-        id: 'q8-8',
-        question: 'Qual a sinalização obrigatória numa piscina pública?',
-        options: ['Apenas o preço', 'Indicação de profundidades, regras de segurança e horários', 'Fotos dos nadadores', 'Nenhuma'],
-        correctAnswer: 1,
-        explanation: 'A informação clara sobre profundidades é a principal medida preventiva contra traumas.'
-      },
-      {
-        id: 'q8-9',
-        question: 'Como agir perante uma defecação na água da piscina?',
-        options: ['Ignorar', 'Evacuar a piscina, remover e proceder à desinfeção química (cloragem de choque)', 'Dizer para não repetirem', 'Mudar a água toda'],
-        correctAnswer: 1,
-        explanation: 'É um risco biológico grave. Devem seguir-se protocolos de higiene e segurança sanitária rigorosos.'
-      },
-      {
-        id: 'q8-10',
-        question: 'O que caracteriza a vigilância em "Águas Confinadas"?',
-        options: ['Ser mais difícil', 'Ambiente controlado, sem correntes naturais mas com riscos químicos e mecânicos', 'Água salgada', 'Apenas crianças'],
-        correctAnswer: 1,
-        explanation: 'Embora pareçam mais seguras, as piscinas exigem vigilância constante devido à densidade de banhistas e riscos de trauma.'
-      }
+      { id: 'q8-1', question: 'Qual o maior perigo mecânico numa piscina?', options: ['A escada', 'Sucção dos ralos de fundo', 'Trampolim', 'Cloro'], correctAnswer: 1, explanation: 'A sucção pode prender membros ou cabelos causando afogamento.' },
+      { id: 'q8-2', question: 'A vigilância em piscinas exige atenção redobrada a:', options: ['Cor das toalhas', 'Mergulhos de cabeça em zonas pouco profundas', 'Música', 'Temperatura'], correctAnswer: 1, explanation: 'Causa frequente de traumas cervicais graves.' },
+      { id: 'q8-3', question: 'O que fazer perante um acidente fecal na piscina?', options: ['Ignorar', 'Evacuar, remover e cloragem de choque', 'Deitar perfume', 'Mudar a água toda imediatamente'], correctAnswer: 1, explanation: 'Protocolo de higiene para prevenir doenças (criptosporidiose, etc).' },
+      { id: 'q8-4', question: 'Onde se registam os salvamentos e assistências?', options: ['Diário de Ocorrências (modelo ISN)', 'Facebook', 'Não se regista', 'Caderno pessoal'], correctAnswer: 0, explanation: 'O registo oficial é obrigatório para estatística e prova jurídica.' },
+      { id: 'q8-5', question: 'Em parques aquáticos, quem define a saída dos escorregas?', options: ['Os banhistas', 'O Nadador-Salvador (emissor)', 'Ninguém', 'O dono'], correctAnswer: 1, explanation: 'O controlo de fluxo evita colisões traumáticas.' },
+      { id: 'q8-6', question: 'Qual a profundidade mínima para saltos de cabeça?', options: ['1 metro', 'Pelo menos 1.5 a 2 metros (dependendo da técnica)', '0.5 metros', 'Qualquer uma'], correctAnswer: 1, explanation: 'Abaixo desta profundidade o risco de bater no fundo é extremo.' },
+      { id: 'q8-7', question: 'O que deve o NS verificar diariamente no DAE?', options: ['Se é bonito', 'Indicador de estado (bateria/elétrodos)', 'Se toca música', 'Nada'], correctAnswer: 1, explanation: 'O DAE deve estar sempre pronto a usar.' },
+      { id: 'q8-8', question: 'A sinalização de profundidade numa piscina é:', options: ['Facultativa', 'Obrigatória e visível', 'Apenas no fundo', 'Não interessa'], correctAnswer: 1, explanation: 'Essencial para a prevenção de acidentes.' },
+      { id: 'q8-9', question: 'A vigilância em piscinas deve ser feita:', options: ['Sempre a andar', 'A partir de postos fixos estrategicamente colocados', 'Sentado no chão', 'De costas'], correctAnswer: 1, explanation: 'Garante a cobertura total do espelho de água.' },
+      { id: 'q8-10', question: 'Qual o dever do NS após um incidente grave?', options: ['Ir embora', 'Preencher relatório e informar coordenação/autoridades', 'Não contar a ninguém', 'Limpar tudo e esquecer'], correctAnswer: 1, explanation: 'O fecho operacional e documental é parte do dever profissional.' }
     ]
   }
 ];
