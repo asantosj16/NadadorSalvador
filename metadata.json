@@ -1,0 +1,7 @@
+{
+  "name": "Lifeguard Pro (Nadador Salvador)",
+  "description": "Uma plataforma completa para Nadadores Salvadores com manuais técnicos, questionários de treino e um assistente inteligente de segurança marítima.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
