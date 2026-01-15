@@ -1,12 +1,12 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
-import Navbar from './components/Navbar';
-import ManualView from './components/ManualView';
-import QuizView from './components/QuizView';
-import AssistantView from './components/AssistantView';
-import BeachMap from './components/BeachMap';
-import { TIPS, MANUALS } from './constants';
-import { generateDailyScenario, getBeachConditions } from './services/gemini';
+import Navbar from './components/Navbar.tsx';
+import ManualView from './components/ManualView.tsx';
+import QuizView from './components/QuizView.tsx';
+import AssistantView from './components/AssistantView.tsx';
+import BeachMap from './components/BeachMap.tsx';
+import { TIPS, MANUALS } from './constants.tsx';
+import { generateDailyScenario, getBeachConditions } from './services/gemini.ts';
 
 const EmergencyModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
