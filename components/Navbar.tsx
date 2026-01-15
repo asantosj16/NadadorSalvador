@@ -14,8 +14,8 @@ const Navbar: React.FC<NavbarProps> = ({ currentTab, setTab, manuals, isDark, to
   const tabs = [
     { id: 'home', label: 'Início', icon: '🛟', title: 'Painel de Vigilância' },
     { id: 'manuals', label: 'Manuais', icon: '📖', title: 'Manuais Técnicos' },
-    { id: 'quiz', label: 'Questionários', icon: '📝', title: 'Centro de Treino' },
-    { id: 'assistant', label: 'IA Assistente', icon: '🤖', title: 'Assistente IA' },
+    { id: 'quiz', label: 'Questionários', icon: '📝', title: 'Treino & Simulação' },
+    { id: 'assistant', label: 'IA Assistente', icon: '🤖', title: 'Assistente SafeGuard' },
   ];
 
   const currentTabInfo = tabs.find(t => t.id === currentTab) || tabs[0];
@@ -57,8 +57,11 @@ const Navbar: React.FC<NavbarProps> = ({ currentTab, setTab, manuals, isDark, to
             {/* Dynamic Title Separator (Desktop) */}
             <div className="hidden md:block h-6 w-[1px] bg-slate-200 dark:bg-slate-700 mx-2"></div>
             
-            {/* The Dynamic Title */}
-            <h1 className="text-sm md:text-base font-black text-slate-900 dark:text-slate-100 uppercase tracking-widest animate-fade-in truncate max-w-[120px] sm:max-w-none">
+            {/* The Dynamic Title with key for animation trigger */}
+            <h1 
+              key={currentTab} 
+              className="text-sm md:text-base font-black text-slate-900 dark:text-slate-100 uppercase tracking-widest animate-fade-in truncate max-w-[140px] sm:max-w-none"
+            >
               {currentTabInfo.title}
             </h1>
           </div>
