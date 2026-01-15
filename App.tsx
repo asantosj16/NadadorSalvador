@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Navbar from './components/Navbar.tsx';
 import ManualView from './components/ManualView.tsx';
 import QuizView from './components/QuizView.tsx';
@@ -70,6 +70,8 @@ const App: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [loadingConditions, setLoadingConditions] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<string>('');
+  const lastFetchTimestamp = useRef<number>(0);
+  
   const [conditions, setConditions] = useState({
     airTemp: '24°C',
     waterTemp: '18°C',
@@ -80,12 +82,19 @@ const App: React.FC = () => {
     condition: 'Céu Limpo'
   });
 
-  const refreshConditions = useCallback(async (loc: string) => {
-    setLoadingConditions(true);
-    const newConditions = await getBeachConditions(loc);
-    setConditions(newConditions);
-    setLastUpdated(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-    setLoadingConditions(false);
+  const refreshConditions = useCallback(async (loc: string, isManual: boolean = true) => {
+    if (isManual) setLoadingConditions(true);
+    
+    try {
+      const newConditions = await getBeachConditions(loc);
+      setConditions(newConditions);
+      lastFetchTimestamp.current = Date.now();
+      setLastUpdated(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    } catch (error) {
+      console.error("Erro na atualização automática:", error);
+    } finally {
+      if (isManual) setLoadingConditions(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -101,16 +110,37 @@ const App: React.FC = () => {
   useEffect(() => {
     if (currentTab === 'home') {
       if (!dailyScenario) loadScenario();
-      if (!lastUpdated) refreshConditions(location);
+      // Primeira carga sempre manual para mostrar feedback
+      if (!lastUpdated) refreshConditions(location, true);
     }
   }, [currentTab, dailyScenario, lastUpdated, location, refreshConditions]);
 
-  // Automatic hourly update
+  // Automatic hourly update & Visibility sync
   useEffect(() => {
+    // 1. Intervalo fixo para atualização silenciosa (1 hora)
     const interval = setInterval(() => {
-      refreshConditions(location);
-    }, 3600000); // 1 hour
-    return () => clearInterval(interval);
+      refreshConditions(location, false);
+    }, 3600000);
+
+    // 2. Listener de visibilidade: garante dados frescos ao retornar à app
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        const oneHourInMs = 3600000;
+        const timeSinceLastFetch = Date.now() - lastFetchTimestamp.current;
+        
+        // Se passou mais de uma hora desde a última atualização, refresca agora
+        if (timeSinceLastFetch > oneHourInMs) {
+          refreshConditions(location, false);
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, [location, refreshConditions]);
 
   const loadScenario = async () => {
@@ -124,13 +154,14 @@ const App: React.FC = () => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
     setLocation(searchQuery);
-    refreshConditions(searchQuery);
+    refreshConditions(searchQuery, true);
     setSearchQuery('');
   };
 
   const handleMapSelect = (beachName: string) => {
-    setLocation(beachName + ", Portugal");
-    refreshConditions(beachName + ", Portugal");
+    const newLoc = beachName + ", Portugal";
+    setLocation(newLoc);
+    refreshConditions(newLoc, true);
   };
 
   const renderContent = () => {
@@ -211,7 +242,7 @@ const App: React.FC = () => {
                   </div>
                 ) : (
                   <div className="animate-zoom-in">
-                    <BeachMap onSelectBeach={handleMapSelect} selectedBeach={location} />
+                    <BeachMap onSelectBeach={handleMapSelect} selectedBeach={location} currentConditions={conditions} />
                     <div className="mt-4 text-[10px] font-bold text-white/60 uppercase tracking-widest text-center">
                       Clique num marcador para alternar o posto de vigilância
                     </div>
