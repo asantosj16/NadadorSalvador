@@ -86,6 +86,7 @@ const App: React.FC = () => {
     if (isManual) setLoadingConditions(true);
     
     try {
+      console.debug(`[Background Sync] Atualizando condições para: ${loc}`);
       const newConditions = await getBeachConditions(loc);
       setConditions(newConditions);
       lastFetchTimestamp.current = Date.now();
@@ -107,29 +108,36 @@ const App: React.FC = () => {
     }
   }, [isDark]);
 
+  // Ciclo de Vida: Carga Inicial e Cenários Diários
   useEffect(() => {
-    if (currentTab === 'home') {
-      if (!dailyScenario) loadScenario();
-      // Primeira carga sempre manual para mostrar feedback
-      if (!lastUpdated) refreshConditions(location, true);
+    // Carregar cenário se estiver na home (IA Task)
+    if (currentTab === 'home' && !dailyScenario) {
+      loadScenario();
+    }
+
+    // Garantir que a primeira carga de condições acontece assim que a app inicia, 
+    // independentemente da aba, para que os dados estejam prontos.
+    if (!lastUpdated) {
+      refreshConditions(location, currentTab === 'home');
     }
   }, [currentTab, dailyScenario, lastUpdated, location, refreshConditions]);
 
-  // Automatic hourly update & Visibility sync
+  // Ciclo de Vida: Atualização Automática de Hora em Hora & Visibilidade
   useEffect(() => {
-    // 1. Intervalo fixo para atualização silenciosa (1 hora)
+    // 1. Configurar Intervalo de 1 Hora (3.600.000 ms)
     const interval = setInterval(() => {
-      refreshConditions(location, false);
+      refreshConditions(location, false); // Atualização silenciosa em background
     }, 3600000);
 
-    // 2. Listener de visibilidade: garante dados frescos ao retornar à app
+    // 2. Garantir frescura dos dados ao voltar para a App (Visibility Change)
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        const oneHourInMs = 3600000;
         const timeSinceLastFetch = Date.now() - lastFetchTimestamp.current;
+        const oneHourInMs = 3600000;
         
-        // Se passou mais de uma hora desde a última atualização, refresca agora
+        // Se a app esteve suspensa e os dados têm mais de 1 hora, refrescar imediatamente
         if (timeSinceLastFetch > oneHourInMs) {
+          console.debug("[Background Sync] Dados obsoletos detetados após retorno. Refrescando...");
           refreshConditions(location, false);
         }
       }
