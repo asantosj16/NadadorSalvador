@@ -160,7 +160,75 @@ export const MANUALS: ManualCategory[] = [
         id: 'vg-1',
         title: 'Técnicas de Scanning',
         description: 'Métodos para manter a atenção e cobrir toda a zona balnear.',
-        fullContent: `A vigilância proativa é a base do trabalho do Nadador-Salvador.`
+        fullContent: `A vigilância proativa é a base do trabalho do Nadador-Salvador.
+        
+TÉCNICAS RECOMENDADAS:
+- Padrão 10/20: Percorrer visualmente a zona em 10 segundos e estar a 20 segundos de distância de qualquer ponto.
+- Varrimento em "S": Observar da areia para o horizonte e vice-versa.
+- Rotação: Mudar de posto a cada 20-30 minutos para evitar a fadiga cognitiva.`
+      },
+      {
+        id: 'vg-2',
+        title: 'Sinais de Afogamento',
+        description: 'Como identificar uma vítima em dificuldades antes do pânico total.',
+        fullContent: `O afogamento real é muitas vezes silencioso e não envolve gritos ou agitação de braços.
+
+SINAIS VISUAIS CRÍTICOS:
+1. Cabeça baixa na água, boca ao nível da superfície.
+2. Cabeça inclinada para trás com a boca aberta.
+3. Olhos vidrados e vazios, ou fechados.
+4. Cabelo sobre a testa ou olhos (sem tentativa de o remover).
+5. Pernas verticais, sem bater a água (vítima "sobe escadas" no mesmo lugar).
+6. Hiperventilação ou arquejos.`
+      },
+      {
+        id: 'vg-3',
+        title: 'Identificação de Correntes de Retorno',
+        description: 'Como detetar "aguagens" e prevenir entradas perigosas.',
+        fullContent: `As correntes de retorno são a principal causa de salvamentos em praias oceânicas.
+
+COMO IDENTIFICAR:
+- Zona de água mais calma entre duas zonas de rebentação.
+- Água com cor diferente (mais escura devido à profundidade ou acastanhada devido à areia em suspensão).
+- Presença de espuma ou detritos a moverem-se em direção ao largo.
+- Ondas que parecem não quebrar no mesmo local que as restantes.`
+      },
+      {
+        id: 'vg-4',
+        title: 'Sistema de Bandeiras (ISN)',
+        description: 'Significado e gestão da sinalização na praia.',
+        fullContent: `As bandeiras são a primeira linha de comunicação preventiva com o público.
+
+PROTOCOLOS:
+- VERDE: Mar calmo, natação permitida.
+- AMARELA: Mar picado ou correntes, natação proibida (apenas "molhar os pés").
+- VERMELHA: Perigo extremo, proibição total de entrada na água.
+- XADREZ (Preto/Branco): Posto temporariamente sem vigilância.
+- AZUL: Galardão de qualidade ambiental (Bandeira Azul).`
+      },
+      {
+        id: 'vg-5',
+        title: 'Comunicação por Apitos',
+        description: 'Código sonoro padrão para coordenação entre Nadadores-Salvadores.',
+        fullContent: `O apito é uma ferramenta de autoridade e comunicação rápida em ambiente ruidoso.`,
+        flowSteps: [
+          { id: 'w1', type: 'start', label: '1 Toque Curto', description: 'Atenção do banhista. Prevenção por comportamento de risco.', next: 'w2' },
+          { id: 'w2', type: 'info', label: '2 Toques Curtos', description: 'Atenção de outro Nadador-Salvador. Mudança de posto ou apoio visual.', next: 'w3' },
+          { id: 'w3', type: 'info', label: '3 Toques Curtos', description: 'ENTRADA NA ÁGUA. Início de um salvamento real.', next: 'w4' },
+          { id: 'w4', type: 'end', label: '1 Toque Longo', description: 'EMERGÊNCIA GERAL. Ordem para todos saírem da água ou pedido de apoio médico urgente.' }
+        ]
+      },
+      {
+        id: 'vg-6',
+        title: 'Prevenção em Zonas Rochosas',
+        description: 'Vigilância específica para falésias, cavernas e afloramentos.',
+        fullContent: `Zonas rochosas apresentam perigos mecânicos e correntes imprevisíveis.
+
+CUIDADOS ESPECIAIS:
+- Vigilância de Marés: Alertar banhistas em enseadas que ficam isoladas na maré cheia.
+- Saltos: Proibir saltos de rochas sem conhecimento da profundidade e fundo.
+- Resíduos: Cuidado com vidros e detritos acumulados em zonas de rocha.
+- Estabilidade: Monitorizar sinais de desmoronamento em arribas instáveis.`
       }
     ]
   },
