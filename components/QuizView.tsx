@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
-import { QUIZ_CHAPTERS } from '../constants';
-import { QuizChapter } from '../types';
+import { QUIZ_CHAPTERS } from '../constants.tsx';
+import { QuizChapter } from '../types.ts';
 
 const QuizView: React.FC = () => {
   const [selectedChapter, setSelectedChapter] = useState<QuizChapter | null>(null);
@@ -46,7 +46,7 @@ const QuizView: React.FC = () => {
 
   if (!selectedChapter) {
     return (
-      <div className="space-y-6 max-w-2xl mx-auto">
+      <div className="space-y-6 max-w-2xl mx-auto animate-fade-in">
         <header className="mb-8">
           <h2 className="text-3xl font-extrabold text-slate-900 dark:text-slate-100">Questionários de Treino</h2>
           <p className="text-slate-600 dark:text-slate-400">Escolha um capítulo para testar os seus conhecimentos técnicos.</p>
@@ -73,15 +73,37 @@ const QuizView: React.FC = () => {
   const currentQuestion = selectedChapter.questions[currentQuestionIdx];
 
   if (showResult) {
+    const percentage = (score / selectedChapter.questions.length) * 100;
+    const isPassing = percentage >= 70;
+
     return (
-      <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-800 p-8 text-center max-w-lg mx-auto">
-        <div className="text-5xl mb-4">🏆</div>
-        <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">Questionário Concluído!</h2>
-        <p className="text-xl text-slate-600 dark:text-slate-400 mb-2">{selectedChapter.title}</p>
-        <p className="text-lg text-slate-600 dark:text-slate-400 mb-6">Pontuação: <span className="font-bold text-red-600 dark:text-red-500">{score}</span> de {selectedChapter.questions.length}</p>
+      <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl border border-slate-200 dark:border-slate-800 p-10 text-center max-w-lg mx-auto animate-zoom-in">
+        <div className="text-6xl mb-6 animate-bounce inline-block">
+          {isPassing ? '🏆' : '📚'}
+        </div>
+        
+        <h2 className="text-3xl font-black text-slate-900 dark:text-slate-100 mb-2 animate-slide-up" style={{ animationDelay: '100ms' }}>
+          {isPassing ? 'Excelente Trabalho!' : 'Continue a Praticar!'}
+        </h2>
+        
+        <p className="text-lg text-slate-500 dark:text-slate-400 mb-6 animate-slide-up" style={{ animationDelay: '200ms' }}>
+          Concluiu o capítulo <span className="text-slate-900 dark:text-slate-100 font-bold">{selectedChapter.title}</span>
+        </p>
+
+        <div className="bg-slate-50 dark:bg-slate-800/50 rounded-3xl p-8 mb-8 animate-slide-up" style={{ animationDelay: '300ms' }}>
+          <div className="text-sm font-black uppercase tracking-widest text-slate-400 mb-1">Resultado Final</div>
+          <div className="text-5xl font-black text-red-600 dark:text-red-500 mb-2">
+            {score} <span className="text-2xl text-slate-400">/ {selectedChapter.questions.length}</span>
+          </div>
+          <div className="text-xs font-bold text-slate-500 uppercase">
+             Taxa de sucesso: {Math.round(percentage)}%
+          </div>
+        </div>
+
         <button 
           onClick={restart}
-          className="w-full bg-red-600 text-white py-3 rounded-xl font-bold hover:bg-red-700 transition-colors"
+          className="w-full bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 py-4 rounded-2xl font-black hover:bg-slate-800 dark:hover:bg-white transition-all shadow-lg active:scale-95 animate-slide-up"
+          style={{ animationDelay: '400ms' }}
         >
           Voltar aos Capítulos
         </button>
@@ -90,7 +112,7 @@ const QuizView: React.FC = () => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto animate-fade-in">
       <div className="mb-6 flex justify-between items-center">
         <div className="flex flex-col">
           <span className="text-xs font-bold text-red-600 dark:text-red-500 uppercase tracking-wider mb-1">{selectedChapter.title}</span>
