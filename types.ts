@@ -6,12 +6,25 @@ export interface ManualCategory {
   content: ManualItem[];
 }
 
+export type FlowStepType = 'start' | 'action' | 'decision' | 'end' | 'info';
+
+export interface FlowStep {
+  id: string;
+  type: FlowStepType;
+  label: string;
+  description?: string;
+  next?: string;
+  yes?: string;
+  no?: string;
+}
+
 export interface ManualItem {
   id: string;
   title: string;
   description: string;
   fullContent: string;
   externalLink?: string;
+  flowSteps?: FlowStep[];
 }
 
 export interface QuizQuestion {
