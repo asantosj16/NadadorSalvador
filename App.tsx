@@ -75,7 +75,6 @@ const App: React.FC = () => {
   const lastFetchTimestamp = useRef<number>(0);
   const locationRef = useRef(location);
 
-  // Atualizar ref sempre que a localização muda para o worker de background
   useEffect(() => {
     locationRef.current = location;
   }, [location]);
@@ -98,7 +97,6 @@ const App: React.FC = () => {
     else setIsSyncing(true);
     
     try {
-      console.debug(`[Lifeguard Pro] Sincronização em curso para: ${loc}`);
       const newConditions = await getBeachConditions(loc);
       setConditions(newConditions);
       lastFetchTimestamp.current = Date.now();
@@ -107,10 +105,7 @@ const App: React.FC = () => {
       console.error("Erro na atualização:", error);
     } finally {
       if (isManual) setLoadingConditions(false);
-      else {
-        // Delay visual curto para o feedback de sync
-        setTimeout(() => setIsSyncing(false), 2000);
-      }
+      else setTimeout(() => setIsSyncing(false), 2000);
     }
   }, []);
 
@@ -136,47 +131,37 @@ const App: React.FC = () => {
     }
   }, [isDark]);
 
-  // Carga Inicial
   useEffect(() => {
-    if (currentTab === 'home') {
+    if (currentTab === 'home' || currentTab === 'training') {
       if (!dailyScenario) loadScenario();
       if (trainingData.length === 0) loadTrainingData();
     }
 
     if (!lastUpdated) {
-      refreshConditions(location, currentTab === 'home');
+      refreshConditions(location, true);
     }
   }, [currentTab, dailyScenario, lastUpdated, location, refreshConditions, loadTrainingData, trainingData.length]);
 
-  // Ciclo de Vida: Atualização Automática de Hora em Hora (Background Sync)
   useEffect(() => {
-    // 1. Configurar Intervalo de 1 Hora (3.600.000 ms)
-    // Usamos locationRef para garantir que o intervalo usa sempre a localização atual
     const interval = setInterval(() => {
       refreshConditions(locationRef.current, false);
     }, 3600000);
 
-    // 2. Garantir frescura dos dados ao retomar a atividade (Visibility Change)
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
         const timeSinceLastFetch = Date.now() - lastFetchTimestamp.current;
-        const oneHourInMs = 3600000;
-        
-        // Se a app esteve suspensa e os dados têm mais de 1 hora, refrescar imediatamente
-        if (timeSinceLastFetch > oneHourInMs) {
-          console.debug("[Lifeguard Pro] Dados obsoletos (1h+). Sincronizando agora...");
+        if (timeSinceLastFetch > 3600000) {
           refreshConditions(locationRef.current, false);
         }
       }
     };
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
-
     return () => {
       clearInterval(interval);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [refreshConditions]); // Depende apenas de refreshConditions para evitar resets desnecessários do intervalo
+  }, [refreshConditions]);
 
   const loadScenario = async () => {
     setLoadingScenario(true);
@@ -203,139 +188,130 @@ const App: React.FC = () => {
     switch (currentTab) {
       case 'home':
         return (
-          <div className="space-y-8 animate-fade-in">
-            <section className="bg-gradient-to-br from-red-600 to-orange-500 dark:from-red-800 dark:to-orange-900 rounded-[2.5rem] p-8 text-white shadow-2xl relative overflow-hidden group transition-all duration-500">
-              <div className="absolute top-0 right-0 p-12 opacity-10 pointer-events-none group-hover:scale-110 transition-transform duration-700">
+          <div className="space-y-6 animate-fade-in">
+            <section className="bg-gradient-to-br from-red-600 to-orange-500 dark:from-red-800 dark:to-orange-900 rounded-[2.5rem] p-6 md:p-8 text-white shadow-2xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-12 opacity-10 pointer-events-none group-hover:scale-110 transition-transform">
                 <span className="text-9xl">🛟</span>
               </div>
               
               <div className="relative z-10">
                 <div className="flex justify-between items-start mb-6">
-                  <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest border border-white/20">
+                  <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border border-white/20">
                     <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(74,222,128,0.8)]"></span>
                     <span>Vigilância Ativa</span>
                   </div>
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-2">
                     <button 
                       onClick={() => setShowMap(!showMap)}
                       className="bg-white/20 hover:bg-white/30 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-colors flex items-center space-x-2 border border-white/10"
                     >
                       <span>{showMap ? '📊 Dados' : '🗺️ Mapa'}</span>
                     </button>
-                    <div className="flex flex-col items-end">
-                      {lastUpdated && (
-                        <div className="flex items-center space-x-2 text-[10px] font-black opacity-90 uppercase tracking-[0.15em]">
-                          {isSyncing && <span className="w-2 h-2 border border-white/40 border-t-white rounded-full animate-spin"></span>}
-                          <span>Atu. {lastUpdated}</span>
-                        </div>
-                      )}
-                      <div className="text-[7px] font-black uppercase tracking-widest opacity-40 mt-0.5">Auto-Sync Ativo (60m)</div>
-                    </div>
+                    {lastUpdated && (
+                      <div className="flex items-center space-x-1 text-[9px] font-black opacity-80 uppercase">
+                        {isSyncing && <span className="w-2 h-2 border border-white/40 border-t-white rounded-full animate-spin"></span>}
+                        <span>{lastUpdated}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
                 
-                <h1 className="text-5xl font-black mb-2 tracking-tighter">Bom turno, NS.</h1>
-                <p className="text-red-50 opacity-90 text-lg mb-8 font-medium">Posto atual em <span className="font-bold underline decoration-white/30">{location}</span>.</p>
+                <h1 className="text-4xl md:text-5xl font-black mb-1 tracking-tighter">Bom turno, NS.</h1>
+                <p className="text-red-50 opacity-90 text-base mb-6 font-medium truncate">Posto em <span className="font-bold underline">{location.split(',')[0]}</span></p>
                 
                 {!showMap ? (
                   <div className="animate-fade-in">
-                    <form onSubmit={handleSearchRegion} className="mb-10 flex max-w-md bg-white/10 backdrop-blur-xl rounded-[1.25rem] border border-white/20 overflow-hidden focus-within:ring-4 focus-within:ring-white/30 transition-all shadow-inner">
+                    <div className="grid grid-cols-2 gap-3 mb-6">
+                      {[
+                        { label: 'Céu', val: conditions.condition, sub: `Ar: ${conditions.airTemp}` },
+                        { label: 'Mar', val: conditions.waves, sub: `Água: ${conditions.waterTemp}` },
+                        { label: 'Vento', val: conditions.windSpeed, sub: `${conditions.windDir}` },
+                        { label: 'UV', val: conditions.uvIndex, sub: `Risco Solar` },
+                      ].map((card, i) => (
+                        <div 
+                          key={i} 
+                          className={`bg-white/20 backdrop-blur-xl rounded-2xl p-4 border border-white/10 transition-all ${loadingConditions || isSyncing ? 'opacity-50' : 'opacity-100'}`}
+                        >
+                          <span className="block text-[8px] uppercase font-black opacity-75 tracking-widest mb-1">{card.label}</span>
+                          <span className="text-base font-black tracking-tight leading-none block">{card.val}</span>
+                          <span className="text-[10px] opacity-80 mt-1 block font-medium">{card.sub}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <form onSubmit={handleSearchRegion} className="flex bg-white/10 backdrop-blur-xl rounded-xl border border-white/20 overflow-hidden shadow-inner">
                       <input 
                         type="text" 
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Mudar localização..."
-                        className="flex-1 bg-transparent px-5 py-4 outline-none placeholder:text-red-100 text-white w-full font-medium"
+                        className="flex-1 bg-transparent px-4 py-3 outline-none placeholder:text-red-100 text-white w-full text-sm font-medium"
                       />
                       <button 
                         type="submit" 
                         disabled={loadingConditions}
-                        className="px-8 bg-white text-red-600 font-black hover:bg-red-50 transition-colors disabled:opacity-50"
+                        className="px-4 bg-white text-red-600 font-black text-xs uppercase hover:bg-red-50 transition-colors"
                       >
-                        {loadingConditions ? '...' : 'IR'}
+                        OK
                       </button>
                     </form>
-
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      {[
-                        { label: 'Céu', val: conditions.condition, sub: `Ar: ${conditions.airTemp}` },
-                        { label: 'Mar', val: conditions.waves, sub: `Água: ${conditions.waterTemp}` },
-                        { label: 'Vento', val: conditions.windSpeed, sub: `Dir: ${conditions.windDir}` },
-                        { label: 'Rad. UV', val: conditions.uvIndex, sub: `Risco Solar` },
-                      ].map((card, i) => (
-                        <div 
-                          key={i} 
-                          className={`bg-white/20 backdrop-blur-xl rounded-[1.5rem] p-5 border border-white/10 transition-all duration-1000 ${loadingConditions || isSyncing ? 'opacity-50 ring-2 ring-white/10' : 'opacity-100'}`}
-                        >
-                          <span className="block text-[10px] uppercase font-black opacity-75 tracking-widest mb-1">{card.label}</span>
-                          <span className="text-xl font-black tracking-tight leading-none block mt-1">{card.val}</span>
-                          <span className="text-xs opacity-80 mt-1 block">{card.sub}</span>
-                        </div>
-                      ))}
-                    </div>
                   </div>
                 ) : (
                   <div className="animate-zoom-in">
                     <BeachMap onSelectBeach={handleMapSelect} selectedBeach={location} currentConditions={conditions} />
-                    <div className="mt-4 text-[10px] font-bold text-white/60 uppercase tracking-widest text-center">
-                      Clique num marcador para alternar o posto de vigilância
-                    </div>
                   </div>
                 )}
               </div>
             </section>
 
-            <TrainingLocations items={trainingData} loading={loadingTraining} />
-
-            <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white dark:bg-slate-900 rounded-[2rem] shadow-sm border border-slate-200 dark:border-slate-800 p-8 hover:shadow-lg transition-all border-b-4 border-b-blue-500">
-                <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Dica de Segurança</h2>
-                  <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">Prevenção</span>
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 border-b-4 border-b-blue-500">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-lg font-black text-slate-900 dark:text-slate-100 tracking-tight">Dica Segura</h2>
+                  <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest">Prevenção</span>
                 </div>
-                <p className="text-slate-600 dark:text-slate-400 italic font-medium leading-relaxed">"{TIPS[Math.floor(Date.now() / (1000 * 60 * 60)) % TIPS.length].text}"</p>
+                <p className="text-slate-600 dark:text-slate-400 italic text-sm font-medium leading-relaxed">"{TIPS[Math.floor(Date.now() / (1000 * 60 * 60)) % TIPS.length].text}"</p>
               </div>
 
-              <div className="bg-white dark:bg-slate-900 rounded-[2rem] shadow-sm border border-slate-200 dark:border-slate-800 p-8 hover:shadow-lg transition-all border-b-4 border-b-red-500">
-                <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Treino Mental</h2>
-                  <button onClick={loadScenario} className="p-2 bg-slate-50 dark:bg-slate-800 rounded-full hover:rotate-180 transition-transform duration-500">🔄</button>
+              <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 border-b-4 border-b-red-500">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-lg font-black text-slate-900 dark:text-slate-100 tracking-tight">Treino Mental</h2>
+                  <button onClick={loadScenario} className="p-1.5 bg-slate-50 dark:bg-slate-800 rounded-full hover:rotate-180 transition-transform">🔄</button>
                 </div>
                 {loadingScenario ? (
-                  <div className="space-y-3 animate-pulse">
-                    <div className="h-4 bg-slate-100 dark:bg-slate-800 rounded-full w-full"></div>
-                    <div className="h-4 bg-slate-100 dark:bg-slate-800 rounded-full w-5/6"></div>
-                    <div className="h-4 bg-slate-100 dark:bg-slate-800 rounded-full w-4/6"></div>
+                  <div className="space-y-2 animate-pulse">
+                    <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded-full w-full"></div>
+                    <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded-full w-4/5"></div>
                   </div>
                 ) : (
-                  <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed font-medium">{dailyScenario || "Prepare-se para agir."}</p>
+                  <p className="text-slate-600 dark:text-slate-400 text-xs leading-relaxed font-medium">{dailyScenario || "Prepare-se para agir."}</p>
                 )}
               </div>
             </section>
 
-            <section className="space-y-6 pb-24 md:pb-0">
-              <h2 className="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Módulos de Trabalho</h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <button onClick={() => setCurrentTab('manuals')} className="aspect-square bg-slate-900 dark:bg-slate-800 text-white rounded-[2rem] flex flex-col items-center justify-center space-y-3 hover:scale-[1.05] active:scale-95 transition-all shadow-xl">
-                  <span className="text-4xl">📖</span>
-                  <span className="font-black text-xs uppercase tracking-widest">Manuais</span>
+            <section className="pb-24 md:pb-0">
+               <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Acesso Rápido</h2>
+                  <button onClick={() => setCurrentTab('training')} className="text-[10px] font-black text-red-600 dark:text-red-500 uppercase tracking-widest hover:underline">Ver Todas Vagas</button>
+               </div>
+              <div className="grid grid-cols-3 gap-3">
+                <button onClick={() => setCurrentTab('training')} className="aspect-square bg-slate-900 dark:bg-slate-800 text-white rounded-2xl flex flex-col items-center justify-center space-y-2 hover:scale-[1.02] active:scale-95 transition-all shadow-lg">
+                  <span className="text-3xl">🎓</span>
+                  <span className="font-black text-[9px] uppercase tracking-widest text-center px-1">Vagas</span>
                 </button>
-                <button onClick={() => setCurrentTab('quiz')} className="aspect-square bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 rounded-[2rem] flex flex-col items-center justify-center space-y-3 hover:border-red-500 dark:hover:border-red-700 active:scale-95 transition-all group shadow-sm">
-                  <span className="text-4xl">📝</span>
-                  <span className="font-black text-xs uppercase tracking-widest text-slate-900 dark:text-slate-100 group-hover:text-red-600 dark:group-hover:text-red-400">Quiz</span>
+                <button onClick={() => setCurrentTab('manuals')} className="aspect-square bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-2xl flex flex-col items-center justify-center space-y-2 hover:border-red-500 active:scale-95 transition-all shadow-sm">
+                  <span className="text-3xl">📖</span>
+                  <span className="font-black text-[9px] uppercase tracking-widest text-slate-900 dark:text-slate-100 text-center px-1">Manuais</span>
                 </button>
-                <button onClick={() => setCurrentTab('assistant')} className="aspect-square bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 rounded-[2rem] flex flex-col items-center justify-center space-y-3 hover:border-red-500 dark:hover:border-red-700 active:scale-95 transition-all group shadow-sm">
-                  <span className="text-4xl">🤖</span>
-                  <span className="font-black text-xs uppercase tracking-widest text-slate-900 dark:text-slate-100 group-hover:text-red-600 dark:group-hover:text-red-400">IA Apoio</span>
-                </button>
-                <button onClick={() => setShowEmergency(true)} className="aspect-square bg-red-600 text-white rounded-[2rem] flex flex-col items-center justify-center space-y-3 hover:scale-[1.05] active:scale-95 transition-all shadow-xl">
-                  <span className="text-4xl">🚨</span>
-                  <span className="font-black text-xs uppercase tracking-widest">S.O.S</span>
+                <button onClick={() => setShowEmergency(true)} className="aspect-square bg-red-600 text-white rounded-2xl flex flex-col items-center justify-center space-y-2 hover:scale-[1.02] active:scale-95 transition-all shadow-lg">
+                  <span className="text-3xl">🚨</span>
+                  <span className="font-black text-[9px] uppercase tracking-widest text-center px-1">S.O.S</span>
                 </button>
               </div>
             </section>
           </div>
         );
+      case 'training':
+        return <TrainingLocations items={trainingData} loading={loadingTraining} />;
       case 'manuals':
         return <ManualView />;
       case 'quiz':
@@ -348,7 +324,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-500 selection:bg-red-100 selection:text-red-900">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-500">
       <Navbar 
         currentTab={currentTab} 
         setTab={setCurrentTab} 
@@ -357,7 +333,7 @@ const App: React.FC = () => {
         toggleDark={() => setIsDark(!isDark)}
       />
       
-      <main className="max-w-4xl mx-auto px-4 pt-24 md:pt-32 pb-16">
+      <main className="max-w-4xl mx-auto px-4 pt-20 md:pt-32 pb-16">
         {renderContent()}
       </main>
 
@@ -365,7 +341,7 @@ const App: React.FC = () => {
       
       <button 
         onClick={() => setShowEmergency(true)}
-        className="md:hidden fixed bottom-24 right-6 z-40 bg-red-600 text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-3xl active:scale-75 transition-all border-4 border-white dark:border-slate-900"
+        className="md:hidden fixed bottom-6 right-6 z-40 bg-red-600 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl active:scale-75 transition-all border-4 border-white dark:border-slate-900"
       >
         🚨
       </button>
