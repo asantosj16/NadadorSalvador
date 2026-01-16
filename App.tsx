@@ -188,70 +188,75 @@ const App: React.FC = () => {
     switch (currentTab) {
       case 'home':
         return (
-          <div className="space-y-6 animate-fade-in">
-            <section className="bg-gradient-to-br from-red-600 to-orange-500 dark:from-red-800 dark:to-orange-900 rounded-[2.5rem] p-6 md:p-8 text-white shadow-2xl relative overflow-hidden group">
+          <div className="space-y-8 animate-fade-in">
+            {/* Bloco de Status e Condições */}
+            <section className="bg-gradient-to-br from-red-600 to-orange-500 dark:from-red-800 dark:to-orange-900 rounded-[2.5rem] p-6 md:p-10 text-white shadow-2xl relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-12 opacity-10 pointer-events-none group-hover:scale-110 transition-transform">
                 <span className="text-9xl">🛟</span>
               </div>
               
               <div className="relative z-10">
-                <div className="flex justify-between items-start mb-6">
-                  <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border border-white/20">
+                <div className="flex justify-between items-start mb-8">
+                  <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border border-white/20">
                     <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(74,222,128,0.8)]"></span>
-                    <span>Vigilância Ativa</span>
+                    <span>Posto Ativo</span>
                   </div>
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-3">
                     <button 
                       onClick={() => setShowMap(!showMap)}
-                      className="bg-white/20 hover:bg-white/30 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-colors flex items-center space-x-2 border border-white/10"
+                      className="bg-white/20 hover:bg-white/30 backdrop-blur-md px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest transition-colors flex items-center space-x-2 border border-white/10"
                     >
                       <span>{showMap ? '📊 Dados' : '🗺️ Mapa'}</span>
                     </button>
                     {lastUpdated && (
-                      <div className="flex items-center space-x-1 text-[9px] font-black opacity-80 uppercase">
-                        {isSyncing && <span className="w-2 h-2 border border-white/40 border-t-white rounded-full animate-spin"></span>}
-                        <span>{lastUpdated}</span>
+                      <div className="flex flex-col items-end">
+                         <div className="flex items-center space-x-1 text-[9px] font-black opacity-80 uppercase">
+                           {isSyncing && <span className="w-2 h-2 border border-white/40 border-t-white rounded-full animate-spin mr-1"></span>}
+                           <span>Atu. {lastUpdated}</span>
+                         </div>
                       </div>
                     )}
                   </div>
                 </div>
                 
-                <h1 className="text-4xl md:text-5xl font-black mb-1 tracking-tighter">Bom turno, NS.</h1>
-                <p className="text-red-50 opacity-90 text-base mb-6 font-medium truncate">Posto em <span className="font-bold underline">{location.split(',')[0]}</span></p>
+                <div className="mb-8">
+                  <h1 className="text-4xl md:text-6xl font-black mb-1 tracking-tighter">Bom turno, NS.</h1>
+                  <p className="text-red-50 opacity-90 text-lg font-medium">Vigilância em <span className="font-bold underline decoration-white/30">{location.split(',')[0]}</span></p>
+                </div>
                 
                 {!showMap ? (
                   <div className="animate-fade-in">
-                    <div className="grid grid-cols-2 gap-3 mb-6">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                       {[
-                        { label: 'Céu', val: conditions.condition, sub: `Ar: ${conditions.airTemp}` },
-                        { label: 'Mar', val: conditions.waves, sub: `Água: ${conditions.waterTemp}` },
+                        { label: 'Condição', val: conditions.condition, sub: `Ar: ${conditions.airTemp}` },
+                        { label: 'Ondulação', val: conditions.waves, sub: `Mar: ${conditions.waterTemp}` },
                         { label: 'Vento', val: conditions.windSpeed, sub: `${conditions.windDir}` },
-                        { label: 'UV', val: conditions.uvIndex, sub: `Risco Solar` },
+                        { label: 'Radiação', val: conditions.uvIndex, sub: `Risco UV` },
                       ].map((card, i) => (
                         <div 
                           key={i} 
-                          className={`bg-white/20 backdrop-blur-xl rounded-2xl p-4 border border-white/10 transition-all ${loadingConditions || isSyncing ? 'opacity-50' : 'opacity-100'}`}
+                          className={`bg-white/20 backdrop-blur-xl rounded-2xl p-5 border border-white/10 transition-all ${loadingConditions || isSyncing ? 'opacity-50' : 'opacity-100'}`}
                         >
                           <span className="block text-[8px] uppercase font-black opacity-75 tracking-widest mb-1">{card.label}</span>
-                          <span className="text-base font-black tracking-tight leading-none block">{card.val}</span>
+                          <span className="text-lg font-black tracking-tight leading-none block mt-1">{card.val}</span>
                           <span className="text-[10px] opacity-80 mt-1 block font-medium">{card.sub}</span>
                         </div>
                       ))}
                     </div>
-                    <form onSubmit={handleSearchRegion} className="flex bg-white/10 backdrop-blur-xl rounded-xl border border-white/20 overflow-hidden shadow-inner">
+                    <form onSubmit={handleSearchRegion} className="flex bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 overflow-hidden shadow-inner max-w-md">
                       <input 
                         type="text" 
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        placeholder="Mudar localização..."
-                        className="flex-1 bg-transparent px-4 py-3 outline-none placeholder:text-red-100 text-white w-full text-sm font-medium"
+                        placeholder="Mudar localização do posto..."
+                        className="flex-1 bg-transparent px-6 py-4 outline-none placeholder:text-red-100 text-white w-full text-sm font-medium"
                       />
                       <button 
                         type="submit" 
                         disabled={loadingConditions}
-                        className="px-4 bg-white text-red-600 font-black text-xs uppercase hover:bg-red-50 transition-colors"
+                        className="px-8 bg-white text-red-600 font-black text-[10px] uppercase hover:bg-red-50 transition-colors"
                       >
-                        OK
+                        ALTERAR
                       </button>
                     </form>
                   </div>
@@ -263,52 +268,67 @@ const App: React.FC = () => {
               </div>
             </section>
 
-            {/* Inclusão de Resumo de Vagas na Home */}
-            <section className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Vagas Próximas</h2>
+            {/* Módulo de Formação em Destaque (Vagas Próximas) */}
+            <section className="bg-white dark:bg-slate-900 rounded-[2rem] p-6 md:p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center space-x-3">
+                   <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center text-xl">🎓</div>
+                   <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Formação e Exames</h2>
+                </div>
                 <button 
                   onClick={() => setCurrentTab('training')} 
-                  className="text-[10px] font-black text-red-600 dark:text-red-500 uppercase tracking-widest hover:underline"
+                  className="text-[10px] font-black text-red-600 dark:text-red-500 uppercase tracking-widest hover:underline px-3 py-1 bg-red-50 dark:bg-red-950/30 rounded-full"
                 >
-                  Ver Todas
+                  Ver Catálogo
                 </button>
               </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {loadingTraining ? (
-                   <div className="h-24 bg-slate-100 dark:bg-slate-900 rounded-2xl animate-pulse"></div>
-                ) : trainingData.slice(0, 2).map((item, idx) => (
-                  <div key={idx} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl shadow-sm flex items-center justify-between">
-                    <div>
-                      <h4 className="font-black text-sm text-slate-900 dark:text-slate-100">{item.location}</h4>
-                      <p className="text-[9px] text-slate-500 font-bold uppercase">{item.type} • {item.dates}</p>
+                   <div className="col-span-full h-32 bg-slate-50 dark:bg-slate-800 animate-pulse rounded-2xl"></div>
+                ) : trainingData.length > 0 ? (
+                  trainingData.slice(0, 2).map((item, idx) => (
+                    <div key={idx} className="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 group hover:border-blue-400 transition-all flex justify-between items-center">
+                      <div>
+                        <div className="flex items-center space-x-2 mb-1">
+                           <span className={`text-[8px] font-black px-2 py-0.5 rounded-full uppercase ${item.type === 'CURSO' ? 'bg-blue-100 text-blue-700' : 'bg-orange-100 text-orange-700'}`}>
+                             {item.type}
+                           </span>
+                           <span className="text-[9px] font-bold text-green-600 uppercase tracking-tighter">{item.status}</span>
+                        </div>
+                        <h4 className="font-black text-sm text-slate-900 dark:text-slate-100">{item.location}</h4>
+                        <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase mt-0.5">{item.dates}</p>
+                      </div>
+                      <a href={item.link} target="_blank" className="w-10 h-10 bg-white dark:bg-slate-700 rounded-xl flex items-center justify-center shadow-sm border border-slate-100 dark:border-slate-600 group-hover:bg-blue-500 group-hover:text-white transition-all">
+                         <span className="text-xs">↗</span>
+                      </a>
                     </div>
-                    <a href={item.link} target="_blank" className="bg-red-50 dark:bg-red-950 p-2 rounded-lg text-red-600 dark:text-red-400">
-                       <span className="text-xs">↗</span>
-                    </a>
-                  </div>
-                ))}
+                  ))
+                ) : (
+                  <p className="col-span-full text-center py-8 text-slate-400 font-bold text-xs uppercase tracking-widest">A procurar novas vagas...</p>
+                )}
               </div>
             </section>
 
-            <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 border-b-4 border-b-blue-500">
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-white dark:bg-slate-900 rounded-[2rem] shadow-sm border border-slate-200 dark:border-slate-800 p-8 border-b-4 border-b-blue-500">
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-lg font-black text-slate-900 dark:text-slate-100 tracking-tight">Dica Segura</h2>
+                  <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Dica de Segurança</h2>
                   <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest">Prevenção</span>
                 </div>
                 <p className="text-slate-600 dark:text-slate-400 italic text-sm font-medium leading-relaxed">"{TIPS[Math.floor(Date.now() / (1000 * 60 * 60)) % TIPS.length].text}"</p>
               </div>
 
-              <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 border-b-4 border-b-red-500">
+              <div className="bg-white dark:bg-slate-900 rounded-[2rem] shadow-sm border border-slate-200 dark:border-slate-800 p-8 border-b-4 border-b-red-500">
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-lg font-black text-slate-900 dark:text-slate-100 tracking-tight">Treino Mental</h2>
-                  <button onClick={loadScenario} className="p-1.5 bg-slate-50 dark:bg-slate-800 rounded-full hover:rotate-180 transition-transform">🔄</button>
+                  <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Cenário do Dia</h2>
+                  <button onClick={loadScenario} className="p-2 bg-slate-50 dark:bg-slate-800 rounded-full hover:rotate-180 transition-transform">🔄</button>
                 </div>
                 {loadingScenario ? (
-                  <div className="space-y-2 animate-pulse">
+                  <div className="space-y-3 animate-pulse">
                     <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded-full w-full"></div>
-                    <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded-full w-4/5"></div>
+                    <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded-full w-5/6"></div>
+                    <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded-full w-4/6"></div>
                   </div>
                 ) : (
                   <p className="text-slate-600 dark:text-slate-400 text-xs leading-relaxed font-medium">{dailyScenario || "Prepare-se para agir."}</p>
@@ -317,25 +337,25 @@ const App: React.FC = () => {
             </section>
 
             <section className="pb-24 md:pb-0">
-               <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Módulos</h2>
+               <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Módulos de Trabalho</h2>
                </div>
-              <div className="grid grid-cols-4 gap-3">
-                <button onClick={() => setCurrentTab('training')} className="aspect-square bg-slate-900 dark:bg-slate-800 text-white rounded-2xl flex flex-col items-center justify-center space-y-2 hover:scale-[1.02] active:scale-95 transition-all shadow-lg">
-                  <span className="text-3xl">🎓</span>
-                  <span className="font-black text-[9px] uppercase tracking-widest text-center px-1">Vagas</span>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <button onClick={() => setCurrentTab('training')} className="aspect-square bg-slate-900 dark:bg-slate-800 text-white rounded-[2rem] flex flex-col items-center justify-center space-y-3 hover:scale-[1.05] active:scale-95 transition-all shadow-xl">
+                  <span className="text-4xl">🎓</span>
+                  <span className="font-black text-[10px] uppercase tracking-widest text-center px-4">Vagas e Formação</span>
                 </button>
-                <button onClick={() => setCurrentTab('manuals')} className="aspect-square bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-2xl flex flex-col items-center justify-center space-y-2 hover:border-red-500 active:scale-95 transition-all shadow-sm">
-                  <span className="text-3xl">📖</span>
-                  <span className="font-black text-[9px] uppercase tracking-widest text-slate-900 dark:text-slate-100 text-center px-1">Manuais</span>
+                <button onClick={() => setCurrentTab('manuals')} className="aspect-square bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-[2rem] flex flex-col items-center justify-center space-y-3 hover:border-red-500 active:scale-95 transition-all shadow-sm">
+                  <span className="text-4xl">📖</span>
+                  <span className="font-black text-[10px] uppercase tracking-widest text-slate-900 dark:text-slate-100 text-center px-4">Manuais Técnicos</span>
                 </button>
-                <button onClick={() => setCurrentTab('quiz')} className="aspect-square bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-2xl flex flex-col items-center justify-center space-y-2 hover:border-red-500 active:scale-95 transition-all shadow-sm">
-                  <span className="text-3xl">📝</span>
-                  <span className="font-black text-[9px] uppercase tracking-widest text-slate-900 dark:text-slate-100 text-center px-1">Quiz</span>
+                <button onClick={() => setCurrentTab('quiz')} className="aspect-square bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-[2rem] flex flex-col items-center justify-center space-y-3 hover:border-red-500 active:scale-95 transition-all shadow-sm">
+                  <span className="text-4xl">📝</span>
+                  <span className="font-black text-[10px] uppercase tracking-widest text-slate-900 dark:text-slate-100 text-center px-4">Questões de Treino</span>
                 </button>
-                <button onClick={() => setShowEmergency(true)} className="aspect-square bg-red-600 text-white rounded-2xl flex flex-col items-center justify-center space-y-2 hover:scale-[1.02] active:scale-95 transition-all shadow-lg">
-                  <span className="text-3xl">🚨</span>
-                  <span className="font-black text-[9px] uppercase tracking-widest text-center px-1">S.O.S</span>
+                <button onClick={() => setShowEmergency(true)} className="aspect-square bg-red-600 text-white rounded-[2rem] flex flex-col items-center justify-center space-y-3 hover:scale-[1.05] active:scale-95 transition-all shadow-xl">
+                  <span className="text-4xl">🚨</span>
+                  <span className="font-black text-[10px] uppercase tracking-widest text-center px-4">Emergência S.O.S</span>
                 </button>
               </div>
             </section>
@@ -372,7 +392,7 @@ const App: React.FC = () => {
       
       <button 
         onClick={() => setShowEmergency(true)}
-        className="md:hidden fixed bottom-6 right-6 z-40 bg-red-600 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl active:scale-75 transition-all border-4 border-white dark:border-slate-900"
+        className="md:hidden fixed bottom-6 right-6 z-40 bg-red-600 text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-3xl active:scale-75 transition-all border-4 border-white dark:border-slate-900"
       >
         🚨
       </button>

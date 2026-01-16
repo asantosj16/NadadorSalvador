@@ -35,75 +35,83 @@ export const MANUALS: ManualCategory[] = [
 export const QUIZ_CHAPTERS: QuizChapter[] = [
   {
     id: 'cap-1',
-    title: '1. Atividade e Perfil do Nadador-Salvador',
-    description: 'Certificação, deveres, ética e regulamentação.',
+    title: 'Capítulo 1: Atividade e Perfil do Nadador-Salvador',
+    description: 'Enquadramento legal, deveres, ética e regulamentação da profissão.',
     questions: [
-      { id: 'q1-1', question: 'Qual a validade da certificação de Nadador-Salvador?', options: ['1 ano', '2 anos', '3 anos', '5 anos'], correctAnswer: 2, explanation: 'A certificação técnica é válida por 3 anos conforme o Decreto-Lei 118/2011.' },
-      { id: 'q1-2', question: 'Quem é a autoridade técnica responsável pela certificação em Portugal?', options: ['Proteção Civil', 'INEM', 'Instituto de Socorros a Náufragos (ISN)', 'Marinha de Guerra'], correctAnswer: 2, explanation: 'O ISN é a autoridade técnica nacional para o salvamento aquático.' },
-      { id: 'q1-3', question: 'É dever do Nadador-Salvador colaborar com a Autoridade Marítima?', options: ['Apenas em caso de morte', 'Sempre que solicitado', 'Nunca, são entidades independentes', 'Apenas em horário pós-laboral'], correctAnswer: 1, explanation: 'Colaborar com as autoridades é um dever ético e legal do NS.' }
+      { id: 'q1-1', question: 'Qual o diploma que regulamenta a atividade de Nadador-Salvador em Portugal?', options: ['Decreto-Lei 118/2011', 'Lei Geral do Trabalho', 'Código Civil', 'Constituição da República'], correctAnswer: 0, explanation: 'O Decreto-Lei n.º 118/2011 regula a assistência a banhistas e a atividade de nadador-salvador.' },
+      { id: 'q1-2', question: 'Qual a validade da certificação técnica do NS?', options: ['1 ano', '2 anos', '3 anos', 'Indeterminada'], correctAnswer: 2, explanation: 'A certificação tem validade de 3 anos, devendo ser renovada através de exame.' },
+      { id: 'q1-3', question: 'O Nadador-Salvador pode abandonar o posto durante o horário de vigilância?', options: ['Sim, para almoçar', 'Não, exceto por motivo de força maior ou salvamento', 'Sim, se não houver banhistas', 'Sim, se um colega estiver perto'], correctAnswer: 1, explanation: 'A presença contínua e vigilante é um dever fundamental do NS durante o período de serviço.' },
+      { id: 'q1-4', question: 'É competência do ISN:', options: ['Vender fatos de banho', 'Definir o regime jurídico e certificar os NS', 'Limpar as praias', 'Construir hotéis na costa'], correctAnswer: 1, explanation: 'O ISN é a autoridade técnica responsável pela formação e certificação dos nadadores-salvadores.' }
     ]
   },
   {
     id: 'cap-2',
-    title: '2. Meios de Salvamento e Equipamento',
-    description: 'Identificação e uso correto do material técnico.',
+    title: 'Capítulo 2: Meios de Salvamento e Equipamento',
+    description: 'Material de abordagem, reboque e comunicações.',
     questions: [
-      { id: 'q2-1', question: 'Qual a função principal do cinto de salvamento (torpedo)?', options: ['Apoio para descanso', 'Flutuabilidade para a vítima e NS', 'Sinalização visual', 'Apenas para treinar'], correctAnswer: 1, explanation: 'O torpedo oferece flutuabilidade crítica e permite rebocar a vítima com as mãos livres.' },
-      { id: 'q2-2', question: 'As barbatanas no salvamento aquático servem para:', options: ['Aumentar a propulsão e velocidade', 'Proteger os pés das rochas', 'Dificultar a natação', 'Fazer mergulho profundo'], correctAnswer: 0, explanation: 'As barbatanas permitem uma abordagem mais rápida e maior força no reboque contra correntes.' }
+      { id: 'q2-1', question: 'Qual a principal vantagem do "Torpedo" ou Cinto de Salvamento?', options: ['Estética', 'Permite manter as mãos livres durante o reboque', 'Proteção contra tubarões', 'Substitui o colete salva-vidas'], correctAnswer: 1, explanation: 'O torpedo oferece flutuabilidade à vítima e liberta as mãos do NS para a natação de reboque.' },
+      { id: 'q2-2', question: 'No uso do rádio VHF, o canal internacional de socorro é o:', options: ['Canal 9', 'Canal 16', 'Canal 68', 'Canal 22'], correctAnswer: 1, explanation: 'O Canal 16 VHF é utilizado mundialmente para chamadas de socorro, urgência e segurança marítima.' },
+      { id: 'q2-3', question: 'Para que serve o saco de arremesso?', options: ['Guardar comida', 'Salvamento a partir de terra ou embarcação em zonas de difícil acesso', 'Pesar a bandeira', 'Treinar musculação'], correctAnswer: 1, explanation: 'É um meio de salvamento passivo que permite lançar uma linha flutuante a uma vítima próxima da costa.' }
     ]
   },
   {
     id: 'cap-3',
-    title: '3. Vigilância e Prevenção',
-    description: 'Técnicas de observação e sinais de perigo.',
+    title: 'Capítulo 3: Vigilância e Prevenção',
+    description: 'Sinalética, métodos de observação e antecipação de perigo.',
     questions: [
-      { id: 'q3-1', question: 'O que significa uma bandeira xadrez (branca e azul)?', options: ['Mar calmo', 'Zona de desportos náuticos (proibido banhos)', 'Posto sem vigilância', 'Praia perigosa'], correctAnswer: 1, explanation: 'A bandeira xadrez sinaliza áreas reservadas a desportos, onde o banho é proibido.' },
-      { id: 'q3-2', question: 'No método de varrimento ocular, quanto tempo deve durar cada ciclo?', options: ['5 segundos', '10 a 30 segundos', '2 minutos', '5 minutos'], correctAnswer: 1, explanation: 'O varrimento deve ser constante e completo, demorando entre 10 a 30 segundos conforme a afluência.' }
+      { id: 'q3-1', question: 'A bandeira vermelha indica:', options: ['Mar calmo', 'Proibição de entrar na água', 'Aviso de presença de medusas', 'Zona de surf'], correctAnswer: 1, explanation: 'Bandeira vermelha significa mar perigoso e proibição total de entrada na água.' },
+      { id: 'q3-2', question: 'O que é o "Varrimento Ocular"?', options: ['Limpar os óculos', 'Observação sistemática da zona de vigilância por setores', 'Olhar apenas para o horizonte', 'Fechar os olhos para descansar'], correctAnswer: 1, explanation: 'É a técnica de dividir a área em zonas e percorrê-las visualmente de forma rítmica.' },
+      { id: 'q3-3', question: 'Uma bandeira xadrez (azul e branca) significa:', options: ['Zona de mergulho', 'Zona de desportos náuticos/embarcações', 'Praia sem nadador-salvador', 'Fim do turno'], correctAnswer: 1, explanation: 'Sinaliza áreas onde o banho é proibido devido ao uso de pranchas ou embarcações.' }
     ]
   },
   {
     id: 'cap-4',
-    title: '4. Técnicas de Salvamento Aquático',
-    description: 'Abordagem, reboque e extração de vítimas.',
+    title: 'Capítulo 4: Técnicas de Salvamento Aquático',
+    description: 'Abordagem, natação de salvamento e técnicas de libertação.',
     questions: [
-      { id: 'q4-1', question: 'Como deve ser feita a abordagem a uma vítima consciente e em pânico?', options: ['De frente para falar com ela', 'Por trás, mantendo distância de segurança', 'Mergulhando por baixo', 'Gritando de longe'], correctAnswer: 1, explanation: 'A abordagem por trás evita que a vítima agarre o socorrista em pânico.' },
-      { id: 'q4-2', question: 'Qual o principal objetivo do reboque?', options: ['Levar a vítima para o fundo', 'Manter as vias aéreas da vítima fora de água', 'Chegar rápido à areia', 'Treinar a resistência'], correctAnswer: 1, explanation: 'O reboque deve priorizar sempre a manutenção das vias respiratórias desobstruídas.' }
+      { id: 'q4-1', question: 'Na abordagem a uma vítima consciente e em pânico, o NS deve:', options: ['Abraçá-la imediatamente', 'Manter distância e usar o equipamento como interface', 'Gritar para ela se acalmar', 'Bater na vítima'], correctAnswer: 1, explanation: 'O uso do equipamento (torpedo) evita que o socorrista seja agarrado e submerso pela vítima em pânico.' },
+      { id: 'q4-2', question: 'Qual o melhor estilo de natação para visualização da vítima na abordagem?', options: ['Mariposa', 'Crawl de salvamento (cabeça fora de água)', 'Bruços submerso', 'Costas'], correctAnswer: 1, explanation: 'O crawl de salvamento permite manter contacto visual constante com a vítima e o local da ocorrência.' },
+      { id: 'q4-3', question: 'O reboque "Mãos às Axilas" é indicado para:', options: ['Vítimas agressivas', 'Vítimas inconscientes com necessidade de estabilização', 'Pessoas que sabem nadar', 'Crianças a brincar'], correctAnswer: 1, explanation: 'Permite um bom controlo da cabeça e das vias aéreas de uma vítima inconsciente.' }
     ]
   },
   {
     id: 'cap-5',
-    title: '5. Primeiros Socorros - SBV',
-    description: 'Suporte Básico de Vida no meio aquático.',
+    title: 'Capítulo 5: Primeiros Socorros - SBV',
+    description: 'Algoritmo de suporte básico de vida no afogamento.',
     questions: [
-      { id: 'q5-1', question: 'Em caso de afogamento em paragem, qual o primeiro passo após avaliar a respiração?', options: ['30 compressões', 'Ligar ao 112 imediatamente', '5 insuflações de resgate', 'Esperar ajuda'], correctAnswer: 2, explanation: 'No afogamento (paragem hipóxica), as 5 ventilações iniciais são prioritárias.' },
-      { id: 'q5-2', question: 'Qual o rácio de compressões/ventilações no SBV Adulto?', options: ['15:2', '30:2', '5:1', '10:2'], correctAnswer: 1, explanation: 'O rácio padrão do ERC/ISN é de 30 compressões para 2 ventilações.' }
+      { id: 'q5-1', question: 'No afogamento, o algoritmo de SBV começa com:', options: ['30 compressões', '5 insuflações de resgate', 'Pedir o DAE', 'Verificar pulso'], correctAnswer: 1, explanation: 'Devido à causa ser hipóxica, o algoritmo de afogamento prioriza a ventilação inicial.' },
+      { id: 'q5-2', question: 'Qual a profundidade das compressões num adulto?', options: ['2 a 3 cm', '5 a 6 cm', '8 a 10 cm', 'O máximo possível'], correctAnswer: 1, explanation: 'As compressões devem ter 5-6 cm de profundidade para serem eficazes.' },
+      { id: 'q5-3', question: 'A frequência das compressões deve ser:', options: ['60 por minuto', '100 a 120 por minuto', '150 por minuto', 'O mais rápido que conseguir'], correctAnswer: 1, explanation: 'A recomendação oficial é de 100 a 120 compressões por minuto.' }
     ]
   },
   {
     id: 'cap-6',
-    title: '6. Traumatologia e Lesões Específicas',
-    description: 'Gestão de traumas e acidentes em meio aquático.',
+    title: 'Capítulo 6: Traumatologia e Lesões Específicas',
+    description: 'Gestão de traumas, fraturas e acidentes ambientais.',
     questions: [
-      { id: 'q6-1', question: 'Qual a principal suspeita num acidente de mergulho em águas rasas?', options: ['Afogamento', 'Lesão vertebro-medular (Cervical)', 'Hipotermia', 'Cãibras'], correctAnswer: 1, explanation: 'Impactos no fundo sugerem sempre trauma cervical, exigindo imobilização imediata.' },
-      { id: 'q6-2', question: 'Como se trata uma picada de peixe-aranha?', options: ['Gelo', 'Água quente (calor detona a toxina)', 'Álcool', 'Vinagre'], correctAnswer: 1, explanation: 'O veneno do peixe-aranha é termolábil; o calor (água quente) ajuda a aliviar a dor.' }
+      { id: 'q6-1', question: 'Perante uma suspeita de lesão vertebro-medular na água, a prioridade é:', options: ['Retirar a vítima rapidamente', 'Manter o alinhamento cabeça-pescoço-tronco na água', 'Verificar se consegue andar', 'Dar água à vítima'], correctAnswer: 1, explanation: 'A estabilização manual do eixo axial é crítica para evitar danos neurológicos permanentes.' },
+      { id: 'q6-2', question: 'O tratamento inicial para picada de peixe-aranha é:', options: ['Gelo', 'Imersão em água quente (tolerável)', 'Vinagre', 'Lixívia'], correctAnswer: 1, explanation: 'O calor destrói a toxina termolábil do peixe-aranha, aliviando a dor.' },
+      { id: 'q6-3', question: 'Na insolação, qual o sintoma mais grave?', options: ['Pele fria', 'Alteração do estado de consciência e temperatura elevada', 'Muita sede', 'Pele bronzeada'], correctAnswer: 1, explanation: 'A insolação é uma emergência médica caracterizada pela falência da termorregulação.' }
     ]
   },
   {
     id: 'cap-7',
-    title: '7. Oxigenoterapia',
-    description: 'Administração de O2 e gestão de vias aéreas.',
+    title: 'Capítulo 7: Oxigenoterapia',
+    description: 'Administração de oxigénio suplementar e via aérea.',
     questions: [
-      { id: 'q7-1', question: 'Qual o débito de O2 para uma vítima em paragem (ligado ao balão)?', options: ['5 L/min', '10 L/min', '15 L/min', '2 L/min'], correctAnswer: 2, explanation: 'Em situações críticas ou paragem, utiliza-se o débito máximo de 15 L/min.' },
-      { id: 'q7-2', question: 'O oxigénio é um gás inflamável?', options: ['Sim', 'Não, mas é comburente (alimenta a chama)', 'Depende da marca', 'Apenas no verão'], correctAnswer: 1, explanation: 'O O2 não arde mas acelera violentamente a combustão de outros materiais.' }
+      { id: 'q7-1', question: 'Qual o débito de O2 recomendado para uma vítima em paragem respiratória usando balão auto-insuflável?', options: ['2 L/min', '6 L/min', '15 L/min', '10 L/min'], correctAnswer: 2, explanation: 'Utiliza-se o débito máximo (15 L/min) para garantir a maior concentração de O2 possível.' },
+      { id: 'q7-2', question: 'O que indica a cor branca/preta no ombro de uma garrafa de oxigénio?', options: ['Que está vazia', 'Que contém Oxigénio Medicinal', 'Que é perigosa', 'Que é Ar Comprimido'], correctAnswer: 1, explanation: 'É a codificação padrão para cilindros de oxigénio medicinal.' },
+      { id: 'q7-3', question: 'Cânula de Guedel serve para:', options: ['Impedir a queda da língua e manter a via aérea permeável', 'Injetar medicamentos', 'Alimentar a vítima', 'Drenar água dos pulmões'], correctAnswer: 0, explanation: 'A Guedel mantém a base da língua afastada da parede posterior da faringe.' }
     ]
   },
   {
     id: 'cap-8',
-    title: '8. Oceanografia e Meteorologia',
-    description: 'Marés, correntes e ventos.',
+    title: 'Capítulo 8: Oceanografia e Meteorologia',
+    description: 'Dinamismo das praias, correntes e fenómenos climáticos.',
     questions: [
-      { id: 'q8-1', question: 'O que é uma corrente de retorno (Rip Current)?', options: ['Uma onda gigante', 'Um canal de água que flui da costa para o mar', 'Um redemoinho', 'Vento forte'], correctAnswer: 1, explanation: 'As correntes de retorno são os principais causadores de afogamentos por arrastarem os banhistas para fora.' },
-      { id: 'q8-2', question: 'Qual a periodicidade aproximada das marés em Portugal?', options: ['12 em 12 horas', '6 em 6 horas (aprox)', 'Uma vez por dia', 'Semanal'], correctAnswer: 1, explanation: 'O ciclo de maré (preia-mar a baixa-mar) ocorre aproximadamente a cada 6 horas.' }
+      { id: 'q8-1', question: 'Um agueiro (corrente de retorno) identifica-se por:', options: ['Grandes ondas a rebentar', 'Zona de água mais calma e escura entre a rebentação', 'Presença de muitos peixes', 'Água muito fria'], correctAnswer: 1, explanation: 'Os agueiros são canais onde a água regressa ao largo, muitas vezes parecendo "buracos" calmos.' },
+      { id: 'q8-2', question: 'Qual o comportamento correto se for apanhado por um agueiro?', options: ['Nadar contra a corrente', 'Nadar paralelamente à costa', 'Gritar e bater na água', 'Mergulhar até ao fundo'], correctAnswer: 1, explanation: 'Nadar de lado (paralelo à praia) permite sair da zona de sucção da corrente.' },
+      { id: 'q8-3', question: 'O que é a "Preia-Mar"?', options: ['Maré vazia', 'Maré cheia', 'Vento de terra', 'Tempestade no mar'], correctAnswer: 1, explanation: 'É o ponto máximo de elevação do nível do mar num ciclo de maré.' }
     ]
   }
 ];
@@ -111,5 +119,6 @@ export const QUIZ_CHAPTERS: QuizChapter[] = [
 export const TIPS: Tip[] = [
   { id: 't1', category: 'Segurança', text: 'Mantenha o rádio sempre carregado e no Canal 16 durante o turno.' },
   { id: 't2', category: 'Prevenção', text: 'Vigie prioritariamente as crianças e idosos perto de agueiros.' },
-  { id: 't3', category: 'Equipamento', text: 'Verifique a pressão da garrafa de O2 no início de cada turno.' }
+  { id: 't3', category: 'Equipamento', text: 'Verifique a pressão da garrafa de O2 no início de cada turno.' },
+  { id: 't4', category: 'Prevenção', text: 'Esteja atento a mudanças repentinas no padrão de rebentação.' }
 ];
