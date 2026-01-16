@@ -42,11 +42,17 @@ export interface QuizChapter {
   questions: QuizQuestion[];
 }
 
-/**
- * Fix: Added 'Prevenção' to the category type to match its usage in constants.tsx
- */
 export interface Tip {
   id: string;
   category: 'Segurança' | 'Saúde' | 'Equipamento' | 'Prevenção';
   text: string;
+}
+
+export interface TrainingItem {
+  location: string;
+  entity: string;
+  type: 'CURSO' | 'EXAME REVALIDAÇÃO' | 'RECERTIFICAÇÃO 2026';
+  dates: string;
+  status: string;
+  link: string;
 }

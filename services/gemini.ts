@@ -1,7 +1,9 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
 
-// Guideline: Always use a new instance right before the call to ensure the latest API key is used.
+/**
+ * Nota: Sempre inicializar a instância dentro da função para garantir a chave API mais recente.
+ */
 
 export async function getLifeguardAdvice(query: string) {
   try {
@@ -83,10 +85,9 @@ export async function getTrainingSchedules() {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const today = new Date().toLocaleDateString('pt-PT');
     
-    // Updated prompt to focus on EEAT-REC 2026
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
-      contents: `Pesquisa no site oficial do ISN (isn.marinha.pt) e editais recentes, focando especialmente no "Calendário de Sessões para Recertificação (EEAT-REC) 2026". Fornece uma lista de cursos de Nadador Salvador e exames de revalidação com inscrições abertas ou calendários publicados em Portugal para 2025/2026. Retorna obrigatoriamente um array JSON com: location, entity, type (CURSO, EXAME REVALIDAÇÃO ou RECERTIFICAÇÃO 2026), dates, status, link.`,
+      contents: `Pesquisa no site oficial do ISN (isn.marinha.pt) o "Calendário de Sessões para Recertificação (EEAT-REC) 2026" e cursos de 2025. Fornece uma lista de cursos de Nadador Salvador e exames de revalidação com inscrições abertas. Retorna um array JSON com: location, entity, type (CURSO, EXAME REVALIDAÇÃO ou RECERTIFICAÇÃO 2026), dates, status, link.`,
       config: {
         tools: [{ googleSearch: {} }],
       }
@@ -102,8 +103,8 @@ export async function getTrainingSchedules() {
     
     return { 
       data: [
-        { location: "Portal ISN", entity: "ISN", type: "RECERTIFICAÇÃO 2026", dates: "Calendário EEAT-REC 2026 disponível", status: "Consultar", link: "https://isn.marinha.pt/pt/nadador-salvador/Paginas/Exames-de-Nadador-Salvador.aspx" },
-        { location: "Sede ISN - Caxias", entity: "ISN", type: "CURSO", dates: "Consulte o calendário oficial", status: "Abertas", link: "https://isn.marinha.pt/pt/formacao/Paginas/Calendario-de-Cursos.aspx" }
+        { location: "Site ISN", entity: "ISN", type: "RECERTIFICAÇÃO 2026", dates: "Calendário EEAT-REC 2026", status: "Publicado", link: "https://isn.marinha.pt/pt/nadador-salvador/Paginas/Exames-de-Nadador-Salvador.aspx" },
+        { location: "Sede ISN - Caxias", entity: "ISN", type: "CURSO", dates: "Calendário 2025", status: "Abertas", link: "https://isn.marinha.pt/pt/formacao/Paginas/Calendario-de-Cursos.aspx" }
       ], 
       sources 
     };

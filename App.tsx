@@ -5,8 +5,9 @@ import ManualView from './components/ManualView.tsx';
 import QuizView from './components/QuizView.tsx';
 import AssistantView from './components/AssistantView.tsx';
 import BeachMap from './components/BeachMap.tsx';
-import TrainingLocations, { TrainingItem } from './components/TrainingLocations.tsx';
+import TrainingLocations from './components/TrainingLocations.tsx';
 import { TIPS, MANUALS } from './constants.tsx';
+import { TrainingItem } from './types.ts';
 import { generateDailyScenario, getBeachConditions, getTrainingSchedules } from './services/gemini.ts';
 
 const EmergencyModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
@@ -276,7 +277,7 @@ const App: React.FC = () => {
                   <span className="text-4xl">🗓️</span>
                   <div>
                     <h3 className="font-black text-xl leading-none">Recertificação 2026 (EEAT-REC)</h3>
-                    <p className="text-blue-100 text-[10px] font-bold uppercase tracking-widest mt-1">Consulte as sessões publicadas pelo ISN</p>
+                    <p className="text-blue-100 text-[10px] font-bold uppercase tracking-widest mt-1">Sessões publicadas pelo ISN</p>
                   </div>
                </div>
                <button 
@@ -293,7 +294,7 @@ const App: React.FC = () => {
               <div className="flex items-center justify-between mb-8">
                 <div>
                    <h2 className="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Cursos e Exames ISN</h2>
-                   <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Sincronizado com isn.marinha.pt</p>
+                   <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Sincronizado via IA</p>
                 </div>
                 <button 
                   onClick={() => setCurrentTab('training')} 

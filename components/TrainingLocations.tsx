@@ -1,14 +1,6 @@
 
 import React, { useState } from 'react';
-
-export interface TrainingItem {
-  location: string;
-  entity: string;
-  type: 'CURSO' | 'EXAME REVALIDAÇÃO';
-  dates: string;
-  status: string;
-  link: string;
-}
+import { TrainingItem } from '../types.ts';
 
 interface TrainingLocationsProps {
   items: TrainingItem[];
@@ -17,7 +9,7 @@ interface TrainingLocationsProps {
 }
 
 const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, loading }) => {
-  const [filter, setFilter] = useState<'ALL' | 'CURSO' | 'EXAME'>('ALL');
+  const [filter, setFilter] = useState<'ALL' | 'CURSO' | 'EXAME' | 'RECERT'>('ALL');
 
   const today = new Date().toLocaleDateString('pt-PT', { 
     day: '2-digit', 
@@ -29,6 +21,7 @@ const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, l
     if (filter === 'ALL') return true;
     if (filter === 'CURSO') return item.type === 'CURSO';
     if (filter === 'EXAME') return item.type === 'EXAME REVALIDAÇÃO';
+    if (filter === 'RECERT') return item.type === 'RECERTIFICAÇÃO 2026';
     return true;
   });
 
@@ -49,7 +42,7 @@ const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, l
         </div>
         
         <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700 w-full overflow-hidden">
-          {(['ALL', 'CURSO', 'EXAME'] as const).map((f) => (
+          {(['ALL', 'CURSO', 'EXAME', 'RECERT'] as const).map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
@@ -59,7 +52,7 @@ const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, l
                 : 'text-slate-400 hover:text-slate-600'
               }`}
             >
-              {f === 'ALL' ? 'Todos' : f === 'CURSO' ? 'Cursos' : 'Exames'}
+              {f === 'ALL' ? 'Todos' : f === 'CURSO' ? 'Cursos' : f === 'EXAME' ? 'Exames' : 'RECERT 26'}
             </button>
           ))}
         </div>
@@ -81,9 +74,11 @@ const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, l
                   <span className={`px-2.5 py-1 rounded-full text-[8px] font-black uppercase tracking-widest border ${
                     item.type === 'CURSO' 
                     ? 'bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-950 dark:text-blue-400 dark:border-blue-900' 
+                    : item.type?.includes('RECERTIFICAÇÃO')
+                    ? 'bg-purple-50 text-purple-600 border-purple-100 dark:bg-purple-950 dark:text-purple-400 dark:border-purple-900'
                     : 'bg-orange-50 text-orange-600 border-orange-100 dark:bg-orange-950 dark:text-orange-400 dark:border-orange-900'
                   }`}>
-                    {item.type === 'CURSO' ? 'Curso' : 'Exame'}
+                    {item.type}
                   </span>
                   <div className={`flex items-center space-x-1 ${item.status?.toLowerCase().includes('abertas') ? 'text-green-600' : 'text-slate-400'}`}>
                     <span className="w-1 h-1 bg-current rounded-full"></span>
@@ -123,7 +118,6 @@ const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, l
         )}
       </div>
 
-      {/* Exibição obrigatória das fontes do Grounding */}
       {sources && sources.length > 0 && (
         <div className="bg-slate-100 dark:bg-slate-900/50 p-6 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-inner">
           <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center">
