@@ -78,3 +78,37 @@ export async function getBeachConditions(location: string) {
     };
   }
 }
+
+export async function getTrainingSchedules() {
+  try {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-flash-preview',
+      contents: "Fornece uma lista de 4 locais e datas previstas para cursos de Nadador Salvador e exames de revalidação em Portugal para o mês corrente. Retorna em JSON.",
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              location: { type: Type.STRING, description: "Localidade e distrito" },
+              entity: { type: Type.STRING, description: "Entidade formadora ou capitania" },
+              type: { type: Type.STRING, enum: ["CURSO", "EXAME REVALIDAÇÃO"], description: "Tipo de evento" },
+              dates: { type: Type.STRING, description: "Intervalo de datas" },
+              status: { type: Type.STRING, description: "Estado das inscrições (ex: Abertas, Últimas Vagas)" }
+            },
+            required: ["location", "entity", "type", "dates", "status"]
+          }
+        }
+      }
+    });
+    return JSON.parse(response.text);
+  } catch (error) {
+    console.error("Training Fetch Error:", error);
+    return [
+      { location: "Lisboa - ISN", entity: "Sede ISN", type: "CURSO", dates: "01 a 28 de Outubro", status: "Abertas" },
+      { location: "Porto - Capitania", entity: "Escola de Autoridade Marítima", type: "EXAME REVALIDAÇÃO", dates: "15 de Outubro", status: "Inscrições Brevemente" }
+    ];
+  }
+}

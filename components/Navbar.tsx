@@ -48,26 +48,29 @@ const Navbar: React.FC<NavbarProps> = ({ currentTab, setTab, manuals, isDark, to
         {/* Main Nav Row */}
         <div className="flex justify-between items-center h-16">
           {/* Logo & Dynamic Title */}
-          <div className="flex items-center space-x-4">
-            <div className="hidden sm:flex items-center space-x-1 cursor-pointer" onClick={() => setTab('home')}>
-              <span className="text-xl font-black text-red-600 dark:text-red-500">Lifeguard</span>
+          <div className="flex items-center space-x-2 md:space-x-4">
+            <div className="hidden sm:flex items-center space-x-1 cursor-pointer group" onClick={() => setTab('home')}>
+              <span className="text-xl font-black text-red-600 dark:text-red-500 group-hover:scale-110 transition-transform">Lifeguard</span>
               <span className="text-xl font-bold text-slate-800 dark:text-slate-100 tracking-tight">Pro</span>
             </div>
             
             {/* Dynamic Title Separator (Desktop) */}
-            <div className="hidden md:block h-6 w-[1px] bg-slate-200 dark:bg-slate-700 mx-2"></div>
+            <div className="hidden md:block h-6 w-[1px] bg-slate-200 dark:bg-slate-700 mx-1"></div>
             
             {/* The Dynamic Title with key for animation trigger */}
-            <h1 
-              key={currentTab} 
-              className="text-sm md:text-base font-black text-slate-900 dark:text-slate-100 uppercase tracking-widest animate-fade-in truncate max-w-[140px] sm:max-w-none"
-            >
-              {currentTabInfo.title}
-            </h1>
+            <div className="flex items-center space-x-2 bg-slate-100/50 dark:bg-slate-800/50 px-3 py-1.5 rounded-full border border-slate-200/50 dark:border-slate-700/50 shadow-inner">
+              <span key={`icon-${currentTab}`} className="text-lg animate-zoom-in">{currentTabInfo.icon}</span>
+              <h1 
+                key={currentTab} 
+                className="text-[10px] md:text-xs font-black text-slate-900 dark:text-slate-100 uppercase tracking-[0.2em] animate-fade-in truncate max-w-[100px] sm:max-w-none"
+              >
+                {currentTabInfo.title}
+              </h1>
+            </div>
           </div>
           
           <div className="flex items-center space-x-1 md:space-x-4">
-            <div className="flex items-center">
+            <nav className="flex items-center">
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
@@ -82,7 +85,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentTab, setTab, manuals, isDark, to
                   <span className="hidden md:inline-block ml-2 text-[10px] font-black uppercase tracking-widest">{tab.label}</span>
                 </button>
               ))}
-            </div>
+            </nav>
 
             <button 
               onClick={toggleDark}

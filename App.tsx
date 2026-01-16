@@ -5,8 +5,9 @@ import ManualView from './components/ManualView.tsx';
 import QuizView from './components/QuizView.tsx';
 import AssistantView from './components/AssistantView.tsx';
 import BeachMap from './components/BeachMap.tsx';
+import TrainingLocations, { TrainingItem } from './components/TrainingLocations.tsx';
 import { TIPS, MANUALS } from './constants.tsx';
-import { generateDailyScenario, getBeachConditions } from './services/gemini.ts';
+import { generateDailyScenario, getBeachConditions, getTrainingSchedules } from './services/gemini.ts';
 
 const EmergencyModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -71,6 +72,9 @@ const App: React.FC = () => {
   const [loadingConditions, setLoadingConditions] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<string>('');
   const lastFetchTimestamp = useRef<number>(0);
+
+  const [trainingData, setTrainingData] = useState<TrainingItem[]>([]);
+  const [loadingTraining, setLoadingTraining] = useState(false);
   
   const [conditions, setConditions] = useState({
     airTemp: '24°C',
@@ -98,6 +102,18 @@ const App: React.FC = () => {
     }
   }, []);
 
+  const loadTrainingData = useCallback(async () => {
+    setLoadingTraining(true);
+    try {
+      const data = await getTrainingSchedules();
+      setTrainingData(data);
+    } catch (error) {
+      console.error("Erro ao carregar formações:", error);
+    } finally {
+      setLoadingTraining(false);
+    }
+  }, []);
+
   useEffect(() => {
     if (isDark) {
       document.documentElement.classList.add('dark');
@@ -111,8 +127,9 @@ const App: React.FC = () => {
   // Ciclo de Vida: Carga Inicial e Cenários Diários
   useEffect(() => {
     // Carregar cenário se estiver na home (IA Task)
-    if (currentTab === 'home' && !dailyScenario) {
-      loadScenario();
+    if (currentTab === 'home') {
+      if (!dailyScenario) loadScenario();
+      if (trainingData.length === 0) loadTrainingData();
     }
 
     // Garantir que a primeira carga de condições acontece assim que a app inicia, 
@@ -120,7 +137,7 @@ const App: React.FC = () => {
     if (!lastUpdated) {
       refreshConditions(location, currentTab === 'home');
     }
-  }, [currentTab, dailyScenario, lastUpdated, location, refreshConditions]);
+  }, [currentTab, dailyScenario, lastUpdated, location, refreshConditions, loadTrainingData, trainingData.length]);
 
   // Ciclo de Vida: Atualização Automática de Hora em Hora & Visibilidade
   useEffect(() => {
@@ -258,6 +275,9 @@ const App: React.FC = () => {
                 )}
               </div>
             </section>
+
+            {/* Novo Componente de Formação */}
+            <TrainingLocations items={trainingData} loading={loadingTraining} />
 
             <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="bg-white dark:bg-slate-900 rounded-[2rem] shadow-sm border border-slate-200 dark:border-slate-800 p-8 hover:shadow-lg transition-all border-b-4 border-b-blue-500">

@@ -70,7 +70,6 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach, selectedBeach, curre
     const condition = currentConditions.condition.toLowerCase();
     const uv = currentConditions.uvIndex?.toLowerCase();
 
-    // Regras de Alerta Meteorológico
     if (windVal > 45) h.push({ icon: '🌪️', msg: 'Vento Extremo', level: 'extreme', type: 'wind' });
     else if (windVal > 25) h.push({ icon: '💨', msg: 'Vento Forte', level: 'high', type: 'wind' });
 
@@ -116,25 +115,45 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach, selectedBeach, curre
   };
 
   return (
-    <div className="flex flex-col space-y-4">
-      {/* Alerta Global de Perigo */}
+    <div className="flex flex-col space-y-6">
+      {/* Alerta Proeminente Refatorado */}
       {hazards.length > 0 && (
         <div className={`
-          flex items-center justify-between p-4 rounded-3xl border-2 animate-slide-up
-          ${hasExtremeHazard ? 'bg-red-50 dark:bg-red-950/30 border-red-500 text-red-900 dark:text-red-100' : 'bg-orange-50 dark:bg-orange-950/30 border-orange-400 text-orange-900 dark:text-orange-100'}
+          relative overflow-hidden flex items-center justify-between p-6 rounded-[2rem] border-2 shadow-xl animate-slide-up
+          ${hasExtremeHazard 
+            ? 'bg-red-600 border-red-400 text-white' 
+            : 'bg-orange-500 border-orange-300 text-white'}
         `}>
-          <div className="flex items-center space-x-4">
-            <span className="text-3xl animate-pulse">{hasExtremeHazard ? '🚫' : '⚠️'}</span>
+          {/* Background Animated Glow */}
+          <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 animate-[pulse_3s_infinite] pointer-events-none"></div>
+          
+          <div className="relative z-10 flex items-center space-x-6">
+            <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-4xl animate-bounce shadow-inner">
+              {hasExtremeHazard ? '🚨' : '⚠️'}
+            </div>
             <div>
-              <p className="font-black uppercase tracking-widest text-[10px]">Alerta Meteorológico: {selectedBeach.split(',')[0]}</p>
-              <h5 className="font-bold text-lg">{hasExtremeHazard ? 'Condições Extremas - Interditar Banhos' : 'Aviso de Segurança - Vigilância Redobrada'}</h5>
+              <div className="flex items-center space-x-2 mb-1">
+                <span className="bg-white text-black text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-tighter shadow-sm">
+                  {hasExtremeHazard ? 'Prioridade Máxima' : 'Alerta Ativo'}
+                </span>
+                <span className="text-[10px] font-bold uppercase tracking-widest opacity-80">Posto: {selectedBeach.split(',')[0]}</span>
+              </div>
+              <h5 className="font-black text-2xl tracking-tight leading-none mb-1">
+                {hasExtremeHazard ? 'CONDIÇÕES CRÍTICAS' : 'VIGILÂNCIA REFORÇADA'}
+              </h5>
+              <p className="text-sm font-medium opacity-90">
+                {hasExtremeHazard 
+                  ? 'Interdição recomendada. Risco elevado para a vida humana.' 
+                  : 'Atenção redobrada aos banhistas e correntes costeiras.'}
+              </p>
             </div>
           </div>
-          <div className="flex -space-x-2">
+          
+          <div className="relative z-10 hidden sm:flex -space-x-3 items-center">
             {hazards.map((h, i) => (
-              <span key={i} title={h.msg} className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 border-2 border-current flex items-center justify-center text-xl shadow-sm z-10">
+              <div key={i} title={h.msg} className="w-12 h-12 rounded-full bg-white text-slate-900 border-2 border-slate-100 flex items-center justify-center text-2xl shadow-lg transform hover:scale-110 transition-transform cursor-help z-10">
                 {h.icon}
-              </span>
+              </div>
             ))}
           </div>
         </div>
@@ -144,38 +163,32 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach, selectedBeach, curre
         relative w-full rounded-[2.5rem] border overflow-hidden shadow-inner h-[480px] flex items-center justify-center transition-all duration-700
         ${hasExtremeHazard ? 'bg-red-50/50 dark:bg-red-900/10 border-red-500' : hasHighHazard ? 'bg-orange-50/50 dark:bg-orange-900/10 border-orange-300' : 'bg-slate-100 dark:bg-slate-800/50 border-slate-200 dark:border-slate-800'}
       `}>
-        {/* Radar Effect Background */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-20">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-slate-300 dark:border-slate-600 rounded-full"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-slate-300 dark:border-slate-600 rounded-full"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-slate-300 dark:border-slate-600 rounded-full"></div>
-        </div>
-
-        {/* Hazard Dashboard Floating */}
-        <div className="absolute top-6 right-6 z-20 flex flex-col items-end space-y-2 pointer-events-none">
-          {hazards.map((h, i) => (
-            <div key={i} className={`
-              flex items-center space-x-3 px-4 py-2 rounded-2xl backdrop-blur-xl shadow-lg border animate-slide-in-right
-              ${h.level === 'extreme' ? 'bg-red-600 text-white border-red-400' : 'bg-white/90 dark:bg-slate-900/90 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-700'}
-            `} style={{ animationDelay: `${i * 150}ms` }}>
-              <span className="text-xl">{h.icon}</span>
-              <div className="flex flex-col">
-                <span className="text-[8px] font-black uppercase opacity-70 tracking-widest">{h.level === 'extreme' ? 'Crítico' : 'Aviso'}</span>
-                <span className="text-xs font-black leading-none">{h.msg}</span>
-              </div>
-            </div>
-          ))}
-        </div>
+        {/* Radar Effect for Extreme Weather */}
+        {hasExtremeHazard && (
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] bg-[radial-gradient(circle,rgba(239,68,68,0.05)_0%,transparent_70%)] animate-pulse"></div>
+          </div>
+        )}
 
         <svg viewBox="0 0 100 100" className="h-[90%] w-auto drop-shadow-2xl">
-          {/* Sea */}
+          <defs>
+            <radialGradient id="hazardGradient" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#ef4444" stopOpacity="0.6" />
+              <stop offset="100%" stopColor="#ef4444" stopOpacity="0" />
+            </radialGradient>
+            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+               <feGaussianBlur stdDeviation="1" result="blur" />
+               <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+          </defs>
+
+          {/* Map Shapes */}
           <path 
             d="M30,0 L0,0 L0,100 L60,100 Q40,50 30,0" 
             fill="currentColor" 
             className={`${hasExtremeHazard ? 'text-blue-900/10' : 'text-blue-500/5'}`} 
           />
           
-          {/* Portugal Map Outline */}
           <path 
             d="M45,2 L60,2 L62,10 L58,25 L65,40 L60,60 L55,75 L75,85 L80,95 L30,95 L25,85 L20,70 L25,50 L30,30 L38,10 Z" 
             fill="currentColor" 
@@ -186,9 +199,8 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach, selectedBeach, curre
             const isSelected = selectedBeach.toLowerCase().includes(beach.name.toLowerCase());
             const isHovered = hovered === beach.id;
             const custom = customizations[beach.id];
-            
             const isFav = custom?.isFavorite;
-            const markerColor = isSelected ? (hasExtremeHazard ? '#ef4444' : '#dc2626') : (isFav ? '#fbbf24' : '#94a3b8');
+            const markerColor = isSelected ? (hasExtremeHazard ? '#ef4444' : '#f97316') : (isFav ? '#fbbf24' : '#94a3b8');
             const beachHasHazard = isSelected && hazards.length > 0;
 
             return (
@@ -197,78 +209,75 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach, selectedBeach, curre
                 onMouseEnter={() => setHovered(beach.id)}
                 onMouseLeave={() => setHovered(null)}
                 onClick={() => onSelectBeach(beach.name)}
-                className="cursor-pointer group"
+                className="group cursor-pointer pointer-events-auto"
               >
-                {/* Visual Aura for Hazard */}
+                {/* Hitbox invisível maior */}
+                <circle cx={beach.x} cy={beach.y} r="6" fill="transparent" />
+
                 {beachHasHazard && (
-                  <>
-                    <circle 
-                      cx={beach.x} 
-                      cy={beach.y} 
-                      r="8" 
-                      fill="#ef4444"
-                      className="opacity-20 animate-ping"
-                    />
-                    <circle 
-                      cx={beach.x} 
-                      cy={beach.y} 
-                      r="5" 
-                      fill="none"
-                      stroke="#ef4444"
-                      strokeWidth="0.5"
-                      className="opacity-40 animate-pulse"
-                    />
-                  </>
+                  <circle 
+                    cx={beach.x} 
+                    cy={beach.y} 
+                    r="8" 
+                    fill="url(#hazardGradient)"
+                    className="animate-[ping_2s_infinite]"
+                  />
                 )}
 
-                {/* Marker Glow */}
                 {(isSelected || isHovered) && (
                   <circle cx={beach.x} cy={beach.y} r="3.5" fill={markerColor} className="opacity-10 animate-pulse" />
                 )}
                 
-                {/* Marker Body */}
                 <circle 
                   cx={beach.x} 
                   cy={beach.y} 
-                  r={isSelected ? "2.2" : (isFav ? "1.8" : "1.4")} 
+                  r={isSelected ? "2.5" : (isFav ? "1.8" : "1.4")} 
                   fill={markerColor}
-                  className="transition-all duration-300 stroke-white dark:stroke-slate-900 stroke-[0.3]"
+                  strokeWidth="0.5"
+                  className="transition-all duration-300 stroke-white dark:stroke-slate-900"
+                  filter={isSelected ? "url(#glow)" : ""}
                 />
 
-                {/* Specific Warning Icon for Selected Hazard */}
+                {/* Indicador de Perigo Reforçado no Marcador */}
                 {beachHasHazard && (
-                  <text
-                    x={beach.x + 2}
-                    y={beach.y - 2.5}
-                    textAnchor="middle"
-                    className="select-none fill-red-600 animate-bounce font-bold"
-                    style={{ fontSize: '4.5px' }}
-                  >
-                    ⚠
-                  </text>
+                  <g transform={`translate(${beach.x + 2.5}, ${beach.y - 3})`}>
+                    <circle r="2.5" fill="#ef4444" className="shadow-lg" />
+                    <text
+                      textAnchor="middle"
+                      dy="0.8"
+                      className="select-none fill-white font-black"
+                      style={{ fontSize: '3.5px' }}
+                    >
+                      !
+                    </text>
+                  </g>
                 )}
 
-                {/* Tooltip on Map */}
                 {(isHovered || isSelected) && (
-                  <g transform={`translate(${beach.x + 4}, ${beach.y - 5})`} className="animate-zoom-in pointer-events-none">
+                  <g transform={`translate(${beach.x + 4.5}, ${beach.y - 6})`} className="animate-zoom-in pointer-events-none">
                     <rect 
-                      width="40" 
-                      height={beachHasHazard ? "14" : "10"} 
-                      rx="3" 
-                      className={`${beachHasHazard ? 'fill-red-600' : 'fill-slate-900/90 dark:fill-white/95'}`} 
+                      width="45" 
+                      height={beachHasHazard ? "18" : "12"} 
+                      rx="4" 
+                      className={`${beachHasHazard ? 'fill-red-600 shadow-2xl' : 'fill-slate-900/95 dark:fill-white/98 shadow-md'}`} 
                     />
                     <text 
-                      x="4" 
-                      y="6.5" 
+                      x="4.5" 
+                      y="7.5" 
                       className={`${beachHasHazard ? 'fill-white' : 'fill-white dark:fill-slate-900'} font-black`} 
-                      style={{ fontSize: '3px', letterSpacing: '0.1px' }}
+                      style={{ fontSize: '3.5px', letterSpacing: '0.2px' }}
                     >
                       {beach.name.toUpperCase()} {isFav ? '★' : ''}
                     </text>
                     {beachHasHazard && (
-                      <text x="4" y="10.5" className="fill-white/80 font-bold" style={{ fontSize: '2px' }}>
-                        {hazards[0].msg.toUpperCase()}
-                      </text>
+                      <g transform="translate(4.5, 11)">
+                        <text className="fill-white/80 font-bold" style={{ fontSize: '2.5px' }}>
+                          {hazards[0].msg.toUpperCase()}
+                        </text>
+                        <text x="0" y="3.5" className="fill-white/60 font-medium" style={{ fontSize: '2px' }}>
+                          NÍVEL: {hazards[0].level.toUpperCase()}
+                        </text>
+                      </g>
                     )}
                   </g>
                 )}
@@ -277,28 +286,30 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach, selectedBeach, curre
           })}
         </svg>
 
-        {/* Legend Overlay */}
-        <div className="absolute bottom-6 left-6 p-4 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md rounded-2xl border border-white/20 text-[8px] font-black uppercase tracking-widest space-y-1">
+        {/* Legenda Flutuante */}
+        <div className="absolute bottom-6 left-6 p-4 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl rounded-2xl border border-white/20 text-[8px] font-black uppercase tracking-widest space-y-2 shadow-lg">
           <div className="flex items-center space-x-2">
-            <span className="w-2 h-2 rounded-full bg-red-600 animate-ping"></span>
-            <span>Risco Meteorológico Crítico</span>
+            <span className="w-3 h-3 rounded-full bg-red-600 border-2 border-white animate-pulse"></span>
+            <span>Risco Operacional</span>
           </div>
           <div className="flex items-center space-x-2 opacity-60">
-            <span className="w-2 h-2 rounded-full bg-slate-400"></span>
-            <span>Posto de Vigilância Normal</span>
+            <span className="w-3 h-3 rounded-full bg-slate-400 border-2 border-white"></span>
+            <span>Sem Alerta</span>
           </div>
         </div>
       </div>
 
-      {/* Detail Controls */}
       {currentBeachId && (
         <div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl rounded-[2.5rem] p-8 border border-slate-200 dark:border-slate-800 shadow-xl animate-slide-up">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div>
-              <span className="text-[10px] font-black uppercase text-slate-400 dark:text-slate-500 tracking-widest mb-1 block">Localização Operacional</span>
-              <h4 className="text-3xl font-black text-slate-900 dark:text-slate-100">
+              <div className="flex items-center space-x-2 mb-1">
+                 <span className="text-[10px] font-black uppercase text-slate-400 dark:text-slate-500 tracking-widest">Posto de Vigilância</span>
+                 {customizations[currentBeachId]?.isFavorite && <span className="bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded text-[8px] font-black">PREFERIDO</span>}
+              </div>
+              <h4 className="text-3xl font-black text-slate-900 dark:text-slate-100 flex items-center">
                 {MAJOR_BEACHES.find(b => b.id === currentBeachId)?.name}
-                {hasExtremeHazard && <span className="ml-3 text-xl inline-block animate-bounce">🚨</span>}
+                {hasExtremeHazard && <span className="ml-3 text-2xl inline-block animate-[bounce_0.5s_infinite]">🚨</span>}
               </h4>
             </div>
             
@@ -306,9 +317,9 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach, selectedBeach, curre
               <button 
                 onClick={() => toggleFavorite(currentBeachId)}
                 className={`py-3 px-6 rounded-2xl font-black text-xs transition-all flex items-center space-x-2
-                  ${customizations[currentBeachId]?.isFavorite ? 'bg-yellow-400 text-yellow-900 shadow-lg' : 'bg-slate-100 dark:bg-slate-800 text-slate-500'}`}
+                  ${customizations[currentBeachId]?.isFavorite ? 'bg-yellow-400 text-yellow-900 shadow-lg' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 hover:bg-slate-200'}`}
               >
-                <span>{customizations[currentBeachId]?.isFavorite ? '★ FAVORITO' : '☆ MARCAR'}</span>
+                <span>{customizations[currentBeachId]?.isFavorite ? '★ NOS MEUS FAVORITOS' : '☆ MARCAR FAVORITO'}</span>
               </button>
               
               <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-2xl">
@@ -316,7 +327,7 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach, selectedBeach, curre
                   <button
                     key={i.id}
                     onClick={() => updateCustom(currentBeachId, 'icon', i.id as any)}
-                    className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${customizations[currentBeachId]?.icon === i.id ? 'bg-white dark:bg-slate-700 shadow-sm text-red-600' : 'text-slate-400'}`}
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${customizations[currentBeachId]?.icon === i.id ? 'bg-white dark:bg-slate-700 shadow-sm text-red-600' : 'text-slate-400 hover:text-slate-600'}`}
                   >
                     <span className="text-lg">{i.char}</span>
                   </button>
