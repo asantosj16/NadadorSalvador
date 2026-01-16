@@ -2,7 +2,6 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
 // Guideline: Always use a new instance right before the call to ensure the latest API key is used.
-// Guideline: Use 'gemini-3-pro-preview' for complex text tasks like safety protocols and advanced reasoning.
 
 export async function getLifeguardAdvice(query: string) {
   try {
@@ -12,13 +11,13 @@ export async function getLifeguardAdvice(query: string) {
       contents: `Questão técnica de salvamento aquático: ${query}`,
       config: {
         systemInstruction: "Age como um Instrutor Sénior do Instituto de Socorros a Náufragos (ISN). Responde exclusivamente com protocolos oficiais portugueses e normas do ERC. Sê técnico, assertivo e foca-te na segurança máxima da vítima e do socorrista.",
-        temperature: 0.3, // Temperatura baixa para maior fidelidade técnica
+        temperature: 0.3,
       },
     });
-    return response.text;
+    return { text: response.text };
   } catch (error) {
     console.error("Gemini Advice Error:", error);
-    return "Lamento, não consegui processar a consulta técnica. Por favor, consulta o manual físico ou contacta a coordenação.";
+    return { text: "Lamento, não consegui processar a consulta técnica. Por favor, consulta o manual físico ou contacta a coordenação." };
   }
 }
 
@@ -83,34 +82,33 @@ export async function getTrainingSchedules() {
   try {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const today = new Date().toLocaleDateString('pt-PT');
+    
+    // Updated prompt to focus on EEAT-REC 2026
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
-      contents: `Consulta informações atualizadas a ${today}. Fornece uma lista de 4 locais e datas exatas disponíveis para cursos de Nadador Salvador e exames de revalidação em Portugal. Para cada um, inclui o link oficial para consulta (ex: site do ISN ou capitania). Prioriza eventos com inscrições abertas recentemente. Retorna em JSON.`,
+      contents: `Pesquisa no site oficial do ISN (isn.marinha.pt) e editais recentes, focando especialmente no "Calendário de Sessões para Recertificação (EEAT-REC) 2026". Fornece uma lista de cursos de Nadador Salvador e exames de revalidação com inscrições abertas ou calendários publicados em Portugal para 2025/2026. Retorna obrigatoriamente um array JSON com: location, entity, type (CURSO, EXAME REVALIDAÇÃO ou RECERTIFICAÇÃO 2026), dates, status, link.`,
       config: {
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.ARRAY,
-          items: {
-            type: Type.OBJECT,
-            properties: {
-              location: { type: Type.STRING, description: "Localidade e distrito" },
-              entity: { type: Type.STRING, description: "Entidade formadora ou capitania" },
-              type: { type: Type.STRING, enum: ["CURSO", "EXAME REVALIDAÇÃO"], description: "Tipo de evento" },
-              dates: { type: Type.STRING, description: "Datas específicas" },
-              status: { type: Type.STRING, description: "Estado (ex: Inscrições Abertas, Vagas Limitadas)" },
-              link: { type: Type.STRING, description: "URL oficial para consulta de vagas" }
-            },
-            required: ["location", "entity", "type", "dates", "status", "link"]
-          }
-        }
+        tools: [{ googleSearch: {} }],
       }
     });
-    return JSON.parse(response.text);
+
+    const sources = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
+    
+    const jsonMatch = response.text?.match(/\[\s*\{.*\}\s*\]/s);
+    if (jsonMatch) {
+      const data = JSON.parse(jsonMatch[0]);
+      return { data, sources };
+    }
+    
+    return { 
+      data: [
+        { location: "Portal ISN", entity: "ISN", type: "RECERTIFICAÇÃO 2026", dates: "Calendário EEAT-REC 2026 disponível", status: "Consultar", link: "https://isn.marinha.pt/pt/nadador-salvador/Paginas/Exames-de-Nadador-Salvador.aspx" },
+        { location: "Sede ISN - Caxias", entity: "ISN", type: "CURSO", dates: "Consulte o calendário oficial", status: "Abertas", link: "https://isn.marinha.pt/pt/formacao/Paginas/Calendario-de-Cursos.aspx" }
+      ], 
+      sources 
+    };
   } catch (error) {
     console.error("Training Fetch Error:", error);
-    return [
-      { location: "Lisboa - ISN", entity: "Sede ISN", type: "CURSO", dates: "Próxima semana", status: "Abertas", link: "https://isn.marinha.pt" },
-      { location: "Porto - Capitania", entity: "Escola de Autoridade Marítima", type: "EXAME REVALIDAÇÃO", dates: "Agendamento diário", status: "Verificar Disponibilidade", link: "https://www.marinha.pt" }
-    ];
+    return { data: [], sources: [] };
   }
 }

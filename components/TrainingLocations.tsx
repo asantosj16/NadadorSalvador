@@ -12,10 +12,11 @@ export interface TrainingItem {
 
 interface TrainingLocationsProps {
   items: TrainingItem[];
+  sources?: any[];
   loading: boolean;
 }
 
-const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, loading }) => {
+const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, loading }) => {
   const [filter, setFilter] = useState<'ALL' | 'CURSO' | 'EXAME'>('ALL');
 
   const today = new Date().toLocaleDateString('pt-PT', { 
@@ -36,10 +37,10 @@ const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, loading })
       <div className="flex flex-col space-y-4">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
-            <h2 className="text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tighter">Vagas Ativas</h2>
+            <h2 className="text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tighter">Editais e Cursos</h2>
             <div className="flex items-center space-x-2 text-blue-600 dark:text-blue-400">
                <span className="w-1.5 h-1.5 bg-current rounded-full animate-pulse"></span>
-               <p className="text-[10px] font-black uppercase tracking-widest">{today}</p>
+               <p className="text-[10px] font-black uppercase tracking-widest">Sincronizado: {today}</p>
             </div>
           </div>
           <div className="p-3 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 text-2xl">
@@ -84,7 +85,7 @@ const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, loading })
                   }`}>
                     {item.type === 'CURSO' ? 'Curso' : 'Exame'}
                   </span>
-                  <div className={`flex items-center space-x-1 ${item.status.toLowerCase().includes('abertas') ? 'text-green-600' : 'text-slate-400'}`}>
+                  <div className={`flex items-center space-x-1 ${item.status?.toLowerCase().includes('abertas') ? 'text-green-600' : 'text-slate-400'}`}>
                     <span className="w-1 h-1 bg-current rounded-full"></span>
                     <span className="text-[9px] font-black uppercase tracking-tighter">
                       {item.status}
@@ -109,7 +110,7 @@ const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, loading })
                 rel="noopener noreferrer"
                 className="w-full py-3 bg-red-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-center space-x-2 active:scale-95 shadow-lg shadow-red-500/10"
               >
-                <span>Consultar Vagas</span>
+                <span>Saber Mais</span>
                 <span className="text-xs">↗</span>
               </a>
             </div>
@@ -117,14 +118,39 @@ const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, loading })
         ) : (
           <div className="col-span-full py-16 text-center bg-white dark:bg-slate-900 rounded-[2.5rem] border-2 border-dashed border-slate-200 dark:border-slate-800">
             <span className="text-5xl mb-4 block">🔍</span>
-            <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Nenhuma vaga encontrada para este filtro.</p>
+            <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">Aguardando novos editais...</p>
           </div>
         )}
       </div>
 
+      {/* Exibição obrigatória das fontes do Grounding */}
+      {sources && sources.length > 0 && (
+        <div className="bg-slate-100 dark:bg-slate-900/50 p-6 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-inner">
+          <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center">
+            <span className="mr-2">🔗</span> Fontes Oficiais de Verificação
+          </h3>
+          <ul className="space-y-2">
+            {sources.map((chunk: any, i: number) => (
+              chunk.web && (
+                <li key={i}>
+                  <a 
+                    href={chunk.web.uri} 
+                    target="_blank" 
+                    className="text-[10px] font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center truncate"
+                  >
+                    <span className="mr-2 opacity-50">•</span>
+                    {chunk.web.title || chunk.web.uri}
+                  </a>
+                </li>
+              )
+            ))}
+          </ul>
+        </div>
+      )}
+
       <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-2xl border border-blue-100 dark:border-blue-900/50 text-center">
         <p className="text-[9px] font-bold text-blue-700 dark:text-blue-400 uppercase tracking-widest leading-relaxed">
-          Os dados são obtidos via assistente SafeGuard IA através de editais das capitanias e sites oficiais.
+          Os dados são obtidos via pesquisa em tempo real no portal da Marinha/ISN. Confirme sempre nos editais oficiais.
         </p>
       </div>
     </section>

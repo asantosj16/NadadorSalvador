@@ -176,5 +176,6 @@ export const TIPS: Tip[] = [
   { id: 't2', category: 'Prevenção', text: 'Vigie prioritariamente as crianças e idosos perto de agueiros.' },
   { id: 't3', category: 'Equipamento', text: 'Verifique a pressão da garrafa de O2 no início de cada turno.' },
   { id: 't4', category: 'Prevenção', text: 'Esteja atento a mudanças repentinas no padrão de rebentação.' },
-  { id: 't5', category: 'Saúde', text: 'Mantenha-se hidratado e use proteção solar mesmo em dias nublados.' }
+  { id: 't5', category: 'Saúde', text: 'Mantenha-se hidratado e use proteção solar mesmo em dias nublados.' },
+  { id: 't6', category: 'Segurança', text: 'Recertificação 2026: Verifique o calendário EEAT-REC no site do ISN para garantir a validade do seu cartão.' }
 ];

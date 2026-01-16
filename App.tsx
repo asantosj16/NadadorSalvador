@@ -80,6 +80,7 @@ const App: React.FC = () => {
   }, [location]);
 
   const [trainingData, setTrainingData] = useState<TrainingItem[]>([]);
+  const [trainingSources, setTrainingSources] = useState<any[]>([]);
   const [loadingTraining, setLoadingTraining] = useState(false);
   
   const [conditions, setConditions] = useState({
@@ -112,8 +113,9 @@ const App: React.FC = () => {
   const loadTrainingData = useCallback(async () => {
     setLoadingTraining(true);
     try {
-      const data = await getTrainingSchedules();
-      setTrainingData(data);
+      const result = await getTrainingSchedules();
+      setTrainingData(result.data);
+      setTrainingSources(result.sources);
     } catch (error) {
       console.error("Erro ao carregar formações:", error);
     } finally {
@@ -268,13 +270,30 @@ const App: React.FC = () => {
               </div>
             </section>
 
+            {/* Banner de Destaque: Recertificação 2026 */}
+            <div className="bg-blue-600 rounded-[2rem] p-6 text-white flex flex-col md:flex-row items-center justify-between shadow-xl animate-slide-up border border-blue-400">
+               <div className="flex items-center space-x-4 mb-4 md:mb-0 text-center md:text-left">
+                  <span className="text-4xl">🗓️</span>
+                  <div>
+                    <h3 className="font-black text-xl leading-none">Recertificação 2026 (EEAT-REC)</h3>
+                    <p className="text-blue-100 text-[10px] font-bold uppercase tracking-widest mt-1">Consulte as sessões publicadas pelo ISN</p>
+                  </div>
+               </div>
+               <button 
+                onClick={() => setCurrentTab('training')}
+                className="bg-white text-blue-600 px-6 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-md hover:bg-blue-50 transition-all active:scale-95"
+               >
+                 Ver Calendário
+               </button>
+            </div>
+
             {/* Módulo de Vagas e Formação Rápida */}
             <section className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-6 md:p-10 border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden">
               <div className="absolute -right-10 -top-10 text-8xl opacity-5">🎓</div>
               <div className="flex items-center justify-between mb-8">
                 <div>
-                   <h2 className="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Próximas Formações</h2>
-                   <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Oportunidades e Revalidações</p>
+                   <h2 className="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Cursos e Exames ISN</h2>
+                   <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Sincronizado com isn.marinha.pt</p>
                 </div>
                 <button 
                   onClick={() => setCurrentTab('training')} 
@@ -292,7 +311,7 @@ const App: React.FC = () => {
                     <div key={idx} className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 group hover:border-blue-400 hover:bg-white dark:hover:bg-slate-800 transition-all flex justify-between items-center shadow-sm">
                       <div>
                         <div className="flex items-center space-x-2 mb-2">
-                           <span className={`text-[8px] font-black px-2.5 py-1 rounded-full uppercase tracking-widest ${item.type === 'CURSO' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400' : 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-400'}`}>
+                           <span className={`text-[8px] font-black px-2.5 py-1 rounded-full uppercase tracking-widest ${item.type?.includes('RECERTIFICAÇÃO') ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-400' : item.type === 'CURSO' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400' : 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-400'}`}>
                              {item.type}
                            </span>
                            <span className="text-[9px] font-black text-green-600 uppercase tracking-tighter">{item.status}</span>
@@ -307,7 +326,7 @@ const App: React.FC = () => {
                   ))
                 ) : (
                   <div className="col-span-full text-center py-10">
-                     <p className="text-slate-400 font-bold text-xs uppercase tracking-widest">Sincronizando novas vagas...</p>
+                     <p className="text-slate-400 font-bold text-xs uppercase tracking-widest">Nenhuma vaga encontrada no momento.</p>
                   </div>
                 )}
               </div>
@@ -365,7 +384,7 @@ const App: React.FC = () => {
           </div>
         );
       case 'training':
-        return <TrainingLocations items={trainingData} loading={loadingTraining} />;
+        return <TrainingLocations items={trainingData} sources={trainingSources} loading={loadingTraining} />;
       case 'manuals':
         return <ManualView />;
       case 'quiz':
