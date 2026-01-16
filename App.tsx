@@ -70,8 +70,15 @@ const App: React.FC = () => {
   const [location, setLocation] = useState('Nazaré, Portugal');
   const [searchQuery, setSearchQuery] = useState('');
   const [loadingConditions, setLoadingConditions] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<string>('');
   const lastFetchTimestamp = useRef<number>(0);
+  const locationRef = useRef(location);
+
+  // Atualizar ref sempre que a localização muda para o worker de background
+  useEffect(() => {
+    locationRef.current = location;
+  }, [location]);
 
   const [trainingData, setTrainingData] = useState<TrainingItem[]>([]);
   const [loadingTraining, setLoadingTraining] = useState(false);
@@ -88,17 +95,22 @@ const App: React.FC = () => {
 
   const refreshConditions = useCallback(async (loc: string, isManual: boolean = true) => {
     if (isManual) setLoadingConditions(true);
+    else setIsSyncing(true);
     
     try {
-      console.debug(`[Background Sync] Atualizando condições para: ${loc}`);
+      console.debug(`[Lifeguard Pro] Sincronização em curso para: ${loc}`);
       const newConditions = await getBeachConditions(loc);
       setConditions(newConditions);
       lastFetchTimestamp.current = Date.now();
       setLastUpdated(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
     } catch (error) {
-      console.error("Erro na atualização automática:", error);
+      console.error("Erro na atualização:", error);
     } finally {
       if (isManual) setLoadingConditions(false);
+      else {
+        // Delay visual curto para o feedback de sync
+        setTimeout(() => setIsSyncing(false), 2000);
+      }
     }
   }, []);
 
@@ -124,29 +136,27 @@ const App: React.FC = () => {
     }
   }, [isDark]);
 
-  // Ciclo de Vida: Carga Inicial e Cenários Diários
+  // Carga Inicial
   useEffect(() => {
-    // Carregar cenário se estiver na home (IA Task)
     if (currentTab === 'home') {
       if (!dailyScenario) loadScenario();
       if (trainingData.length === 0) loadTrainingData();
     }
 
-    // Garantir que a primeira carga de condições acontece assim que a app inicia, 
-    // independentemente da aba, para que os dados estejam prontos.
     if (!lastUpdated) {
       refreshConditions(location, currentTab === 'home');
     }
   }, [currentTab, dailyScenario, lastUpdated, location, refreshConditions, loadTrainingData, trainingData.length]);
 
-  // Ciclo de Vida: Atualização Automática de Hora em Hora & Visibilidade
+  // Ciclo de Vida: Atualização Automática de Hora em Hora (Background Sync)
   useEffect(() => {
     // 1. Configurar Intervalo de 1 Hora (3.600.000 ms)
+    // Usamos locationRef para garantir que o intervalo usa sempre a localização atual
     const interval = setInterval(() => {
-      refreshConditions(location, false); // Atualização silenciosa em background
+      refreshConditions(locationRef.current, false);
     }, 3600000);
 
-    // 2. Garantir frescura dos dados ao voltar para a App (Visibility Change)
+    // 2. Garantir frescura dos dados ao retomar a atividade (Visibility Change)
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
         const timeSinceLastFetch = Date.now() - lastFetchTimestamp.current;
@@ -154,8 +164,8 @@ const App: React.FC = () => {
         
         // Se a app esteve suspensa e os dados têm mais de 1 hora, refrescar imediatamente
         if (timeSinceLastFetch > oneHourInMs) {
-          console.debug("[Background Sync] Dados obsoletos detetados após retorno. Refrescando...");
-          refreshConditions(location, false);
+          console.debug("[Lifeguard Pro] Dados obsoletos (1h+). Sincronizando agora...");
+          refreshConditions(locationRef.current, false);
         }
       }
     };
@@ -166,7 +176,7 @@ const App: React.FC = () => {
       clearInterval(interval);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [location, refreshConditions]);
+  }, [refreshConditions]); // Depende apenas de refreshConditions para evitar resets desnecessários do intervalo
 
   const loadScenario = async () => {
     setLoadingScenario(true);
@@ -201,22 +211,26 @@ const App: React.FC = () => {
               
               <div className="relative z-10">
                 <div className="flex justify-between items-start mb-6">
-                  <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest">
-                    <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                  <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest border border-white/20">
+                    <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(74,222,128,0.8)]"></span>
                     <span>Vigilância Ativa</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <button 
                       onClick={() => setShowMap(!showMap)}
-                      className="bg-white/20 hover:bg-white/30 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-colors flex items-center space-x-2"
+                      className="bg-white/20 hover:bg-white/30 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-colors flex items-center space-x-2 border border-white/10"
                     >
                       <span>{showMap ? '📊 Dados' : '🗺️ Mapa'}</span>
                     </button>
-                    {lastUpdated && (
-                      <div className="text-[10px] font-bold opacity-75 uppercase tracking-widest mt-1">
-                        Atu. {lastUpdated}
-                      </div>
-                    )}
+                    <div className="flex flex-col items-end">
+                      {lastUpdated && (
+                        <div className="flex items-center space-x-2 text-[10px] font-black opacity-90 uppercase tracking-[0.15em]">
+                          {isSyncing && <span className="w-2 h-2 border border-white/40 border-t-white rounded-full animate-spin"></span>}
+                          <span>Atu. {lastUpdated}</span>
+                        </div>
+                      )}
+                      <div className="text-[7px] font-black uppercase tracking-widest opacity-40 mt-0.5">Auto-Sync Ativo (60m)</div>
+                    </div>
                   </div>
                 </div>
                 
@@ -243,26 +257,21 @@ const App: React.FC = () => {
                     </form>
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      <div className={`bg-white/20 backdrop-blur-xl rounded-[1.5rem] p-5 border border-white/10 transition-all ${loadingConditions ? 'opacity-50 blur-sm' : 'opacity-100'}`}>
-                        <span className="block text-[10px] uppercase font-black opacity-75 tracking-widest mb-1">Céu</span>
-                        <span className="text-xl font-black tracking-tight leading-none block mt-1">{conditions.condition}</span>
-                        <span className="text-xs opacity-80 mt-1 block">Ar: {conditions.airTemp}</span>
-                      </div>
-                      <div className={`bg-white/20 backdrop-blur-xl rounded-[1.5rem] p-5 border border-white/10 transition-all ${loadingConditions ? 'opacity-50 blur-sm' : 'opacity-100'}`}>
-                        <span className="block text-[10px] uppercase font-black opacity-75 tracking-widest mb-1">Mar</span>
-                        <span className="text-xl font-black tracking-tight leading-none block mt-1">{conditions.waves}</span>
-                        <span className="text-xs opacity-80 mt-1 block">Água: {conditions.waterTemp}</span>
-                      </div>
-                      <div className={`bg-white/20 backdrop-blur-xl rounded-[1.5rem] p-5 border border-white/10 transition-all ${loadingConditions ? 'opacity-50 blur-sm' : 'opacity-100'}`}>
-                        <span className="block text-[10px] uppercase font-black opacity-75 tracking-widest mb-1">Vento</span>
-                        <span className="text-xl font-black tracking-tight leading-none block mt-1">{conditions.windSpeed}</span>
-                        <span className="text-xs opacity-80 mt-1 block">Dir: {conditions.windDir}</span>
-                      </div>
-                      <div className={`bg-white/20 backdrop-blur-xl rounded-[1.5rem] p-5 border border-white/10 transition-all ${loadingConditions ? 'opacity-50 blur-sm' : 'opacity-100'}`}>
-                        <span className="block text-[10px] uppercase font-black opacity-75 tracking-widest mb-1">Rad. UV</span>
-                        <span className="text-xl font-black tracking-tight leading-none block mt-1">{conditions.uvIndex}</span>
-                        <span className="text-xs opacity-80 mt-1 block">Risco Solar</span>
-                      </div>
+                      {[
+                        { label: 'Céu', val: conditions.condition, sub: `Ar: ${conditions.airTemp}` },
+                        { label: 'Mar', val: conditions.waves, sub: `Água: ${conditions.waterTemp}` },
+                        { label: 'Vento', val: conditions.windSpeed, sub: `Dir: ${conditions.windDir}` },
+                        { label: 'Rad. UV', val: conditions.uvIndex, sub: `Risco Solar` },
+                      ].map((card, i) => (
+                        <div 
+                          key={i} 
+                          className={`bg-white/20 backdrop-blur-xl rounded-[1.5rem] p-5 border border-white/10 transition-all duration-1000 ${loadingConditions || isSyncing ? 'opacity-50 ring-2 ring-white/10' : 'opacity-100'}`}
+                        >
+                          <span className="block text-[10px] uppercase font-black opacity-75 tracking-widest mb-1">{card.label}</span>
+                          <span className="text-xl font-black tracking-tight leading-none block mt-1">{card.val}</span>
+                          <span className="text-xs opacity-80 mt-1 block">{card.sub}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 ) : (
@@ -276,7 +285,6 @@ const App: React.FC = () => {
               </div>
             </section>
 
-            {/* Novo Componente de Formação */}
             <TrainingLocations items={trainingData} loading={loadingTraining} />
 
             <section className="grid grid-cols-1 md:grid-cols-2 gap-6">

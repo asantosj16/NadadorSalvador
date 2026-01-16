@@ -12,8 +12,8 @@ interface BeachPoint {
   name: string;
   lat: number;
   lng: number;
-  x: number; // SVG coordinate
-  y: number; // SVG coordinate
+  x: number; // SVG coordinate (0-100)
+  y: number; // SVG coordinate (0-100)
 }
 
 const MAJOR_BEACHES: BeachPoint[] = [
@@ -87,8 +87,7 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach, selectedBeach, curre
     return h;
   }, [currentConditions]);
 
-  const hasExtremeHazard = hazards.some(h => h.level === 'extreme');
-  const hasHighHazard = hazards.some(h => h.level === 'high');
+  const hasExtremeHazard = hazards.length > 0 && hazards.some(h => h.level === 'extreme');
 
   useEffect(() => {
     const saved = localStorage.getItem('lifeguard_beach_customs');
@@ -116,83 +115,87 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach, selectedBeach, curre
 
   return (
     <div className="flex flex-col space-y-6">
-      {/* Alerta Proeminente Refatorado */}
+      {/* Alerta de Condições */}
       {hazards.length > 0 && (
         <div className={`
-          relative overflow-hidden flex items-center justify-between p-6 rounded-[2rem] border-2 shadow-xl animate-slide-up
-          ${hasExtremeHazard 
-            ? 'bg-red-600 border-red-400 text-white' 
-            : 'bg-orange-500 border-orange-300 text-white'}
+          relative overflow-hidden flex items-center justify-between p-6 rounded-[2.5rem] border-2 shadow-2xl animate-slide-up
+          ${hasExtremeHazard ? 'bg-red-600 border-red-400 text-white shadow-red-500/20' : 'bg-orange-500 border-orange-300 text-white shadow-orange-500/20'}
         `}>
-          {/* Background Animated Glow */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.2),transparent)] pointer-events-none"></div>
           <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 animate-[pulse_3s_infinite] pointer-events-none"></div>
           
-          <div className="relative z-10 flex items-center space-x-6">
-            <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-4xl animate-bounce shadow-inner">
+          <div className="relative z-10 flex items-center space-x-4 md:space-x-6">
+            <div className="w-14 h-14 md:w-16 md:h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-2xl md:text-4xl animate-bounce shadow-inner shrink-0 border border-white/30">
               {hasExtremeHazard ? '🚨' : '⚠️'}
             </div>
             <div>
               <div className="flex items-center space-x-2 mb-1">
-                <span className="bg-white text-black text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-tighter shadow-sm">
-                  {hasExtremeHazard ? 'Prioridade Máxima' : 'Alerta Ativo'}
+                <span className="bg-white text-black text-[8px] md:text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-tighter">
+                  {hasExtremeHazard ? 'Crítico' : 'Aviso'}
                 </span>
-                <span className="text-[10px] font-bold uppercase tracking-widest opacity-80">Posto: {selectedBeach.split(',')[0]}</span>
+                <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest opacity-80 truncate max-w-[120px]">
+                  Posto: {selectedBeach.split(',')[0]}
+                </span>
               </div>
-              <h5 className="font-black text-2xl tracking-tight leading-none mb-1">
-                {hasExtremeHazard ? 'CONDIÇÕES CRÍTICAS' : 'VIGILÂNCIA REFORÇADA'}
+              <h5 className="font-black text-xl md:text-2xl tracking-tight leading-none mb-0.5">
+                {hasExtremeHazard ? 'RISCO EXTREMO' : 'VIGILÂNCIA REFORÇADA'}
               </h5>
-              <p className="text-sm font-medium opacity-90">
-                {hasExtremeHazard 
-                  ? 'Interdição recomendada. Risco elevado para a vida humana.' 
-                  : 'Atenção redobrada aos banhistas e correntes costeiras.'}
+              <p className="text-xs md:text-sm font-medium opacity-95 line-clamp-1">
+                {hazards[0].msg} - {hasExtremeHazard ? 'Risco elevado para a vida.' : 'Cuidado redobrado.'}
               </p>
             </div>
-          </div>
-          
-          <div className="relative z-10 hidden sm:flex -space-x-3 items-center">
-            {hazards.map((h, i) => (
-              <div key={i} title={h.msg} className="w-12 h-12 rounded-full bg-white text-slate-900 border-2 border-slate-100 flex items-center justify-center text-2xl shadow-lg transform hover:scale-110 transition-transform cursor-help z-10">
-                {h.icon}
-              </div>
-            ))}
           </div>
         </div>
       )}
 
+      {/* SVG Map Container */}
       <div className={`
-        relative w-full rounded-[2.5rem] border overflow-hidden shadow-inner h-[480px] flex items-center justify-center transition-all duration-700
-        ${hasExtremeHazard ? 'bg-red-50/50 dark:bg-red-900/10 border-red-500' : hasHighHazard ? 'bg-orange-50/50 dark:bg-orange-900/10 border-orange-300' : 'bg-slate-100 dark:bg-slate-800/50 border-slate-200 dark:border-slate-800'}
+        relative w-full rounded-[3rem] border overflow-hidden shadow-[inset_0_2px_20px_rgba(0,0,0,0.05)] h-[450px] md:h-[580px] flex items-center justify-center transition-all duration-700
+        ${hasExtremeHazard ? 'bg-red-50/50 dark:bg-red-950/20 border-red-200 dark:border-red-900/50' : 'bg-[#e0f2fe] dark:bg-slate-900/80 border-slate-200 dark:border-slate-800'}
       `}>
-        {/* Radar Effect for Extreme Weather */}
-        {hasExtremeHazard && (
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] bg-[radial-gradient(circle,rgba(239,68,68,0.05)_0%,transparent_70%)] animate-pulse"></div>
-          </div>
-        )}
+        {/* Subtle Water Texture Effect */}
+        <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/waves.png')]"></div>
 
-        <svg viewBox="0 0 100 100" className="h-[90%] w-auto drop-shadow-2xl">
+        <svg 
+          viewBox="0 0 100 100" 
+          preserveAspectRatio="xMidYMid meet" 
+          className="h-full w-full max-w-full drop-shadow-[0_10px_30px_rgba(0,0,0,0.1)] select-none transition-transform duration-500"
+        >
           <defs>
-            <radialGradient id="hazardGradient" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#ef4444" stopOpacity="0.6" />
-              <stop offset="100%" stopColor="#ef4444" stopOpacity="0" />
-            </radialGradient>
-            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-               <feGaussianBlur stdDeviation="1" result="blur" />
-               <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            <filter id="markerShadow" x="-50%" y="-50%" width="200%" height="200%">
+               <feGaussianBlur in="SourceAlpha" stdDeviation="0.8" />
+               <feOffset dx="0" dy="0.5" result="offsetblur" />
+               <feComponentTransfer>
+                  <feFuncA type="linear" slope="0.3" />
+               </feComponentTransfer>
+               <feMerge>
+                  <feMergeNode />
+                  <feMergeNode in="SourceGraphic" />
+               </feMerge>
             </filter>
+            <filter id="textGlow" x="-20%" y="-20%" width="140%" height="140%">
+               <feGaussianBlur stdDeviation="0.4" result="blur" />
+               <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+               </feMerge>
+            </filter>
+            <linearGradient id="oceanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#bae6fd" stopOpacity="1" />
+              <stop offset="100%" stopColor="#7dd3fc" stopOpacity="1" />
+            </linearGradient>
           </defs>
 
-          {/* Map Shapes */}
+          {/* Ocean Background Area */}
           <path 
-            d="M30,0 L0,0 L0,100 L60,100 Q40,50 30,0" 
-            fill="currentColor" 
-            className={`${hasExtremeHazard ? 'text-blue-900/10' : 'text-blue-500/5'}`} 
+            d="M0,0 L100,0 L100,100 L0,100 Z" 
+            className="fill-blue-50/20 dark:fill-blue-900/5 transition-colors duration-700"
           />
           
+          {/* Portugal Shoreline Simplified - Adjusted for better visual balance */}
           <path 
-            d="M45,2 L60,2 L62,10 L58,25 L65,40 L60,60 L55,75 L75,85 L80,95 L30,95 L25,85 L20,70 L25,50 L30,30 L38,10 Z" 
-            fill="currentColor" 
-            className="text-white dark:text-slate-900 stroke-slate-200 dark:stroke-slate-700 stroke-[0.3]"
+            d="M45,2 L62,2 L64,12 L60,28 L68,42 L62,65 L58,78 L78,88 L82,98 L28,98 L22,88 L18,72 L22,52 L28,32 L38,12 Z" 
+            className="fill-white dark:fill-slate-900 stroke-slate-200 dark:stroke-slate-700 stroke-[0.3] transition-colors duration-500 shadow-xl"
           />
 
           {MAJOR_BEACHES.map((beach) => {
@@ -200,8 +203,14 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach, selectedBeach, curre
             const isHovered = hovered === beach.id;
             const custom = customizations[beach.id];
             const isFav = custom?.isFavorite;
-            const markerColor = isSelected ? (hasExtremeHazard ? '#ef4444' : '#f97316') : (isFav ? '#fbbf24' : '#94a3b8');
-            const beachHasHazard = isSelected && hazards.length > 0;
+            
+            // Refined Color Palette
+            const markerColor = isSelected 
+              ? (hasExtremeHazard ? '#dc2626' : '#f97316') 
+              : (isFav ? '#fbbf24' : '#334155');
+            
+            const showTooltip = isHovered || isSelected;
+            const markerScale = isHovered ? 1.4 : isSelected ? 1.25 : 1;
 
             return (
               <g 
@@ -209,76 +218,95 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach, selectedBeach, curre
                 onMouseEnter={() => setHovered(beach.id)}
                 onMouseLeave={() => setHovered(null)}
                 onClick={() => onSelectBeach(beach.name)}
-                className="group cursor-pointer pointer-events-auto"
+                className="cursor-pointer group"
+                style={{ transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)' }}
               >
-                {/* Hitbox invisível maior */}
+                {/* Interaction Hitbox */}
                 <circle cx={beach.x} cy={beach.y} r="6" fill="transparent" />
 
-                {beachHasHazard && (
+                {/* Outer Glow / Pulse */}
+                {(isSelected || isHovered) && (
                   <circle 
                     cx={beach.x} 
                     cy={beach.y} 
-                    r="8" 
-                    fill="url(#hazardGradient)"
-                    className="animate-[ping_2s_infinite]"
+                    r={isSelected ? "5" : "4.5"} 
+                    fill="none"
+                    stroke={markerColor}
+                    strokeWidth="0.5"
+                    strokeOpacity={isHovered ? "0.6" : "0.3"}
+                    className={isSelected ? "animate-ping" : ""}
+                    style={{ transformOrigin: `${beach.x}px ${beach.y}px`, transition: 'all 0.4s ease' }}
                   />
                 )}
 
-                {(isSelected || isHovered) && (
-                  <circle cx={beach.x} cy={beach.y} r="3.5" fill={markerColor} className="opacity-10 animate-pulse" />
-                )}
-                
+                {/* Marker Shadow */}
                 <circle 
                   cx={beach.x} 
-                  cy={beach.y} 
-                  r={isSelected ? "2.5" : (isFav ? "1.8" : "1.4")} 
-                  fill={markerColor}
-                  strokeWidth="0.5"
-                  className="transition-all duration-300 stroke-white dark:stroke-slate-900"
-                  filter={isSelected ? "url(#glow)" : ""}
+                  cy={beach.y + 0.4} 
+                  r={2.4 * markerScale} 
+                  fill="rgba(0,0,0,0.1)" 
+                  style={{ transition: 'all 0.3s ease' }}
                 />
+                
+                {/* Multi-layered Marker Core */}
+                <g transform={`scale(${markerScale})`} style={{ transformOrigin: `${beach.x}px ${beach.y}px`, transition: 'all 0.3s ease' }}>
+                  {/* Base Circle */}
+                  <circle 
+                    cx={beach.x} 
+                    cy={beach.y} 
+                    r="2.2" 
+                    fill="white"
+                    stroke={markerColor}
+                    strokeWidth="0.8"
+                    filter="url(#markerShadow)"
+                  />
+                  {/* Inner Dot */}
+                  <circle 
+                    cx={beach.x} 
+                    cy={beach.y} 
+                    r="0.8" 
+                    fill={markerColor}
+                  />
+                </g>
 
-                {/* Indicador de Perigo Reforçado no Marcador */}
-                {beachHasHazard && (
-                  <g transform={`translate(${beach.x + 2.5}, ${beach.y - 3})`}>
-                    <circle r="2.5" fill="#ef4444" className="shadow-lg" />
-                    <text
-                      textAnchor="middle"
-                      dy="0.8"
-                      className="select-none fill-white font-black"
-                      style={{ fontSize: '3.5px' }}
-                    >
-                      !
-                    </text>
-                  </g>
+                {/* Special Status Icons */}
+                {isFav && !isSelected && !isHovered && (
+                  <text 
+                    x={beach.x + 1.4} 
+                    y={beach.y - 1.4} 
+                    className="fill-yellow-500 font-black animate-pulse" 
+                    style={{ fontSize: '3.5px' }}
+                  >
+                    ★
+                  </text>
                 )}
 
-                {(isHovered || isSelected) && (
-                  <g transform={`translate(${beach.x + 4.5}, ${beach.y - 6})`} className="animate-zoom-in pointer-events-none">
+                {/* Tooltip Label */}
+                {showTooltip && (
+                  <g 
+                    transform={`translate(${beach.x}, ${beach.y - 6})`} 
+                    className="animate-zoom-in"
+                  >
                     <rect 
-                      width="45" 
-                      height={beachHasHazard ? "18" : "12"} 
-                      rx="4" 
-                      className={`${beachHasHazard ? 'fill-red-600 shadow-2xl' : 'fill-slate-900/95 dark:fill-white/98 shadow-md'}`} 
+                      x="-20" 
+                      y="-7" 
+                      width="40" 
+                      height="8.5" 
+                      rx="2.5" 
+                      className={`${isSelected && hasExtremeHazard ? 'fill-red-600' : 'fill-slate-900/90 dark:fill-white/95'} shadow-2xl`} 
                     />
+                    {/* Tooltip Tip */}
+                    <path d="M-2,1.5 L0,4 L2,1.5 Z" className={`${isSelected && hasExtremeHazard ? 'fill-red-600' : 'fill-slate-900/90 dark:fill-white/95'}`} />
+                    
                     <text 
-                      x="4.5" 
-                      y="7.5" 
-                      className={`${beachHasHazard ? 'fill-white' : 'fill-white dark:fill-slate-900'} font-black`} 
-                      style={{ fontSize: '3.5px', letterSpacing: '0.2px' }}
+                      x="0" 
+                      y="-1.5" 
+                      textAnchor="middle"
+                      className={`${isSelected && hasExtremeHazard ? 'fill-white' : 'fill-white dark:fill-slate-900'} font-black uppercase`} 
+                      style={{ fontSize: '3.2px', letterSpacing: '0.4px', filter: 'url(#textGlow)' }}
                     >
-                      {beach.name.toUpperCase()} {isFav ? '★' : ''}
+                      {beach.name}
                     </text>
-                    {beachHasHazard && (
-                      <g transform="translate(4.5, 11)">
-                        <text className="fill-white/80 font-bold" style={{ fontSize: '2.5px' }}>
-                          {hazards[0].msg.toUpperCase()}
-                        </text>
-                        <text x="0" y="3.5" className="fill-white/60 font-medium" style={{ fontSize: '2px' }}>
-                          NÍVEL: {hazards[0].level.toUpperCase()}
-                        </text>
-                      </g>
-                    )}
                   </g>
                 )}
               </g>
@@ -286,50 +314,65 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach, selectedBeach, curre
           })}
         </svg>
 
-        {/* Legenda Flutuante */}
-        <div className="absolute bottom-6 left-6 p-4 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl rounded-2xl border border-white/20 text-[8px] font-black uppercase tracking-widest space-y-2 shadow-lg">
-          <div className="flex items-center space-x-2">
-            <span className="w-3 h-3 rounded-full bg-red-600 border-2 border-white animate-pulse"></span>
-            <span>Risco Operacional</span>
+        {/* Legend Panel - Floating Aesthetic */}
+        <div className="absolute bottom-6 left-6 p-4 bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl rounded-[1.5rem] border border-white/20 dark:border-slate-800/50 text-[10px] font-black uppercase tracking-widest space-y-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.1)] hidden md:block">
+          <div className="flex items-center space-x-3">
+            <span className="w-3 h-3 rounded-full bg-white border-2 border-orange-500"></span>
+            <span className="text-slate-700 dark:text-slate-300">Posto Ativo</span>
           </div>
-          <div className="flex items-center space-x-2 opacity-60">
-            <span className="w-3 h-3 rounded-full bg-slate-400 border-2 border-white"></span>
-            <span>Sem Alerta</span>
+          <div className="flex items-center space-x-3">
+            <span className="w-3 h-3 rounded-full bg-white border-2 border-red-600"></span>
+            <span className="text-slate-700 dark:text-slate-300">Risco Crítico</span>
+          </div>
+          <div className="flex items-center space-x-3">
+            <span className="w-3 h-3 rounded-full bg-white border-2 border-yellow-400"></span>
+            <span className="text-slate-700 dark:text-slate-300">Favorita</span>
           </div>
         </div>
       </div>
 
+      {/* Detail Card Overlay Aesthetic */}
       {currentBeachId && (
-        <div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl rounded-[2.5rem] p-8 border border-slate-200 dark:border-slate-800 shadow-xl animate-slide-up">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div>
-              <div className="flex items-center space-x-2 mb-1">
-                 <span className="text-[10px] font-black uppercase text-slate-400 dark:text-slate-500 tracking-widest">Posto de Vigilância</span>
-                 {customizations[currentBeachId]?.isFavorite && <span className="bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded text-[8px] font-black">PREFERIDO</span>}
+        <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl rounded-[2.5rem] p-6 md:p-10 border border-slate-100 dark:border-slate-800 shadow-[0_20px_50px_rgba(0,0,0,0.1)] animate-slide-up relative overflow-hidden group">
+          <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none group-hover:scale-110 transition-transform">
+             <span className="text-9xl">🌊</span>
+          </div>
+          
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8 relative z-10">
+            <div className="w-full text-center md:text-left">
+              <div className="flex items-center justify-center md:justify-start space-x-3 mb-2">
+                 <span className="text-[11px] font-black uppercase text-slate-400 dark:text-slate-500 tracking-[0.2em]">Coordenadas de Turno</span>
+                 {customizations[currentBeachId]?.isFavorite && (
+                   <span className="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-500 px-2 py-0.5 rounded-full text-[9px] font-black border border-yellow-200 dark:border-yellow-800">⭐ FAVORITA</span>
+                 )}
               </div>
-              <h4 className="text-3xl font-black text-slate-900 dark:text-slate-100 flex items-center">
+              <h4 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-slate-100 tracking-tighter flex items-center justify-center md:justify-start gap-4">
                 {MAJOR_BEACHES.find(b => b.id === currentBeachId)?.name}
-                {hasExtremeHazard && <span className="ml-3 text-2xl inline-block animate-[bounce_0.5s_infinite]">🚨</span>}
+                {hasExtremeHazard && <span className="text-2xl animate-pulse">🚩</span>}
               </h4>
+              <p className="text-slate-500 dark:text-slate-400 mt-2 font-bold text-sm tracking-wide">Monitorização técnica em curso.</p>
             </div>
             
-            <div className="flex gap-4">
+            <div className="flex flex-wrap justify-center gap-4">
               <button 
                 onClick={() => toggleFavorite(currentBeachId)}
-                className={`py-3 px-6 rounded-2xl font-black text-xs transition-all flex items-center space-x-2
-                  ${customizations[currentBeachId]?.isFavorite ? 'bg-yellow-400 text-yellow-900 shadow-lg' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 hover:bg-slate-200'}`}
+                className={`py-4 px-8 rounded-2xl font-black text-xs transition-all flex items-center space-x-3 shadow-lg active:scale-95
+                  ${customizations[currentBeachId]?.isFavorite 
+                    ? 'bg-yellow-400 text-yellow-950 hover:bg-yellow-500 shadow-yellow-500/20' 
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 shadow-slate-200/10'}`}
               >
-                <span>{customizations[currentBeachId]?.isFavorite ? '★ NOS MEUS FAVORITOS' : '☆ MARCAR FAVORITO'}</span>
+                <span>{customizations[currentBeachId]?.isFavorite ? '★ NAS FAVORITAS' : '☆ MARCAR FAVORITA'}</span>
               </button>
               
-              <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-2xl">
+              <div className="flex bg-slate-100/50 dark:bg-slate-800/50 p-1.5 rounded-2xl border border-slate-200 dark:border-slate-700 backdrop-blur-md">
                 {ICONS.slice(1, 4).map(i => (
                   <button
                     key={i.id}
                     onClick={() => updateCustom(currentBeachId, 'icon', i.id as any)}
-                    className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${customizations[currentBeachId]?.icon === i.id ? 'bg-white dark:bg-slate-700 shadow-sm text-red-600' : 'text-slate-400 hover:text-slate-600'}`}
+                    title={i.label}
+                    className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${customizations[currentBeachId]?.icon === i.id ? 'bg-white dark:bg-slate-700 shadow-md text-red-600 ring-2 ring-red-500/10' : 'text-slate-400 hover:text-slate-600'}`}
                   >
-                    <span className="text-lg">{i.char}</span>
+                    <span className="text-2xl">{i.char}</span>
                   </button>
                 ))}
               </div>
