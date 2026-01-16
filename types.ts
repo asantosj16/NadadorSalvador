@@ -42,8 +42,11 @@ export interface QuizChapter {
   questions: QuizQuestion[];
 }
 
+/**
+ * Fix: Added 'Prevenção' to the category type to match its usage in constants.tsx
+ */
 export interface Tip {
   id: string;
-  category: 'Segurança' | 'Saúde' | 'Equipamento';
+  category: 'Segurança' | 'Saúde' | 'Equipamento' | 'Prevenção';
   text: string;
 }

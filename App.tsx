@@ -263,6 +263,34 @@ const App: React.FC = () => {
               </div>
             </section>
 
+            {/* Inclusão de Resumo de Vagas na Home */}
+            <section className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Vagas Próximas</h2>
+                <button 
+                  onClick={() => setCurrentTab('training')} 
+                  className="text-[10px] font-black text-red-600 dark:text-red-500 uppercase tracking-widest hover:underline"
+                >
+                  Ver Todas
+                </button>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {loadingTraining ? (
+                   <div className="h-24 bg-slate-100 dark:bg-slate-900 rounded-2xl animate-pulse"></div>
+                ) : trainingData.slice(0, 2).map((item, idx) => (
+                  <div key={idx} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-2xl shadow-sm flex items-center justify-between">
+                    <div>
+                      <h4 className="font-black text-sm text-slate-900 dark:text-slate-100">{item.location}</h4>
+                      <p className="text-[9px] text-slate-500 font-bold uppercase">{item.type} • {item.dates}</p>
+                    </div>
+                    <a href={item.link} target="_blank" className="bg-red-50 dark:bg-red-950 p-2 rounded-lg text-red-600 dark:text-red-400">
+                       <span className="text-xs">↗</span>
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </section>
+
             <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 border-b-4 border-b-blue-500">
                 <div className="flex justify-between items-center mb-4">
@@ -290,10 +318,9 @@ const App: React.FC = () => {
 
             <section className="pb-24 md:pb-0">
                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Acesso Rápido</h2>
-                  <button onClick={() => setCurrentTab('training')} className="text-[10px] font-black text-red-600 dark:text-red-500 uppercase tracking-widest hover:underline">Ver Todas Vagas</button>
+                  <h2 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight">Módulos</h2>
                </div>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-4 gap-3">
                 <button onClick={() => setCurrentTab('training')} className="aspect-square bg-slate-900 dark:bg-slate-800 text-white rounded-2xl flex flex-col items-center justify-center space-y-2 hover:scale-[1.02] active:scale-95 transition-all shadow-lg">
                   <span className="text-3xl">🎓</span>
                   <span className="font-black text-[9px] uppercase tracking-widest text-center px-1">Vagas</span>
@@ -301,6 +328,10 @@ const App: React.FC = () => {
                 <button onClick={() => setCurrentTab('manuals')} className="aspect-square bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-2xl flex flex-col items-center justify-center space-y-2 hover:border-red-500 active:scale-95 transition-all shadow-sm">
                   <span className="text-3xl">📖</span>
                   <span className="font-black text-[9px] uppercase tracking-widest text-slate-900 dark:text-slate-100 text-center px-1">Manuais</span>
+                </button>
+                <button onClick={() => setCurrentTab('quiz')} className="aspect-square bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-2xl flex flex-col items-center justify-center space-y-2 hover:border-red-500 active:scale-95 transition-all shadow-sm">
+                  <span className="text-3xl">📝</span>
+                  <span className="font-black text-[9px] uppercase tracking-widest text-slate-900 dark:text-slate-100 text-center px-1">Quiz</span>
                 </button>
                 <button onClick={() => setShowEmergency(true)} className="aspect-square bg-red-600 text-white rounded-2xl flex flex-col items-center justify-center space-y-2 hover:scale-[1.02] active:scale-95 transition-all shadow-lg">
                   <span className="text-3xl">🚨</span>
