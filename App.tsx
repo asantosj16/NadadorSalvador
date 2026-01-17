@@ -6,9 +6,11 @@ import QuizView from './components/QuizView.tsx';
 import AssistantView from './components/AssistantView.tsx';
 import TrainingLocations from './components/TrainingLocations.tsx';
 import BeachMap from './components/BeachMap.tsx';
+import BeachDataPanel from './components/BeachDataPanel.tsx';
 import { TIPS, MANUALS } from './constants.tsx';
 import { TrainingItem } from './types.ts';
 import { generateDailyScenario, getBeachConditions, getTrainingSchedules } from './services/gemini.ts';
+import { BeachPoint } from './data/weatherData';
 
 const EmergencyModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -54,6 +56,7 @@ const App: React.FC = () => {
   const [lastUpdated, setLastUpdated] = useState<string>('');
   const [trainingData, setTrainingData] = useState<TrainingItem[]>([]);
   const [loadingTraining, setLoadingTraining] = useState(false);
+  const [selectedBeach, setSelectedBeach] = useState<BeachPoint | null>(null);
 
   const [conditions, setConditions] = useState({
     airTemp: '--', waterTemp: '--', waves: '--', windSpeed: '--', windDir: '--', uvIndex: '--',
@@ -201,12 +204,17 @@ const App: React.FC = () => {
 
               {/* Painel Direito - Mapa Interativo */}
               <div className="p-6 md:p-10 bg-slate-900/30">
-                <div className="flex items-center space-x-2 mb-4">
-                  <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></div>
-                  <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Mapa Nacional</span>
-                </div>
-                <BeachMap onSelectBeach={(beach) => { setLocation(`${beach.name}, Portugal`); fetchData(`${beach.name}, Portugal`); }} />
+                <BeachMap onSelectBeach={(beach) => { 
+                  setSelectedBeach(beach);
+                  setLocation(`${beach.name}, Portugal`); 
+                  fetchData(`${beach.name}, Portugal`); 
+                }} />
               </div>
+            </div>
+
+            {/* Painel Inferior - Dados da Praia Selecionada */}
+            <div className="p-6 md:p-10 border-t border-slate-800">
+              <BeachDataPanel beach={selectedBeach} />
             </div>
           </div>
         </div>

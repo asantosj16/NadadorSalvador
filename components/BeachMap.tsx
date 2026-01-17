@@ -16,21 +16,18 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach }) => {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] md:rounded-[4rem] border border-slate-200 dark:border-slate-800 p-4 md:p-10 shadow-2xl relative overflow-hidden flex flex-col md:flex-row gap-8">
+    <div className="h-full animate-fade-in">
+      <div className="relative h-full w-full aspect-[4/5] bg-gradient-to-br from-blue-100 via-blue-50 to-cyan-50 dark:from-blue-950 dark:via-slate-900 dark:to-blue-950 rounded-[2rem] border border-slate-200 dark:border-slate-700 overflow-hidden shadow-2xl flex items-center justify-center p-4">
         
-        <div className="absolute top-4 left-6 hidden md:block z-10">
+        <div className="absolute top-4 left-4 z-10 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm px-4 py-2 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700">
           <div className="flex items-center space-x-2">
-            <div className="w-1 h-1 rounded-full bg-red-600 animate-pulse"></div>
+            <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></div>
             <span className="text-[8px] font-black uppercase tracking-[0.25em] text-slate-400">Vigilância</span>
           </div>
-          <h3 className="text-xl font-black text-slate-900 dark:text-slate-100 tracking-tighter mt-0.5">
+          <h3 className="text-base font-black text-slate-900 dark:text-slate-100 tracking-tighter mt-0.5">
             {hoveredRegion || activePoint?.region || "Portugal"}
           </h3>
         </div>
-
-        {/* Map Area - Google Maps Style */}
-        <div className="relative w-full md:w-3/4 aspect-[3/4] bg-gradient-to-br from-blue-100 via-blue-50 to-cyan-50 dark:from-blue-950 dark:via-slate-900 dark:to-blue-950 rounded-[2rem] border border-slate-200 dark:border-slate-700 overflow-hidden shadow-2xl flex items-center justify-center p-4">
           
           {/* Water effect overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-200/10 to-blue-300/20 dark:from-transparent dark:via-blue-900/20 dark:to-blue-800/30 pointer-events-none"></div>
@@ -122,56 +119,6 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach }) => {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Sidebar Info Panel - Compacto */}
-        <div className={`
-          flex-1 flex flex-col justify-center space-y-3 transition-all duration-500
-          ${activePoint ? 'opacity-100 translate-y-0' : 'opacity-40 translate-y-4 pointer-events-none blur-[2px]'}
-        `}>
-          {activePoint ? (
-            <div className="animate-slide-up space-y-3">
-              <div className="space-y-0.5 text-center md:text-left">
-                <span className="text-[8px] font-black text-red-600 dark:text-red-500 uppercase tracking-wider">Status</span>
-                <h4 className="text-xl md:text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tighter leading-none">{activePoint.name}</h4>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">{activePoint.region}</p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2">
-                {[
-                  { label: 'Temp', val: activePoint.temp, icon: '🌡️', color: 'bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400' },
-                  { label: 'Ondas', val: activePoint.waves, icon: '🌊', color: 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400' },
-                  { label: 'Vento', val: activePoint.wind, icon: '💨', color: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300' },
-                  { label: 'Maré', val: activePoint.tide, icon: '⏳', color: 'bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20 dark:text-indigo-400' },
-                ].map((stat, i) => (
-                  <div key={i} className="p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm">
-                    <div className={`w-6 h-6 rounded-lg ${stat.color} flex items-center justify-center text-sm mb-1.5`}>{stat.icon}</div>
-                    <div className="text-[7px] font-black text-slate-400 uppercase tracking-wider mb-0.5">{stat.label}</div>
-                    <div className="text-sm font-black text-slate-900 dark:text-slate-100 tracking-tight">{stat.val}</div>
-                  </div>
-                ))}
-              </div>
-
-              {activePoint.alert && (
-                <div className={`p-3 rounded-xl border flex items-center space-x-2 animate-pulse-slow ${
-                  activePoint.alert === 'Vermelho' ? 'bg-red-600 border-red-400 text-white' : 
-                  activePoint.alert === 'Laranja' ? 'bg-orange-500 border-orange-300 text-white' : 
-                  'bg-yellow-400 border-yellow-200 text-slate-900'
-                }`}>
-                  <span className="text-xl">⚠️</span>
-                  <div>
-                    <h5 className="font-black uppercase text-[8px] tracking-wider leading-none mb-0.5">Aviso {activePoint.alert}</h5>
-                    <p className="text-[9px] font-bold leading-tight opacity-90">Condições severas. Vigilância Nv.3</p>
-                  </div>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="text-center py-8">
-              <span className="text-4xl mb-2 block animate-bounce-slow">🛰️</span>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-wide">Selecione uma praia</p>
-            </div>
-          )}
         </div>
       </div>
     </div>
