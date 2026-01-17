@@ -1,89 +1,186 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface BeachPoint {
   id: string;
   name: string;
+  region: string;
   x: number;
   y: number;
   condition: string;
   temp: string;
   icon: string;
   alert?: 'Amarelo' | 'Laranja' | 'Vermelho';
+  wind: string;
+  waves: string;
+  tide: string;
 }
 
 const FORECAST_POINTS: BeachPoint[] = [
-  { id: 'viana', name: 'Viana', x: 28, y: 10, condition: 'Limpo', temp: '19°', icon: '☀️' },
-  { id: 'porto', name: 'Porto', x: 28, y: 22, condition: 'Nuvens', temp: '18°', icon: '⛅', alert: 'Amarelo' },
-  { id: 'aveiro', name: 'Aveiro', x: 30, y: 35, condition: 'Limpo', temp: '20°', icon: '☀️' },
-  { id: 'nazare', name: 'Nazaré', x: 26, y: 48, condition: 'Vento', temp: '17°', icon: '🌬️', alert: 'Laranja' },
-  { id: 'peniche', name: 'Peniche', x: 23, y: 55, condition: 'Limpo', temp: '19°', icon: '☀️' },
-  { id: 'lisboa', name: 'Lisboa', x: 25, y: 68, condition: 'Limpo', temp: '22°', icon: '☀️' },
-  { id: 'sines', name: 'Sines', x: 35, y: 80, condition: 'Nuvens', temp: '21°', icon: '⛅' },
-  { id: 'portimao', name: 'Portimão', x: 55, y: 92, condition: 'Limpo', temp: '24°', icon: '☀️' },
-  { id: 'faro', name: 'Faro', x: 75, y: 92, condition: 'Limpo', temp: '25°', icon: '☀️' },
+  { id: 'viana', name: 'Praia do Cabedelo', region: 'Norte', x: 28, y: 12, condition: 'Limpo', temp: '19°', icon: '☀️', wind: '15km/h N', waves: '1.2m', tide: 'Baixa (14:30)' },
+  { id: 'porto', name: 'Matosinhos', region: 'Porto', x: 28, y: 22, condition: 'Nuvens', temp: '18°', icon: '⛅', alert: 'Amarelo', wind: '22km/h NW', waves: '2.5m', tide: 'Enchente' },
+  { id: 'aveiro', name: 'Praia da Barra', region: 'Centro', x: 30, y: 35, condition: 'Limpo', temp: '20°', icon: '☀️', wind: '12km/h NW', waves: '0.8m', tide: 'Preia-mar' },
+  { id: 'nazare', name: 'Praia do Norte', region: 'Oeste', x: 26, y: 48, condition: 'Vento Forte', temp: '17°', icon: '🌬️', alert: 'Vermelho', wind: '45km/h W', waves: '7.5m', tide: 'Vazante' },
+  { id: 'peniche', name: 'Supertubos', region: 'Oeste', x: 23, y: 55, condition: 'Limpo', temp: '19°', icon: '☀️', wind: '18km/h N', waves: '1.5m', tide: 'Baixa-mar' },
+  { id: 'lisboa', name: 'Guincho', region: 'Lisboa', x: 25, y: 68, condition: 'Limpo', temp: '22°', icon: '☀️', wind: '10km/h NW', waves: '0.5m', tide: 'Enchente' },
+  { id: 'sines', name: 'Praia de S. Torpes', region: 'Alentejo', x: 35, y: 80, condition: 'Nuvens', temp: '21°', icon: '⛅', wind: '14km/h W', waves: '1.1m', tide: 'Preia-mar' },
+  { id: 'portimao', name: 'Praia da Rocha', region: 'Algarve', x: 55, y: 92, condition: 'Limpo', temp: '24°', icon: '☀️', wind: '8km/h S', waves: '0.4m', tide: 'Baixa-mar' },
+  { id: 'faro', name: 'Ilha de Faro', region: 'Algarve', x: 75, y: 92, condition: 'Limpo', temp: '25°', icon: '☀️', wind: '9km/h SE', waves: '0.3m', tide: 'Enchente' },
 ];
 
 const BeachMap: React.FC = () => {
+  const [activePoint, setActivePoint] = useState<BeachPoint | null>(null);
+  const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
+
+  const getAlertColor = (level?: string) => {
+    switch (level) {
+      case 'Vermelho': return 'bg-red-600 text-white ring-red-400';
+      case 'Laranja': return 'bg-orange-500 text-white ring-orange-300';
+      case 'Amarelo': return 'bg-yellow-400 text-slate-900 ring-yellow-200';
+      default: return 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white ring-white/20';
+    }
+  };
+
   return (
-    <div className="space-y-4">
-      <div className="bg-slate-50 dark:bg-slate-900 rounded-[2rem] md:rounded-[3rem] border border-slate-200 dark:border-slate-800 p-4 md:p-8 shadow-inner overflow-hidden relative">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-3">
-          <div className="px-2">
-            <h3 className="text-xl md:text-2xl font-black text-slate-900 dark:text-slate-100 uppercase tracking-tighter">Previsão Significativa</h3>
-            <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">IPMA Digital Style</p>
+    <div className="space-y-6 animate-fade-in">
+      {/* Interactive Map Container */}
+      <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] md:rounded-[4rem] border border-slate-200 dark:border-slate-800 p-4 md:p-10 shadow-2xl relative overflow-hidden flex flex-col md:flex-row gap-8">
+        
+        {/* Region Indicator - Desktop Only */}
+        <div className="absolute top-8 left-10 hidden md:block">
+          <div className="flex items-center space-x-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></div>
+            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Vigilância Regional Ativa</span>
           </div>
-          <div className="flex gap-1.5 px-2">
-            <span className="bg-yellow-400/20 text-yellow-700 dark:text-yellow-500 px-2 py-0.5 rounded-full text-[8px] font-black uppercase border border-yellow-400/30">Amarelo</span>
-            <span className="bg-orange-400/20 text-orange-700 dark:text-orange-500 px-2 py-0.5 rounded-full text-[8px] font-black uppercase border border-orange-400/30">Laranja</span>
-          </div>
+          <h3 className="text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tighter mt-1">
+            {hoveredRegion || activePoint?.region || "Costa Portuguesa"}
+          </h3>
         </div>
 
-        {/* Map Container - Optimized with better aspect ratio control */}
-        <div className="relative aspect-[3/4] md:aspect-square w-full max-w-md mx-auto bg-blue-50/20 dark:bg-slate-950/40 rounded-3xl border border-blue-100 dark:border-slate-800 overflow-hidden shadow-lg">
-          {/* Enhanced Portugal Silhouette */}
-          <svg className="absolute inset-0 w-full h-full opacity-10 dark:opacity-5 pointer-events-none p-4" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
-             <path d="M25,5 L40,5 L42,15 L38,25 L45,40 L35,50 L40,70 L45,95 L80,95 L85,90 L60,85 L45,80 L35,60 L25,30 L25,5 Z" fill="currentColor" className="text-slate-400 dark:text-slate-600" />
+        {/* Map Area */}
+        <div className="relative w-full md:w-2/3 aspect-[4/5] bg-slate-50 dark:bg-slate-950/50 rounded-[2rem] border border-slate-100 dark:border-slate-800 overflow-hidden shadow-inner flex items-center justify-center p-4">
+          
+          {/* Detailed SVG Path for Interaction */}
+          <svg className="h-full w-auto opacity-10 dark:opacity-20 pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+            <path 
+              d="M30,5 L45,5 L48,12 L42,25 L48,40 L38,50 L42,70 L48,95 L85,95 L90,90 L65,85 L50,80 L40,60 L30,30 L30,5 Z" 
+              fill="currentColor" 
+              className="text-slate-400 dark:text-white"
+            />
           </svg>
 
-          {/* Interactive Forecast Points */}
+          {/* Grid Lines for technical look */}
+          <div className="absolute inset-0 pointer-events-none grid grid-cols-6 grid-rows-8 opacity-[0.03] dark:opacity-[0.05]">
+            {Array.from({ length: 48 }).map((_, i) => (
+              <div key={i} className="border-[0.5px] border-slate-900 dark:border-white"></div>
+            ))}
+          </div>
+
+          {/* Markers */}
           {FORECAST_POINTS.map((point) => (
             <div 
               key={point.id}
-              className="absolute group z-10"
+              className="absolute z-20"
               style={{ left: `${point.x}%`, top: `${point.y}%` }}
+              onMouseEnter={() => setHoveredRegion(point.region)}
+              onMouseLeave={() => setHoveredRegion(null)}
             >
-              <div className="flex flex-col items-center -translate-x-1/2 -translate-y-1/2">
-                <div className={`
-                  w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-white dark:bg-slate-800 shadow-md border-2 flex items-center justify-center text-base md:text-xl relative
-                  transition-all active:scale-90 touch-none
-                  ${point.alert === 'Laranja' ? 'border-orange-500 shadow-orange-500/20 animate-pulse' : 
-                    point.alert === 'Amarelo' ? 'border-yellow-400 shadow-yellow-400/20' : 
-                    'border-transparent'}
-                `}>
-                  {point.icon}
-                  {point.alert && (
-                    <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
-                      <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${point.alert === 'Laranja' ? 'bg-orange-500' : 'bg-yellow-400'}`}></span>
-                      <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${point.alert === 'Laranja' ? 'bg-orange-500' : 'bg-yellow-400'}`}></span>
-                    </span>
-                  )}
-                </div>
-                <div className="mt-1 bg-white/95 dark:bg-slate-900/95 px-1.5 py-0.5 rounded shadow-sm border border-slate-100 dark:border-slate-800 flex flex-col items-center backdrop-blur-sm">
-                  <span className="text-[7px] md:text-[8px] font-black text-slate-800 dark:text-slate-200 uppercase leading-none">{point.name}</span>
-                  <span className="text-[9px] md:text-[10px] font-black text-red-600 leading-none mt-0.5">{point.temp}</span>
-                </div>
-              </div>
+              <button 
+                onClick={() => setActivePoint(activePoint?.id === point.id ? null : point)}
+                className={`
+                  group relative flex items-center justify-center -translate-x-1/2 -translate-y-1/2
+                  w-10 h-10 md:w-12 md:h-12 rounded-2xl shadow-lg border-2 border-white dark:border-slate-700
+                  transition-all duration-300 active:scale-90 touch-manipulation
+                  ${getAlertColor(point.alert)}
+                  ${activePoint?.id === point.id ? 'ring-8 ring-red-500/20 scale-110 z-30' : 'hover:scale-110'}
+                `}
+              >
+                <span className="text-xl md:text-2xl">{point.icon}</span>
+                
+                {/* Alert Pulse Effect */}
+                {point.alert && (
+                  <span className="absolute -inset-1 rounded-2xl border-2 border-current opacity-40 animate-ping pointer-events-none"></span>
+                )}
+                
+                {/* Visual Connector Line - Hidden on Mobile */}
+                {activePoint?.id === point.id && (
+                  <div className="hidden md:block absolute left-1/2 top-1/2 w-[300px] h-px bg-gradient-to-r from-red-500 to-transparent origin-left rotate-[15deg] pointer-events-none -z-10 opacity-30"></div>
+                )}
+              </button>
             </div>
           ))}
+        </div>
 
-          {/* Coastal Warnings HUD - Mobile Optimized and more readable */}
-          <div className="absolute bottom-4 left-4 right-4 bg-white/90 dark:bg-slate-900/95 backdrop-blur-md border border-slate-200 dark:border-slate-800 rounded-2xl p-3 flex items-center space-x-3 shadow-2xl z-20">
-             <div className="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center text-xl animate-pulse flex-shrink-0">🌊</div>
-             <div className="flex-1 min-w-0">
-                <h4 className="text-[9px] font-black uppercase text-orange-600 tracking-widest truncate">Alerta Marítimo IPMA</h4>
-                <p className="text-[10px] font-bold text-slate-700 dark:text-slate-300 leading-tight">Ondas NO 5-6m. Perigo de arraste.</p>
-             </div>
+        {/* Sidebar Info Panel / Drawer on Mobile */}
+        <div className={`
+          flex-1 flex flex-col justify-center space-y-6 transition-all duration-500
+          ${activePoint ? 'opacity-100 translate-y-0' : 'opacity-40 translate-y-4 pointer-events-none blur-[2px]'}
+        `}>
+          {activePoint ? (
+            <div className="animate-slide-up space-y-6">
+              <div className="space-y-1">
+                <span className="text-[10px] font-black text-red-600 dark:text-red-500 uppercase tracking-[0.3em]">Status Tempo Real</span>
+                <h4 className="text-4xl font-black text-slate-900 dark:text-slate-100 tracking-tighter leading-none">{activePoint.name}</h4>
+                <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">{activePoint.region}</p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { label: 'Temperatura', val: activePoint.temp, icon: '🌡️', color: 'bg-orange-50 text-orange-600' },
+                  { label: 'Ondulação', val: activePoint.waves, icon: '🌊', color: 'bg-blue-50 text-blue-600' },
+                  { label: 'Vento', val: activePoint.wind, icon: '💨', color: 'bg-slate-100 text-slate-700' },
+                  { label: 'Maré', val: activePoint.tide, icon: '⏳', color: 'bg-indigo-50 text-indigo-600' },
+                ].map((stat, i) => (
+                  <div key={i} className="p-4 rounded-[1.5rem] bg-white dark:bg-slate-800 border-2 border-slate-50 dark:border-slate-800 shadow-sm">
+                    <div className={`w-8 h-8 rounded-lg ${stat.color} flex items-center justify-center text-lg mb-3`}>{stat.icon}</div>
+                    <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-0.5">{stat.label}</div>
+                    <div className="text-lg font-black text-slate-900 dark:text-slate-100 tracking-tight">{stat.val}</div>
+                  </div>
+                ))}
+              </div>
+
+              {activePoint.alert && (
+                <div className={`p-5 rounded-[1.8rem] border-2 flex items-center space-x-4 animate-pulse-slow ${
+                  activePoint.alert === 'Vermelho' ? 'bg-red-600 border-red-400 text-white' : 
+                  activePoint.alert === 'Laranja' ? 'bg-orange-500 border-orange-300 text-white' : 
+                  'bg-yellow-400 border-yellow-200 text-slate-900'
+                }`}>
+                  <span className="text-3xl">⚠️</span>
+                  <div>
+                    <h5 className="font-black uppercase text-[10px] tracking-widest leading-none mb-1">Aviso {activePoint.alert}</h5>
+                    <p className="text-xs font-bold leading-tight opacity-90">Condições severas detetadas. Vigilância Nível 3 obrigatória.</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="text-center py-20">
+              <span className="text-6xl mb-4 block animate-bounce-slow">🛰️</span>
+              <p className="text-sm font-black text-slate-400 uppercase tracking-widest">Selecione uma praia no mapa para monitorização</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Extreme Alert Banner - Fixed high visibility UI */}
+      <div className="relative group overflow-hidden bg-red-600 dark:bg-red-700 rounded-[2.5rem] p-6 shadow-2xl shadow-red-500/20 border-4 border-white/20">
+        <div className="absolute top-0 left-0 w-2 h-full bg-white/20 animate-pulse"></div>
+        <div className="flex flex-col md:flex-row items-center gap-6">
+          <div className="relative">
+            <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/20 flex items-center justify-center text-3xl md:text-5xl animate-pulse">⚡</div>
+            <div className="absolute -top-1 -right-1 w-6 h-6 bg-white text-red-600 rounded-full flex items-center justify-center font-black text-xs">!</div>
+          </div>
+          <div className="flex-1 text-center md:text-left">
+            <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-2">
+              <span className="bg-white text-red-600 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest">ALERTA EXTREMO</span>
+              <span className="bg-black/20 text-white px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest">DISTRITO: LEIRIA</span>
+            </div>
+            <h4 className="text-2xl md:text-4xl font-black text-white tracking-tighter leading-none mb-2">AGITAÇÃO MARÍTIMA SEVERA</h4>
+            <p className="text-white/90 font-bold text-xs md:text-sm max-w-2xl">Vagas de 7 metros detetadas em Nazaré. Proibida a entrada de banhistas e embarcações de pesca no canal. Ativar plano de contingência regional.</p>
+          </div>
+          <div className="flex flex-col items-center md:items-end justify-center px-6 border-l border-white/10">
+            <span className="text-[10px] font-black text-white/50 uppercase tracking-widest">Ref: IPMA-V3-2026</span>
+            <span className="text-xl font-black text-white">LIVE 🔴</span>
           </div>
         </div>
       </div>

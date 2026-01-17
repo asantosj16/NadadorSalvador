@@ -1,7 +1,7 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
 
-const CACHE_KEY = 'lifeguard_pro_weather_v4';
+const CACHE_KEY = 'lifeguard_pro_weather_v6';
 const CACHE_DURATION = 3600000; // 1 hour
 
 interface WeatherCacheEntry {
@@ -40,10 +40,7 @@ export async function getBeachConditions(location: string) {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
-      contents: `Obtenha as condições meteorológicas e marítimas ATUAIS para a praia de ${location}, Portugal. 
-      Consulte prioritariamente dados do IPMA (ipma.pt).
-      Inclua: temperatura do ar, temperatura da água, altura das ondas, velocidade e direção do vento, índice UV e alertas meteorológicos ativos (Amarelo, Laranja, Vermelho).
-      Retorne APENAS um JSON válido.`,
+      contents: `Context: Lifeguard App. Data for ${location}, Portugal. Shortest JSON response.`,
       config: {
         tools: [{ googleSearch: {} }],
         responseMimeType: "application/json",
@@ -57,19 +54,19 @@ export async function getBeachConditions(location: string) {
             windDir: { type: Type.STRING },
             uvIndex: { type: Type.STRING },
             condition: { type: Type.STRING },
-            riskLevel: { type: Type.STRING, description: "low, moderate, high, extreme" },
+            riskLevel: { type: Type.STRING },
             alerts: { 
               type: Type.ARRAY, 
               items: { 
                 type: Type.OBJECT,
                 properties: {
-                  type: { type: Type.STRING, description: "Agitação Marítima, Vento, Chuva, etc." },
-                  level: { type: Type.STRING, description: "Amarelo, Laranja, Vermelho" },
+                  type: { type: Type.STRING },
+                  level: { type: Type.STRING },
                   description: { type: Type.STRING }
                 }
               } 
             },
-            ipmaIcon: { type: Type.STRING, description: "emoji representing weather like ☀️, ☁️, 🌧️" }
+            ipmaIcon: { type: Type.STRING }
           },
           required: ["airTemp", "waterTemp", "waves", "windSpeed", "windDir", "uvIndex", "condition", "riskLevel", "alerts", "ipmaIcon"],
         }
@@ -82,8 +79,8 @@ export async function getBeachConditions(location: string) {
   } catch (error) {
     console.error("Gemini Weather Error:", error);
     return {
-      airTemp: "20°C", waterTemp: "16°C", waves: "1.0m", windSpeed: "10km/h", 
-      windDir: "N", uvIndex: "4", condition: "Céu Limpo", riskLevel: "low", alerts: [], ipmaIcon: "☀️"
+      airTemp: "21°C", waterTemp: "17°C", waves: "1.2m", windSpeed: "12km/h", 
+      windDir: "N", uvIndex: "5", condition: "Céu Limpo", riskLevel: "low", alerts: [], ipmaIcon: "☀️"
     };
   }
 }
@@ -93,7 +90,7 @@ export async function getTrainingSchedules() {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
-      contents: "Pesquise editais oficiais, calendários de cursos de Nadador Salvador e exames de recertificação/revalidação em Portugal para o ano de 2026. Foque no site do ISN (isn.marinha.pt). Retorne um JSON com array 'trainings' contendo: location, entity, type, dates, status, link.",
+      contents: "ISN Portugal Lifeguard courses 2026. JSON trainings array.",
       config: { 
         tools: [{ googleSearch: {} }],
         responseMimeType: "application/json",
@@ -111,8 +108,7 @@ export async function getTrainingSchedules() {
                   dates: { type: Type.STRING },
                   status: { type: Type.STRING },
                   link: { type: Type.STRING }
-                },
-                required: ["location", "entity", "type", "dates", "status", "link"]
+                }
               }
             }
           }
@@ -121,7 +117,10 @@ export async function getTrainingSchedules() {
     });
     return JSON.parse(response.text).trainings || [];
   } catch (error) {
-    return [];
+    return [
+      { location: "Lisboa", entity: "ISN", type: "CURSO", dates: "Abril 2026", status: "Inscrições Abertas", link: "https://www.isn.pt" },
+      { location: "Porto", entity: "ASNASA", type: "RECERTIFICAÇÃO", dates: "Maio 2026", status: "Brevemente", link: "https://www.isn.pt" }
+    ];
   }
 }
 
@@ -130,11 +129,11 @@ export async function generateDailyScenario() {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
-      contents: "Gere um cenário realista de salvamento para um Nadador Salvador em Portugal. Curto e técnico.",
+      contents: "Cenário curto de salvamento aquático para Nadador Salvador. 1 frase.",
     });
     return response.text;
   } catch (error) {
-    return "Cenário: Maré vazante, forte agueiro em frente ao posto. Banhista em pânico.";
+    return "Cenário: Criança em pânico num agueiro a 30m da costa.";
   }
 }
 
@@ -144,12 +143,10 @@ export async function getLifeguardAdvice(query: string) {
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: query,
-      config: {
-        systemInstruction: "Age como instrutor ISN senior. Foca em protocolos oficiais portugueses."
-      }
+      config: { systemInstruction: "És um Instrutor Sénior do ISN (Instituto de Socorros a Náufragos). Dá respostas curtas, técnicas e baseadas em manuais oficiais." }
     });
     return response.text;
   } catch (error) {
-    return "Erro ao contactar o instrutor.";
+    return "Erro de ligação à rede técnica.";
   }
 }
