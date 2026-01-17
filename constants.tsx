@@ -19,13 +19,19 @@ export const MANUALS: ManualCategory[] = [
         id: 'leg-1',
         title: 'Lei 68/2014 e Regime Jurídico',
         description: 'Enquadramento legal da atividade e responsabilidade civil/criminal.',
-        fullContent: 'A Lei n.º 68/2014 estabelece o regime jurídico da assistência a banhistas. O Nadador-Salvador (NS) é o elemento habilitado com o curso de formação técnica e tem o dever de vigiar, prevenir e socorrer. O cartão de NS é válido por 3 anos.'
+        fullContent: 'A Lei n.º 68/2014 estabelece o regime jurídico da assistência a banhistas. O Nadador-Salvador (NS) é o elemento habilitado com o curso de formação técnica e tem o dever de vigiar, prevenir e socorrer. O cartão de NS é válido por 3 anos e a sua falta impede o exercício da função em qualquer contexto balnear.'
       },
       {
         id: 'leg-2',
         title: 'Deveres e Ética do NS',
         description: 'Normas de conduta, sigilo profissional e prontidão operativa.',
-        fullContent: 'Deveres fundamentais: 1. Permanência no posto durante o horário; 2. Uso correto do uniforme; 3. Vigilância ativa e ininterrupta; 4. Colaboração com as autoridades (Polícia Marítima e Capitania).'
+        fullContent: 'Deveres fundamentais: 1. Permanência no posto durante o horário; 2. Uso correto do uniforme; 3. Vigilância ativa e ininterrupta; 4. Colaboração com as autoridades (Polícia Marítima e Capitania). A ética profissional exige imparcialidade total no socorro e manutenção do sigilo sobre o estado das vítimas.'
+      },
+      {
+        id: 'leg-3',
+        title: 'Responsabilidade Civil e Criminal',
+        description: 'Consequências legais da omissão de auxílio ou negligência.',
+        fullContent: 'O NS pode ser responsabilizado civilmente por danos causados por negligência e criminalmente em caso de omissão de auxílio. A lei protege o NS quando este atua dentro dos protocolos estabelecidos pelo ISN.'
       }
     ]
   },
@@ -38,13 +44,19 @@ export const MANUALS: ManualCategory[] = [
         id: 'phys-1',
         title: 'Mecanismos do Afogamento',
         description: 'Processo de asfixia por submersão e laringospasmo.',
-        fullContent: 'O afogamento é um processo que resulta em compromisso respiratório. Pode ocorrer paragem respiratória antes da cardíaca (hipóxia). O laringospasmo é o fecho das cordas vocais para impedir a entrada de água, que acaba por ceder com a inconsciência.'
+        fullContent: 'O afogamento é um processo que resulta em compromisso respiratório. Inicia-se com a aspiração de pequenas quantidades de água, levando ao laringospasmo (fecho das cordas vocais). Segue-se a hipóxia cerebral e paragem respiratória antes da cardíaca.'
       },
       {
         id: 'phys-2',
         title: 'Hipotermia e Choque Térmico',
         description: 'Impacto da temperatura da água no sistema cardiovascular.',
-        fullContent: 'Hipotermia ocorre quando a temperatura central < 35°C. Na água, a perda de calor é 25x superior ao ar. O choque térmico pode causar bradicardia súbita ou fibrilação ventricular.'
+        fullContent: 'Hipotermia ocorre quando a temperatura central < 35°C. Na água, a perda de calor é 25x superior ao ar. O choque térmico pode causar bradicardia súbita, desorientação ou fibrilação ventricular.'
+      },
+      {
+        id: 'phys-3',
+        title: 'Fisiopatologia da Respiração',
+        description: 'Trocas gasosas e importância da oxigenação no socorro.',
+        fullContent: 'A respiração externa (nos pulmões) e interna (nos tecidos) é interrompida no afogado. A prioridade absoluta é restaurar a ventilação para reverter a hipoxemia.'
       }
     ]
   },
@@ -71,7 +83,7 @@ export const MANUALS: ManualCategory[] = [
         id: 'fa-2',
         title: 'SBV Pediátrico',
         description: 'Protocolo para lactentes e crianças.',
-        fullContent: 'Crianças (< puberdade): Rácio 15:2 para profissionais. Lactentes (< 1 ano): Compressão com 2 dedos ou técnica de abraçar. Profundidade: 1/3 do diâmetro do tórax.',
+        fullContent: 'Crianças (< puberdade): Rácio 15:2 para profissionais. Lactentes (< 1 ano): Compressão com 2 dedos ou técnica de abraçar. Profundidade: 1/3 do diâmetro do tórax. Iniciar sempre com 5 insuflações de resgate.',
         flowSteps: [
           { id: '1', type: 'start', label: 'Avaliar Segurança', next: '2' },
           { id: '2', type: 'action', label: 'Gritar por Ajuda / 112', next: '3' },
@@ -79,6 +91,50 @@ export const MANUALS: ManualCategory[] = [
           { id: '4', type: 'action', label: '15 Compressões (2 dedos no bebé)', next: '4' },
           { id: 'end-1', type: 'end', label: 'Estabilizar até chegada INEM' }
         ]
+      },
+      {
+        id: 'fa-3',
+        title: 'Obstrução da Via Aérea (Engasgamento)',
+        description: 'Manobra de Heimlich e pancadas interescapulares.',
+        fullContent: 'Para vítimas conscientes: 5 pancadas nas costas seguidas de 5 compressões abdominais (Heimlich). Se inconsciente, iniciar protocolo de SBV.',
+        flowSteps: [
+          { id: '1', type: 'start', label: 'Tosse Eficaz?', next: '2' },
+          { id: '2', type: 'decision', label: 'Consegue Tossir?', yes: 'end-1', no: '3' },
+          { id: '3', type: 'action', label: '5 Pancadas nas Costas', next: '4' },
+          { id: '4', type: 'action', label: '5 Manobras de Heimlich', next: '1' },
+          { id: 'end-1', type: 'end', label: 'Apoio e Vigilância' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'trauma-special',
+    title: 'Traumatologia e Emergências Médicas',
+    icon: '🦴',
+    content: [
+      {
+        id: 'tr-coluna',
+        title: 'Suspeita de Lesão Medular',
+        description: 'Manuseamento em mergulhos em águas rasas.',
+        fullContent: 'Imobilização cervical imediata. Não remover a vítima da água sem plano rígido ou apoio de 3-4 socorristas mantendo o alinhamento cabeça-pescoço-tronco. O "Head Splint" é a técnica de eleição para estabilização manual na água.',
+        flowSteps: [
+          { id: '1', type: 'start', label: 'Imobilização Manual (Head Splint)', next: '2' },
+          { id: '2', type: 'action', label: 'Colar Cervical e Plano Rígido', next: '3' },
+          { id: '3', type: 'action', label: 'Fixar Aranha e Laterais', next: 'end' },
+          { id: 'end', type: 'end', label: 'Extração Suave da Água' }
+        ]
+      },
+      {
+        id: 'tr-hem',
+        title: 'Controlo de Hemorragias',
+        description: 'Pressão direta e uso de torniquete.',
+        fullContent: '1. Pressão Direta; 2. Curativo Compressivo; 3. Torniquete em situações extremas de hemorragia massiva arterial em membros. Manter a vítima em choque (pernas elevadas se possível e manter quente).'
+      },
+      {
+        id: 'tr-burns',
+        title: 'Queimaduras Solares e Térmicas',
+        description: 'Graus de queimadura e primeiros cuidados.',
+        fullContent: 'Arrefecer com água doce corrente (não gelada). Não rebentar bolhas. Aplicar pensos estéreis húmidos. Hidratar a vítima.'
       }
     ]
   },
@@ -91,38 +147,19 @@ export const MANUALS: ManualCategory[] = [
         id: 'res-1',
         title: 'Aproximação e Reboques',
         description: 'Abordagem à vítima e transporte para terra.',
-        fullContent: 'Aproximação deve ser feita pelas costas da vítima para evitar o agarre em pânico. Reboques: 1. Axilar (vítima consciente); 2. Cabeça-peito (inconsciente); 3. Pelo braço.'
+        fullContent: 'Aproximação deve ser feita pelas costas. Reboques padrão: 1. Axilar (vítima consciente); 2. Cabeça-peito (vítima inconsciente); 3. Pelo braço. Manter sempre a via aérea da vítima fora de água.'
       },
       {
         id: 'res-2',
-        title: 'Libertações e Saca-Rolhas',
-        description: 'Técnicas de defesa pessoal aquática.',
-        fullContent: 'Se agarrado, o NS deve submergir (a vítima soltará para tentar flutuar). Usar as pernas para empurrar a vítima e ganhar distância. Nadar lateralmente ao agueiro (corrente de retorno).'
-      }
-    ]
-  },
-  {
-    id: 'trauma-special',
-    title: 'Traumatologia e Coluna',
-    icon: '🦴',
-    content: [
-      {
-        id: 'tr-coluna',
-        title: 'Suspeita de Lesão Medular',
-        description: 'Manuseamento em mergulhos em águas rasas.',
-        fullContent: 'Imobilização cervical imediata. Não remover a vítima da água sem plano rígido ou apoio de 3-4 socorristas mantendo o alinhamento cabeça-pescoço-tronco.',
-        flowSteps: [
-          { id: '1', type: 'start', label: 'Imobilização Manual (Head Splint)', next: '2' },
-          { id: '2', type: 'action', label: 'Colar Cervical e Plano Rígido', next: '3' },
-          { id: '3', type: 'action', label: 'Fixar Aranha e Laterais', next: 'end' },
-          { id: 'end', type: 'end', label: 'Extração Suave da Água' }
-        ]
+        title: 'Libertações e Defesa Pessoal',
+        description: 'Técnicas de segurança quando agarrado em pânico.',
+        fullContent: 'Se agarrado, o NS deve submergir. A vítima soltará para tentar flutuar. Usar as pernas para afastar a vítima se necessário. Recorrer ao flutuador como barreira.'
       },
       {
-        id: 'tr-hem',
-        title: 'Controlo de Hemorragias',
-        description: 'Pressão direta e uso de torniquete.',
-        fullContent: '1. Pressão Direta sobre a ferida; 2. Curativo Compressivo; 3. Torniquete (apenas em hemorragias arteriais massivas em membros, 5-7cm acima da ferida).'
+        id: 'res-3',
+        title: 'Uso do Flutuador (Rescue Tube)',
+        description: 'Operação do material de salvamento básico.',
+        fullContent: 'O flutuador deve ser colocado sob as axilas da vítima. Permite ao NS ter as mãos livres para nadar e rebocar com maior eficiência e segurança.'
       }
     ]
   },
@@ -135,13 +172,19 @@ export const MANUALS: ManualCategory[] = [
         id: 'ocean-1',
         title: 'Correntes de Retorno (Agueiros)',
         description: 'Identificação e dinâmica dos canais.',
-        fullContent: 'O agueiro é uma corrente forte que flui da costa para o mar. Identificação: Zona de água mais calma (sem ondas), água mais escura ou com sedimentos. Instruir banhista a nadar paralelo à costa.'
+        fullContent: 'O agueiro é uma corrente forte que flui da costa para o mar. Identificação: Água mais escura, sem rebentação, espuma a sair. Instruir banhista a nadar paralelo à costa para sair da corrente.'
       },
       {
         id: 'ocean-2',
         title: 'Escalas de Beaufort e Douglas',
-        description: 'Medição da intensidade do vento e estado do mar.',
-        fullContent: 'Beaufort (0-12): Mede o vento. Douglas (0-9): Mede a vaga (vagas e ondulação). Acima de Beaufort 5/6, o risco de deriva de objetos flutuantes é extremo.'
+        description: 'Intensidade do vento e estado do mar.',
+        fullContent: 'Beaufort (0-12) mede o vento. Douglas (0-9) mede a vaga. Crucial para decidir o hastear das bandeiras e alertas de segurança.'
+      },
+      {
+        id: 'ocean-3',
+        title: 'Marés e Zonas de Rebentação',
+        description: 'Impacto do nível do mar na segurança balnear.',
+        fullContent: 'A maré vaza pode expor rochas perigosas. A maré enchente pode criar correntes laterais fortes e reduzir a área útil de vigilância.'
       }
     ]
   },
@@ -153,14 +196,14 @@ export const MANUALS: ManualCategory[] = [
       {
         id: 'eq-1',
         title: 'Sinais de Braço e Bandeiras',
-        description: 'Linguagem gestual padrão internacional.',
-        fullContent: 'Braço levantado estático: "Preciso de Ajuda". Agitar braços: "Alerta de Perigo". Bandeira Vermelha: Mar Proibido. Amarela: Atenção (não nadar para fora).'
+        description: 'Linguagem gestual internacional.',
+        fullContent: 'Braço levantado: "Preciso de Ajuda". Agitar braços: "Alerta de Perigo". Bandeira Vermelha: Proibido. Amarela: Atenção. Xadrez: Posto Desabitado.'
       },
       {
         id: 'eq-2',
         title: 'Rádio VHF e CH16',
-        description: 'Procedimentos de chamada de rádio.',
-        fullContent: 'Canal 16 (156.800 MHz) é o canal internacional de socorro e chamada. Procedimento: "MAYDAY, MAYDAY, MAYDAY", Identificação, Posição, Natureza do perigo, Número de pessoas.'
+        description: 'Procedimentos de rádio marítimo.',
+        fullContent: 'Canal 16 é o canal internacional de socorro. Usar frases curtas e alfabeto fonético internacional para clareza em situações críticas.'
       }
     ]
   },
@@ -171,15 +214,15 @@ export const MANUALS: ManualCategory[] = [
     content: [
       {
         id: 'prev-1',
-        title: 'Varrimento Visual e Pontos de Risco',
-        description: 'Metodologias de vigilância de praia.',
-        fullContent: 'Varrimento em "S" ou "Z". Focar em: Crianças sozinhas, idosos, zonas de agueiros, rochas e esporões. Vigilância ativa: olhar para a água, não para a areia.'
+        title: 'Metodologias de Vigilância',
+        description: 'Varrimento visual e posicionamento.',
+        fullContent: 'Varrimento em "S" ou "Z". Focar em: Crianças sozinhas, idosos e zonas de agueiros. Alternar entre vigilância em pé (melhor ângulo) e sentada (descanso ativo).'
       },
       {
         id: 'prev-2',
-        title: 'Apoio Sanitário e Gestão de Posto',
-        description: 'Organização do material de primeiros socorros.',
-        fullContent: 'Manutenção diária: Verificar validade de fármacos, pressão da garrafa de Oxigénio (mínimo 150 bar), bateria do DAE e estado dos elétrodos.'
+        title: 'Gestão de Posto e Apoio Sanitário',
+        description: 'Organização e prontidão do material.',
+        fullContent: 'Verificar diariamente: Oxigénio (min 150 bar), DAE (elétrodos e bateria), mala de 1º socorros e comunicações.'
       }
     ]
   }
@@ -321,62 +364,12 @@ export const QUIZ_CHAPTERS: QuizChapter[] = [
       { id: '8-9', question: 'O "Log Roll" é uma técnica para:', options: ['Rolar a vítima mantendo o alinhamento da coluna', 'Nadar de lado', 'Fazer ginástica', 'Lançar a boia'], correctAnswer: 0, explanation: 'Usado para colocar a vítima no plano rígido.' },
       { id: '8-10', question: 'Vítimas de queda de altura na areia devem ser:', options: ['Levantadas logo', 'Mantidas imóveis até chegada de meios diferenciados', 'Levadas para a água', 'Ignoradas'], correctAnswer: 1, explanation: 'Prevenção de agravamento de fraturas.' }
     ]
-  },
-  {
-    id: 'cap-9',
-    title: 'Capítulo 9: Fisiopatologia e SBV Pediátrico',
-    description: 'Protocolos específicos para bebés e crianças (Chain of Survival Pediátrica).',
-    questions: [
-      { id: '9-1', question: 'Qual a primeira ação no SBV pediátrico após detetar ausência de respiração?', options: ['30 compressões', '5 insuflações iniciais de resgate', 'Chamar logo o 112', 'Aplicar o DAE'], correctAnswer: 1, explanation: 'A causa habitual na criança é respiratória, sendo vitais as insuflações.' },
-      { id: '9-2', question: 'Onde deve ser avaliado o pulso num bebé (<1 ano)?', options: ['Pescoço (Carotídeo)', 'Braço (Braquial)', 'Punho (Radial)', 'Virilha (Femoral)'], correctAnswer: 1, explanation: 'O pulso braquial é o mais acessível e fiável em lactentes.' },
-      { id: '9-3', question: 'Qual o rácio compressão:ventilação recomendado para profissionais de saúde em pediatria?', options: ['30:2', '15:2', '10:1', '5:1'], correctAnswer: 1, explanation: 'O rácio 15:2 é o padrão para equipas profissionais em crianças.' },
-      { id: '9-4', question: 'A profundidade das compressões numa criança deve ser:', options: ['1 a 2 cm', 'Pelo menos 1/3 do diâmetro do tórax (aprox. 5cm)', 'Igual ao adulto', 'Não se deve comprimir'], correctAnswer: 1, explanation: 'A regra de 1/3 garante a eficácia sem causar lesões excessivas.' },
-      { id: '9-5', question: 'Técnica de compressão no bebé (1 socorrista):', options: ['Uma mão', 'Dois dedos no centro do tórax', 'Técnica de abraçar com dois polegares', 'Punho fechado'], correctAnswer: 1, explanation: 'Dois dedos (indicador e médio) logo abaixo da linha mamilar.' },
-      { id: '9-6', question: 'Se um bebé está a engasgar mas tosse com força:', options: ['Dar pancadas nas costas', 'Manobra de Heimlich', 'Apenas observar e encorajar a tosse', 'Gritar por ajuda'], correctAnswer: 2, explanation: 'Intervenções em tosse eficaz podem piorar a obstrução.' },
-      { id: '9-7', question: 'Diferença principal no afogamento pediátrico:', options: ['Arrefecem mais devagar', 'Arrefecem mais rápido devido à maior superfície corporal', 'Precisam de menos oxigénio', 'Não flutuam'], correctAnswer: 1, explanation: 'A hipotermia instala-se muito rapidamente em crianças.' },
-      { id: '9-8', question: 'O DAE pode ser usado em bebés?', options: ['Não, nunca', 'Sim, preferencialmente com elétrodos pediátricos', 'Apenas se o bebé for pesado', 'Só após 2 horas'], correctAnswer: 1, explanation: 'O DAE pode ser usado; se não houver elétrodos pediátricos, usam-se os de adulto.' },
-      { id: '9-9', question: 'A "Cadeia de Sobrevivência Pediátrica" começa com:', options: ['Socorro rápido', 'Prevenção de acidentes e paragem', 'SBV precoce', 'Transporte'], correctAnswer: 1, explanation: 'Prevenir o acidente é o elo mais importante na criança.' },
-      { id: '9-10', question: 'Na ventilação do bebé, a técnica é:', options: ['Boca-Boca', 'Boca-Nariz-Boca (cobrir ambos com a boca do socorrista)', 'Apenas nariz', 'Usar uma palhinha'], correctAnswer: 1, explanation: 'Devido ao tamanho, deve-se selar boca e nariz em simultâneo.' }
-    ]
-  },
-  {
-    id: 'cap-10',
-    title: 'Capítulo 10: Embarcações e Meios Complementares',
-    description: 'Operação de motas de água (RWC), barcos e equipamentos de apoio.',
-    questions: [
-      { id: '10-1', question: 'O que é o "Homem ao Mar" (Kill Switch) numa embarcação?', options: ['Um botão de pânico', 'Cabo de segurança que desliga o motor se o condutor cair', 'Uma boia de sinalização', 'Um tipo de nó'], correctAnswer: 1, explanation: 'Equipamento obrigatório para segurança operativa.' },
-      { id: '10-2', question: 'A aproximação a uma vítima com mota de água deve ser feita:', options: ['A alta velocidade', 'Pelo lado de barlavento (contra o vento/mar)', 'Pelo lado de sotavento (com o vento/mar) para não derivar sobre a vítima', 'De costas'], correctAnswer: 2, explanation: 'Evita que a embarcação seja empurrada contra a vítima.' },
-      { id: '10-3', question: 'Qual o papel do "Resgatador" (Sled) na mota de água?', options: ['Transportar mantimentos', 'Plataforma para facilitar a extração da vítima da água', 'Aumentar a velocidade', 'Equilibrar a mota'], correctAnswer: 1, explanation: 'Permite retirar vítimas exaustas ou inconscientes com rapidez.' },
-      { id: '10-4', question: 'A manutenção diária do motor fora de borda implica:', options: ['Pintar o motor', 'Adoçar com água doce para remover salitre', 'Mudar o óleo todos os dias', 'Deixar ao sol'], correctAnswer: 1, explanation: 'Prevenção vital contra a corrosão marítima.' },
-      { id: '10-5', question: 'Sinal sonoro de "Perigo e Dúvida" na navegação:', options: ['Um apito longo', 'Pelo menos 5 apitos curtos e rápidos', 'Dois apitos longos', 'Silêncio total'], correctAnswer: 1, explanation: 'Sinalização padrão do RIEAM.' },
-      { id: '10-6', question: 'Um colete de salvação de 150N é indicado para:', options: ['Apenas piscinas', 'Navegação costeira e alto mar', 'Crianças pequenas', 'Águas interiores calmas'], correctAnswer: 1, explanation: 'Garante a flutuabilidade e vira a pessoa de boca para cima.' },
-      { id: '10-7', question: 'Como se deve proceder ao recolher uma vítima inconsciente para um barco?', options: ['Puxar pelos cabelos', 'Técnica de rolamento ou uso de rede de recuperação lateral', 'Esperar que ela acorde', 'Atirar uma corda'], correctAnswer: 1, explanation: 'Minimizar o risco de trauma adicional.' },
-      { id: '10-8', question: 'O rádio VHF num barco deve estar sintonizado em:', options: ['Canal 16 (Escuta permanente)', 'Canal de música', 'Canal 10', 'Desligado'], correctAnswer: 0, explanation: 'Obrigatoriedade legal para segurança e coordenação.' },
-      { id: '10-9', question: 'Ao navegar na zona de rebentação com mota de água, deve-se:', options: ['Ir sempre de lado para a onda', 'Manter a proa perpendicular à onda e velocidade constante', 'Navegar de olhos fechados', 'Parar o motor'], correctAnswer: 1, explanation: 'Garante a estabilidade e evita o capotamento.' },
-      { id: '10-10', question: 'A luz de navegação encarnada (vermelha) indica o bombordo (lado esquerdo)?', options: ['Sim', 'Não, indica estibordo', 'Indica a frente', 'Indica o fundo'], correctAnswer: 0, explanation: 'Encarnado a Bombordo, Verde a Estibordo.' }
-    ]
-  },
-  {
-    id: 'cap-11',
-    title: 'Capítulo 11: Apoio Sanitário e Protocolos de Saúde',
-    description: 'Gestão do posto de socorro, oxigenoterapia e controlo de infeções.',
-    questions: [
-      { id: '11-1', question: 'Qual o fluxo de oxigénio recomendado numa máscara com reservatório para PCR?', options: ['2 L/min', '5 L/min', '12-15 L/min', 'Zero'], correctAnswer: 2, explanation: 'Garantir a máxima concentração de O2 possível (aprox. 100%).' },
-      { id: '11-2', question: 'Equipamento de Proteção Individual (EPI) básico no socorro:', options: ['Apenas fato de banho', 'Luvas, máscara cirúrgica e proteção ocular', 'Capacete de mota', 'Botas de borracha'], correctAnswer: 1, explanation: 'Proteção contra fluidos biológicos e contágio.' },
-      { id: '11-3', question: 'Onde devem ser depositadas agulhas ou objetos cortantes?', options: ['Lixo comum', 'Contentor rígido específico para perfurantes', 'Enterrados na areia', 'No mar'], correctAnswer: 1, explanation: 'Prevenção de acidentes com resíduos hospitalares.' },
-      { id: '11-4', question: 'O que é o "Aspirador de Secreções"?', options: ['Um tipo de ventilador', 'Equipamento para limpar vias aéreas de vómito ou sangue', 'Um termómetro', 'Um balão de oxigénio'], correctAnswer: 1, explanation: 'Vital para manter a via aérea permeável.' },
-      { id: '11-5', question: 'Em caso de picada de Alforreca (Medusa), deve-se lavar com:', options: ['Água doce', 'Água do mar ou vinagre (dependendo da espécie)', 'Álcool', 'Urina'], correctAnswer: 1, explanation: 'A água doce ativa os cnidócitos restantes, agravando a dor.' },
-      { id: '11-6', question: 'A técnica de "Lavagem das Mãos" deve durar pelo menos:', options: ['5 segundos', '20 a 40 segundos', '2 minutos', 'Não é necessário'], correctAnswer: 1, explanation: 'Tempo mínimo para eficácia na remoção de agentes patogénicos.' },
-      { id: '11-7', question: 'O relatório de ocorrência deve ser preenchido:', options: ['Só se houver morte', 'Em todos os incidentes ou assistências prestadas', 'Pela vítima', 'Um mês depois'], correctAnswer: 1, explanation: 'Documento legal de prova do serviço efetuado.' },
-      { id: '11-8', question: 'Sinal de choque anafilático:', options: ['Fome extrema', 'Dificuldade respiratória grave e inchaço (edema)', 'Sono profundo', 'Cabelo em pé'], correctAnswer: 1, explanation: 'Reação alérgica grave que requer intervenção imediata.' },
-      { id: '11-9', question: 'A validade do DAE deve ser verificada:', options: ['Pelo estado dos elétrodos e bateria', 'Pela cor da caixa', 'Pelo peso', 'Não tem validade'], correctAnswer: 0, explanation: 'Elétrodos secos ou bateria fraca tornam o DAE inútil.' },
-      { id: '11-10', question: 'A desinfeção da prancha de salvamento deve ser feita com:', options: ['Vinagre', 'Solução desinfetante apropriada após cada uso com vítimas', 'Apenas água do mar', 'Cera de surf'], correctAnswer: 1, explanation: 'Garantir a assepsia do material de contacto.' }
-    ]
   }
 ];
 
 export const TIPS: Tip[] = [
   { id: 't1', category: 'Segurança', text: 'Mantenha o rádio sempre carregado e no Canal 16 durante o turno.' },
   { id: 't2', category: 'Prevenção', text: 'Vigie prioritariamente as crianças e idosos perto de agueiros.' },
-  { id: 't3', category: 'Equipamento', text: 'Verifique a pressão da garrafa de O2 no início de cada turno.' }
+  { id: 't3', category: 'Equipamento', text: 'Verifique a pressão da garrafa de O2 no início de cada turno.' },
+  { id: 't4', category: 'Saúde', text: 'Hidrate-se regularmente e use sempre protetor solar com fator 50+.' }
 ];
