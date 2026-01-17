@@ -18,36 +18,36 @@ interface BeachPoint {
 
 const FORECAST_POINTS: BeachPoint[] = [
   // Norte
-  { id: 'viana', name: 'Cabedelo', region: 'Viana do Castelo', x: 28, y: 8, condition: 'Limpo', temp: '19°', icon: '☀️', wind: '15km/h N', waves: '1.2m', tide: 'Baixa (14:30)' },
-  { id: 'povoa', name: 'P. Varzim', region: 'Porto Norte', x: 28, y: 15, condition: 'Nuvens', temp: '18°', icon: '⛅', wind: '18km/h NW', waves: '1.8m', tide: 'Enchente' },
-  { id: 'porto', name: 'Matosinhos', region: 'Porto', x: 28, y: 22, condition: 'Nuvens', temp: '18°', icon: '⛅', alert: 'Amarelo', wind: '22km/h NW', waves: '2.5m', tide: 'Enchente' },
-  { id: 'espinho', name: 'Baía', region: 'Aveiro Norte', x: 29, y: 28, condition: 'Limpo', temp: '20°', icon: '☀️', wind: '14km/h N', waves: '1.1m', tide: 'Baixa' },
+  { id: 'viana', name: 'Praia do Cabedelo', region: 'Viana do Castelo', x: 28, y: 8, condition: 'Limpo', temp: '19°', icon: '☀️', wind: '15km/h N', waves: '1.2m', tide: 'Baixa (14:30)' },
+  { id: 'povoa', name: 'Praia da Póvoa', region: 'Póvoa de Varzim', x: 28, y: 15, condition: 'Nuvens', temp: '18°', icon: '⛅', wind: '18km/h NW', waves: '1.8m', tide: 'Enchente' },
+  { id: 'porto', name: 'Praia de Matosinhos', region: 'Porto', x: 28, y: 22, condition: 'Nuvens', temp: '18°', icon: '⛅', alert: 'Amarelo', wind: '22km/h NW', waves: '2.5m', tide: 'Enchente' },
+  { id: 'espinho', name: 'Praia da Baía', region: 'Espinho', x: 29, y: 28, condition: 'Limpo', temp: '20°', icon: '☀️', wind: '14km/h N', waves: '1.1m', tide: 'Baixa' },
   
   // Centro
-  { id: 'aveiro', name: 'Barra', region: 'Aveiro', x: 30, y: 35, condition: 'Limpo', temp: '20°', icon: '☀️', wind: '12km/h NW', waves: '0.8m', tide: 'Preia-mar' },
-  { id: 'figueira', name: 'Claridade', region: 'Coimbra', x: 28, y: 42, condition: 'Nuvens', temp: '19°', icon: '⛅', wind: '20km/h N', waves: '2.0m', tide: 'Baixa' },
-  { id: 'nazare', name: 'Nazaré', region: 'Leiria', x: 26, y: 48, condition: 'Vento Forte', temp: '17°', icon: '🌬️', alert: 'Vermelho', wind: '45km/h W', waves: '7.5m', tide: 'Vazante' },
-  { id: 'peniche', name: 'Supertubos', region: 'Oeste', x: 23, y: 55, condition: 'Limpo', temp: '19°', icon: '☀️', wind: '18km/h N', waves: '1.5m', tide: 'Baixa-mar' },
+  { id: 'aveiro', name: 'Praia da Barra', region: 'Aveiro', x: 30, y: 35, condition: 'Limpo', temp: '20°', icon: '☀️', wind: '12km/h NW', waves: '0.8m', tide: 'Preia-mar' },
+  { id: 'figueira', name: 'Praia da Claridade', region: 'Figueira da Foz', x: 28, y: 42, condition: 'Nuvens', temp: '19°', icon: '⛅', wind: '20km/h N', waves: '2.0m', tide: 'Baixa' },
+  { id: 'nazare', name: 'Praia da Nazaré', region: 'Nazaré', x: 26, y: 48, condition: 'Vento Forte', temp: '17°', icon: '🌬️', alert: 'Vermelho', wind: '45km/h W', waves: '7.5m', tide: 'Vazante' },
+  { id: 'peniche', name: 'Praia de Supertubos', region: 'Peniche', x: 23, y: 55, condition: 'Limpo', temp: '19°', icon: '☀️', wind: '18km/h N', waves: '1.5m', tide: 'Baixa-mar' },
   
   // Lisboa e Setúbal
-  { id: 'ericeira', name: 'R. Ilhas', region: 'Lisboa Norte', x: 24, y: 62, condition: 'Limpo', temp: '21°', icon: '☀️', wind: '15km/h N', waves: '1.8m', tide: 'Enchente' },
-  { id: 'lisboa', name: 'Guincho', region: 'Cascais', x: 25, y: 68, condition: 'Limpo', temp: '22°', icon: '☀️', wind: '10km/h NW', waves: '0.5m', tide: 'Enchente' },
-  { id: 'caparica', name: 'Caparica', region: 'Almada', x: 27, y: 72, condition: 'Limpo', temp: '23°', icon: '☀️', wind: '12km/h W', waves: '0.6m', tide: 'Baixa' },
-  { id: 'setubal', name: 'Galapinhos', region: 'Arrábida', x: 32, y: 75, condition: 'Limpo', temp: '24°', icon: '☀️', wind: '5km/h S', waves: '0.2m', tide: 'Preia-mar' },
+  { id: 'ericeira', name: 'Praia Ribeira d\'Ilhas', region: 'Ericeira', x: 24, y: 62, condition: 'Limpo', temp: '21°', icon: '☀️', wind: '15km/h N', waves: '1.8m', tide: 'Enchente' },
+  { id: 'lisboa', name: 'Praia do Guincho', region: 'Cascais', x: 25, y: 68, condition: 'Limpo', temp: '22°', icon: '☀️', wind: '10km/h NW', waves: '0.5m', tide: 'Enchente' },
+  { id: 'caparica', name: 'Praia da Caparica', region: 'Costa da Caparica', x: 27, y: 72, condition: 'Limpo', temp: '23°', icon: '☀️', wind: '12km/h W', waves: '0.6m', tide: 'Baixa' },
+  { id: 'setubal', name: 'Praia dos Galapinhos', region: 'Setúbal', x: 32, y: 75, condition: 'Limpo', temp: '24°', icon: '☀️', wind: '5km/h S', waves: '0.2m', tide: 'Preia-mar' },
   
   // Alentejo
-  { id: 'sines', name: 'S. Torpes', region: 'Alentejo', x: 35, y: 80, condition: 'Nuvens', temp: '21°', icon: '⛅', wind: '14km/h W', waves: '1.1m', tide: 'Preia-mar' },
-  { id: 'milfontes', name: 'Franquia', region: 'Odemira', x: 38, y: 85, condition: 'Limpo', temp: '22°', icon: '☀️', wind: '10km/h NW', waves: '0.8m', tide: 'Baixa' },
+  { id: 'sines', name: 'Praia de São Torpes', region: 'Sines', x: 35, y: 80, condition: 'Nuvens', temp: '21°', icon: '⛅', wind: '14km/h W', waves: '1.1m', tide: 'Preia-mar' },
+  { id: 'milfontes', name: 'Praia da Franquia', region: 'Vila Nova de Milfontes', x: 38, y: 85, condition: 'Limpo', temp: '22°', icon: '☀️', wind: '10km/h NW', waves: '0.8m', tide: 'Baixa' },
   
   // Algarve
-  { id: 'sagres', name: 'Beliche', region: 'Algarve W', x: 45, y: 92, condition: 'Vento', temp: '21°', icon: '🌬️', wind: '30km/h NW', waves: '2.2m', tide: 'Enchente' },
-  { id: 'portimao', name: 'Rocha', region: 'Algarve Central', x: 55, y: 92, condition: 'Limpo', temp: '24°', icon: '☀️', wind: '8km/h S', waves: '0.4m', tide: 'Baixa-mar' },
-  { id: 'faro', name: 'Faro', region: 'Algarve Faro', x: 75, y: 92, condition: 'Limpo', temp: '25°', icon: '☀️', wind: '9km/h SE', waves: '0.3m', tide: 'Enchente' },
-  { id: 'tavira', name: 'Tavira', region: 'Algarve E', x: 88, y: 92, condition: 'Limpo', temp: '26°', icon: '☀️', wind: '5km/h E', waves: '0.2m', tide: 'Preia-mar' },
+  { id: 'sagres', name: 'Praia do Beliche', region: 'Sagres', x: 45, y: 92, condition: 'Vento', temp: '21°', icon: '🌬️', wind: '30km/h NW', waves: '2.2m', tide: 'Enchente' },
+  { id: 'portimao', name: 'Praia da Rocha', region: 'Portimão', x: 55, y: 92, condition: 'Limpo', temp: '24°', icon: '☀️', wind: '8km/h S', waves: '0.4m', tide: 'Baixa-mar' },
+  { id: 'faro', name: 'Praia de Faro', region: 'Faro', x: 75, y: 92, condition: 'Limpo', temp: '25°', icon: '☀️', wind: '9km/h SE', waves: '0.3m', tide: 'Enchente' },
+  { id: 'tavira', name: 'Praia de Tavira', region: 'Tavira', x: 88, y: 92, condition: 'Limpo', temp: '26°', icon: '☀️', wind: '5km/h E', waves: '0.2m', tide: 'Preia-mar' },
 
   // Ilhas
-  { id: 'madeira', name: 'P. Moniz', region: 'Madeira', x: 75, y: 15, condition: 'Nuvens', temp: '22°', icon: '⛅', wind: '12km/h NE', waves: '1.5m', tide: 'Preia-mar' },
-  { id: 'pdelgada', name: 'S. Bárbara', region: 'Açores', x: 75, y: 40, condition: 'Chuva', temp: '19°', icon: '🌧️', wind: '25km/h SW', waves: '3.0m', tide: 'Enchente' },
+  { id: 'madeira', name: 'Porto Moniz', region: 'Madeira', x: 75, y: 15, condition: 'Nuvens', temp: '22°', icon: '⛅', wind: '12km/h NE', waves: '1.5m', tide: 'Preia-mar' },
+  { id: 'pdelgada', name: 'Praia de Santa Bárbara', region: 'São Miguel - Açores', x: 75, y: 40, condition: 'Chuva', temp: '19°', icon: '🌧️', wind: '25km/h SW', waves: '3.0m', tide: 'Enchente' },
 ];
 
 interface BeachMapProps {
