@@ -173,6 +173,14 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     status: "Inscrições Abertas",
     link: "https://asnasa.pt"
   },
+  {
+    location: "Escariz - Complexo Desportivo",
+    entity: "Câmara Municipal de Arouca",
+    type: "RECERTIFICAÇÃO",
+    dates: "A definir",
+    status: "Brevemente",
+    link: "https://www.cm-arouca.pt"
+  },
 
   // ==================== CRUZ VERMELHA ====================
   {
