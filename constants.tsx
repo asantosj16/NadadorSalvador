@@ -11,56 +11,175 @@ export const BEACH_FLAGS: BeachFlag[] = [
 
 export const MANUALS: ManualCategory[] = [
   {
+    id: 'legal-ethics',
+    title: 'Legislação e Ética Profissional',
+    icon: '⚖️',
+    content: [
+      {
+        id: 'leg-1',
+        title: 'Lei 68/2014 e Regime Jurídico',
+        description: 'Enquadramento legal da atividade e responsabilidade civil/criminal.',
+        fullContent: 'A Lei n.º 68/2014 estabelece o regime jurídico da assistência a banhistas. O Nadador-Salvador (NS) é o elemento habilitado com o curso de formação técnica e tem o dever de vigiar, prevenir e socorrer. O cartão de NS é válido por 3 anos.'
+      },
+      {
+        id: 'leg-2',
+        title: 'Deveres e Ética do NS',
+        description: 'Normas de conduta, sigilo profissional e prontidão operativa.',
+        fullContent: 'Deveres fundamentais: 1. Permanência no posto durante o horário; 2. Uso correto do uniforme; 3. Vigilância ativa e ininterrupta; 4. Colaboração com as autoridades (Polícia Marítima e Capitania).'
+      }
+    ]
+  },
+  {
+    id: 'physiology-drowning',
+    title: 'Fisiologia e Afogamento',
+    icon: '🫁',
+    content: [
+      {
+        id: 'phys-1',
+        title: 'Mecanismos do Afogamento',
+        description: 'Processo de asfixia por submersão e laringospasmo.',
+        fullContent: 'O afogamento é um processo que resulta em compromisso respiratório. Pode ocorrer paragem respiratória antes da cardíaca (hipóxia). O laringospasmo é o fecho das cordas vocais para impedir a entrada de água, que acaba por ceder com a inconsciência.'
+      },
+      {
+        id: 'phys-2',
+        title: 'Hipotermia e Choque Térmico',
+        description: 'Impacto da temperatura da água no sistema cardiovascular.',
+        fullContent: 'Hipotermia ocorre quando a temperatura central < 35°C. Na água, a perda de calor é 25x superior ao ar. O choque térmico pode causar bradicardia súbita ou fibrilação ventricular.'
+      }
+    ]
+  },
+  {
     id: 'first-aid',
-    title: 'Socorrismo e Emergência Médica',
+    title: 'Suporte Básico de Vida',
     icon: '🏥',
     content: [
       {
         id: 'fa-1',
         title: 'SBV Adulto (Afogamento)',
-        description: 'Algoritmo de Suporte Básico de Vida adaptado ao meio aquático.',
-        fullContent: 'Prioridade à ventilação (5 insuflações iniciais). Rácio 30:2.',
+        description: 'Algoritmo de reanimação adaptado ao meio aquático.',
+        fullContent: '1. Verificar Segurança; 2. Avaliar Consciência; 3. Gritar por Ajuda; 4. Avaliar Respiração (VOS); 5. 5 Insuflações de Resgate (prioridade em afogados); 6. 30 compressões (5-6cm profundidade); 7. Rácio 30:2.',
         flowSteps: [
           { id: '1', type: 'start', label: 'Segurança Local', next: '2' },
-          { id: '2', type: 'action', label: 'Avaliar Vítima', next: '3' },
-          { id: '3', type: 'decision', label: 'Respira?', yes: 'end-1', no: '4' },
-          { id: '4', type: 'action', label: '5 Ventilações', next: '5' },
-          { id: '5', type: 'action', label: '30:2 e DAE', next: '5' },
-          { id: 'end-1', type: 'end', label: 'Monitorizar' }
+          { id: '2', type: 'action', label: 'Avaliar Vítima (Consciência e VOS)', next: '3' },
+          { id: '3', type: 'decision', label: 'Respira Normalmente?', yes: 'end-1', no: '4' },
+          { id: '4', type: 'action', label: '5 Insuflações Iniciais', next: '5' },
+          { id: '5', type: 'action', label: 'Ciclo 30:2 e DAE', next: '5' },
+          { id: 'end-1', type: 'end', label: 'Posição Lateral de Segurança' }
         ]
       },
       {
         id: 'fa-2',
-        title: 'SBV Avançado - Criança e Bebé',
-        description: 'Protocolo pediátrico para paragem cardiorrespiratória.',
-        fullContent: 'Técnicas específicas para bebés (<1 ano) e crianças (1 ano à puberdade).',
+        title: 'SBV Pediátrico',
+        description: 'Protocolo para lactentes e crianças.',
+        fullContent: 'Crianças (< puberdade): Rácio 15:2 para profissionais. Lactentes (< 1 ano): Compressão com 2 dedos ou técnica de abraçar. Profundidade: 1/3 do diâmetro do tórax.',
         flowSteps: [
-          { id: '1', type: 'start', label: 'Estimulação Pediátrica', next: '2' },
-          { id: '2', type: 'action', label: 'Gritar por Ajuda', next: '3' },
-          { id: '3', type: 'action', label: '5 Insuflações (Boca-Boca/Nariz)', next: '4' },
-          { id: '4', type: 'decision', label: 'Sinais de Vida?', yes: 'end-1', no: '5' },
-          { id: '5', type: 'action', label: 'Compressões 15:2 (2 mãos/2 dedos)', next: '5' },
-          { id: 'end-1', type: 'end', label: 'PLS Pediátrico' }
+          { id: '1', type: 'start', label: 'Avaliar Segurança', next: '2' },
+          { id: '2', type: 'action', label: 'Gritar por Ajuda / 112', next: '3' },
+          { id: '3', type: 'action', label: '5 Ventilações (Boca-Boca/Nariz)', next: '4' },
+          { id: '4', type: 'action', label: '15 Compressões (2 dedos no bebé)', next: '4' },
+          { id: 'end-1', type: 'end', label: 'Estabilizar até chegada INEM' }
         ]
       }
     ]
   },
   {
+    id: 'rescue-techniques',
+    title: 'Técnicas de Salvamento',
+    icon: '🌊',
+    content: [
+      {
+        id: 'res-1',
+        title: 'Aproximação e Reboques',
+        description: 'Abordagem à vítima e transporte para terra.',
+        fullContent: 'Aproximação deve ser feita pelas costas da vítima para evitar o agarre em pânico. Reboques: 1. Axilar (vítima consciente); 2. Cabeça-peito (inconsciente); 3. Pelo braço.'
+      },
+      {
+        id: 'res-2',
+        title: 'Libertações e Saca-Rolhas',
+        description: 'Técnicas de defesa pessoal aquática.',
+        fullContent: 'Se agarrado, o NS deve submergir (a vítima soltará para tentar flutuar). Usar as pernas para empurrar a vítima e ganhar distância. Nadar lateralmente ao agueiro (corrente de retorno).'
+      }
+    ]
+  },
+  {
     id: 'trauma-special',
-    title: 'Traumatologia e Casos Especiais',
+    title: 'Traumatologia e Coluna',
     icon: '🦴',
     content: [
       {
         id: 'tr-coluna',
-        title: 'Lesões na Coluna',
-        description: 'Imobilização e manuseamento de suspeita de trauma vertebro-medular.',
-        fullContent: 'Prioridade absoluta ao alinhamento cabeça-pescoço-tronco.',
+        title: 'Suspeita de Lesão Medular',
+        description: 'Manuseamento em mergulhos em águas rasas.',
+        fullContent: 'Imobilização cervical imediata. Não remover a vítima da água sem plano rígido ou apoio de 3-4 socorristas mantendo o alinhamento cabeça-pescoço-tronco.',
         flowSteps: [
-          { id: '1', type: 'start', label: 'Imobilização Manual', next: '2' },
-          { id: '2', type: 'action', label: 'Colocação de Colar Cervical', next: '3' },
-          { id: '3', type: 'action', label: 'Plano Rígido / Maca de Vácuo', next: 'end' },
-          { id: 'end', type: 'end', label: 'Transferência para INEM' }
+          { id: '1', type: 'start', label: 'Imobilização Manual (Head Splint)', next: '2' },
+          { id: '2', type: 'action', label: 'Colar Cervical e Plano Rígido', next: '3' },
+          { id: '3', type: 'action', label: 'Fixar Aranha e Laterais', next: 'end' },
+          { id: 'end', type: 'end', label: 'Extração Suave da Água' }
         ]
+      },
+      {
+        id: 'tr-hem',
+        title: 'Controlo de Hemorragias',
+        description: 'Pressão direta e uso de torniquete.',
+        fullContent: '1. Pressão Direta sobre a ferida; 2. Curativo Compressivo; 3. Torniquete (apenas em hemorragias arteriais massivas em membros, 5-7cm acima da ferida).'
+      }
+    ]
+  },
+  {
+    id: 'oceanography',
+    title: 'Oceanografia e Meteorologia',
+    icon: '🗺️',
+    content: [
+      {
+        id: 'ocean-1',
+        title: 'Correntes de Retorno (Agueiros)',
+        description: 'Identificação e dinâmica dos canais.',
+        fullContent: 'O agueiro é uma corrente forte que flui da costa para o mar. Identificação: Zona de água mais calma (sem ondas), água mais escura ou com sedimentos. Instruir banhista a nadar paralelo à costa.'
+      },
+      {
+        id: 'ocean-2',
+        title: 'Escalas de Beaufort e Douglas',
+        description: 'Medição da intensidade do vento e estado do mar.',
+        fullContent: 'Beaufort (0-12): Mede o vento. Douglas (0-9): Mede a vaga (vagas e ondulação). Acima de Beaufort 5/6, o risco de deriva de objetos flutuantes é extremo.'
+      }
+    ]
+  },
+  {
+    id: 'equipment-comm',
+    title: 'Equipamentos e Comunicações',
+    icon: '📻',
+    content: [
+      {
+        id: 'eq-1',
+        title: 'Sinais de Braço e Bandeiras',
+        description: 'Linguagem gestual padrão internacional.',
+        fullContent: 'Braço levantado estático: "Preciso de Ajuda". Agitar braços: "Alerta de Perigo". Bandeira Vermelha: Mar Proibido. Amarela: Atenção (não nadar para fora).'
+      },
+      {
+        id: 'eq-2',
+        title: 'Rádio VHF e CH16',
+        description: 'Procedimentos de chamada de rádio.',
+        fullContent: 'Canal 16 (156.800 MHz) é o canal internacional de socorro e chamada. Procedimento: "MAYDAY, MAYDAY, MAYDAY", Identificação, Posição, Natureza do perigo, Número de pessoas.'
+      }
+    ]
+  },
+  {
+    id: 'prevention-vigilance',
+    title: 'Prevenção e Vigilância',
+    icon: '🔭',
+    content: [
+      {
+        id: 'prev-1',
+        title: 'Varrimento Visual e Pontos de Risco',
+        description: 'Metodologias de vigilância de praia.',
+        fullContent: 'Varrimento em "S" ou "Z". Focar em: Crianças sozinhas, idosos, zonas de agueiros, rochas e esporões. Vigilância ativa: olhar para a água, não para a areia.'
+      },
+      {
+        id: 'prev-2',
+        title: 'Apoio Sanitário e Gestão de Posto',
+        description: 'Organização do material de primeiros socorros.',
+        fullContent: 'Manutenção diária: Verificar validade de fármacos, pressão da garrafa de Oxigénio (mínimo 150 bar), bateria do DAE e estado dos elétrodos.'
       }
     ]
   }

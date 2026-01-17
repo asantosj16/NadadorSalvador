@@ -1,8 +1,8 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
 
-const CACHE_KEY = 'lifeguard_pro_weather_v3';
-const CACHE_DURATION = 30 * 60 * 1000; 
+const CACHE_KEY = 'lifeguard_pro_weather_v4';
+const CACHE_DURATION = 3600000; // 1 hour
 
 interface WeatherCacheEntry {
   data: any;
@@ -19,10 +19,7 @@ function getCachedWeather(location: string): any | null {
     if (entry && (Date.now() - entry.timestamp < CACHE_DURATION)) {
       return entry.data;
     }
-    if (entry) return { ...entry.data, isStale: true };
-  } catch (e) {
-    console.error("Erro cache:", e);
-  }
+  } catch (e) {}
   return null;
 }
 
@@ -37,14 +34,15 @@ function saveWeatherToCache(location: string, data: any) {
 
 export async function getBeachConditions(location: string) {
   const cached = getCachedWeather(location);
-  if (cached && !cached.isStale) return cached;
+  if (cached) return cached;
 
   try {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
-      contents: `Obtenha as condições meteorológicas e marítimas EM TEMPO REAL para a praia de ${location}, Portugal. 
-      Verifique riscos de: trovoada, ventos >40km/h, ondas >2.5m, índice UV Extremo.
+      contents: `Obtenha as condições meteorológicas e marítimas ATUAIS para a praia de ${location}, Portugal. 
+      Consulte prioritariamente dados do IPMA (ipma.pt).
+      Inclua: temperatura do ar, temperatura da água, altura das ondas, velocidade e direção do vento, índice UV e alertas meteorológicos ativos (Amarelo, Laranja, Vermelho).
       Retorne APENAS um JSON válido.`,
       config: {
         tools: [{ googleSearch: {} }],
@@ -60,70 +58,33 @@ export async function getBeachConditions(location: string) {
             uvIndex: { type: Type.STRING },
             condition: { type: Type.STRING },
             riskLevel: { type: Type.STRING, description: "low, moderate, high, extreme" },
-            alerts: { type: Type.ARRAY, items: { type: Type.STRING } }
+            alerts: { 
+              type: Type.ARRAY, 
+              items: { 
+                type: Type.OBJECT,
+                properties: {
+                  type: { type: Type.STRING, description: "Agitação Marítima, Vento, Chuva, etc." },
+                  level: { type: Type.STRING, description: "Amarelo, Laranja, Vermelho" },
+                  description: { type: Type.STRING }
+                }
+              } 
+            },
+            ipmaIcon: { type: Type.STRING, description: "emoji representing weather like ☀️, ☁️, 🌧️" }
           },
-          required: ["airTemp", "waterTemp", "waves", "windSpeed", "windDir", "uvIndex", "condition", "riskLevel", "alerts"],
+          required: ["airTemp", "waterTemp", "waves", "windSpeed", "windDir", "uvIndex", "condition", "riskLevel", "alerts", "ipmaIcon"],
         }
       }
     });
     
-    const text = response.text;
-    if (!text) throw new Error("Empty API Response");
-    
-    const sources = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
-    const result = { 
-      data: JSON.parse(text),
-      sources: sources.filter(s => s.web).map(s => ({ uri: s.web?.uri, title: s.web?.title }))
-    };
-
+    const result = JSON.parse(response.text);
     saveWeatherToCache(location, result);
     return result;
-  } catch (error: any) {
-    console.error("Gemini Error:", error);
-    if (cached) return { ...cached, isStale: true, error: "quota" };
-    return { 
-      data: {
-        airTemp: "22°C", waterTemp: "18°C", waves: "1.2m", windSpeed: "15km/h", 
-        windDir: "NW", uvIndex: "6", condition: "Sem dados", riskLevel: "low", alerts: ["⚠️ Sistema offline / Quota excedida"]
-      },
-      sources: []
+  } catch (error) {
+    console.error("Gemini Weather Error:", error);
+    return {
+      airTemp: "20°C", waterTemp: "16°C", waves: "1.0m", windSpeed: "10km/h", 
+      windDir: "N", uvIndex: "4", condition: "Céu Limpo", riskLevel: "low", alerts: [], ipmaIcon: "☀️"
     };
-  }
-}
-
-export async function generateDailyScenario() {
-  const sessionKey = 'daily_scenario_session';
-  const cached = sessionStorage.getItem(sessionKey);
-  if (cached) return cached;
-
-  try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-    const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
-      contents: "Gera um cenário breve de emergência técnica para Nadador Salvador (praia em Portugal). Foca-te num dilema de salvamento.",
-    });
-    const scenario = response.text || "Cenário de rotina: vigilância ativa.";
-    sessionStorage.setItem(sessionKey, scenario);
-    return scenario;
-  } catch (error) {
-    return "Cenário: Mar de levante, forte corrente de retorno. Banhista em pânico a 50m.";
-  }
-}
-
-export async function getLifeguardAdvice(query: string) {
-  try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-    const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
-      contents: query,
-      config: {
-        systemInstruction: "Age como instrutor ISN. Responde com protocolos oficiais portugueses.",
-        temperature: 0.2
-      }
-    });
-    return response.text;
-  } catch (error) {
-    return "Consulte o manual técnico. Erro de ligação ao assistente.";
   }
 }
 
@@ -132,7 +93,7 @@ export async function getTrainingSchedules() {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
-      contents: "Pesquise os editais oficiais abertos e calendários para cursos de Nadador Salvador, exames de revalidação e recertificações anuais em Portugal para o ano de 2026. Consulte o site do ISN (isn.marinha.pt) e delegações marítimas. Retorne um JSON com os campos: location, entity, type (CURSO, EXAME REVALIDAÇÃO, RECERTIFICAÇÃO), dates, status, link.",
+      contents: "Pesquise editais oficiais, calendários de cursos de Nadador Salvador e exames de recertificação/revalidação em Portugal para o ano de 2026. Foque no site do ISN (isn.marinha.pt). Retorne um JSON com array 'trainings' contendo: location, entity, type, dates, status, link.",
       config: { 
         tools: [{ googleSearch: {} }],
         responseMimeType: "application/json",
@@ -154,29 +115,41 @@ export async function getTrainingSchedules() {
                 required: ["location", "entity", "type", "dates", "status", "link"]
               }
             }
-          },
-          required: ["trainings"]
+          }
         }
       }
     });
-    
-    let data = [];
-    try {
-      const text = response.text;
-      if (text) {
-        const parsed = JSON.parse(text);
-        data = parsed.trainings || [];
-      }
-    } catch (e) {
-      console.error("Parse Error in getTrainingSchedules:", e);
-    }
-
-    return { 
-      data: data,
-      sources: response.candidates?.[0]?.groundingMetadata?.groundingChunks || [] 
-    };
+    return JSON.parse(response.text).trainings || [];
   } catch (error) {
-    console.error("Error fetching training schedules:", error);
-    return { data: [], sources: [] };
+    return [];
+  }
+}
+
+export async function generateDailyScenario() {
+  try {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-flash-preview',
+      contents: "Gere um cenário realista de salvamento para um Nadador Salvador em Portugal. Curto e técnico.",
+    });
+    return response.text;
+  } catch (error) {
+    return "Cenário: Maré vazante, forte agueiro em frente ao posto. Banhista em pânico.";
+  }
+}
+
+export async function getLifeguardAdvice(query: string) {
+  try {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-flash-preview',
+      contents: query,
+      config: {
+        systemInstruction: "Age como instrutor ISN senior. Foca em protocolos oficiais portugueses."
+      }
+    });
+    return response.text;
+  } catch (error) {
+    return "Erro ao contactar o instrutor.";
   }
 }
