@@ -9,7 +9,7 @@ interface TrainingLocationsProps {
 }
 
 const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, loading }) => {
-  const [filter, setFilter] = useState<'ALL' | 'CURSO' | 'EXAME' | 'RECERT'>('ALL');
+  const [filter, setFilter] = useState<'ALL' | 'CURSO' | 'EXAME'>('ALL');
 
   const today = new Date().toLocaleDateString('pt-PT', { 
     day: '2-digit', 
@@ -20,8 +20,7 @@ const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, l
   const filteredItems = items.filter(item => {
     if (filter === 'ALL') return true;
     if (filter === 'CURSO') return item.type === 'CURSO';
-    if (filter === 'EXAME') return item.type === 'EXAME REVALIDAÇÃO';
-    if (filter === 'RECERT') return item.type === 'RECERTIFICAÇÃO 2026';
+    if (filter === 'EXAME') return item.type.includes('EXAME') || item.type.includes('RECERTIFICAÇÃO');
     return true;
   });
 
@@ -33,7 +32,7 @@ const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, l
             <h2 className="text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tighter">Editais e Cursos</h2>
             <div className="flex items-center space-x-2 text-blue-600 dark:text-blue-400">
                <span className="w-1.5 h-1.5 bg-current rounded-full animate-pulse"></span>
-               <p className="text-[10px] font-black uppercase tracking-widest">Sincronizado: {today}</p>
+               <p className="text-[10px] font-black uppercase tracking-widest">Atualização Anual: {today}</p>
             </div>
           </div>
           <div className="p-3 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 text-2xl">
@@ -42,7 +41,7 @@ const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, l
         </div>
         
         <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700 w-full overflow-hidden">
-          {(['ALL', 'CURSO', 'EXAME', 'RECERT'] as const).map((f) => (
+          {(['ALL', 'CURSO', 'EXAME'] as const).map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
@@ -52,7 +51,7 @@ const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, l
                 : 'text-slate-400 hover:text-slate-600'
               }`}
             >
-              {f === 'ALL' ? 'Todos' : f === 'CURSO' ? 'Cursos' : f === 'EXAME' ? 'Exames' : 'RECERT 26'}
+              {f === 'ALL' ? 'Todos' : f === 'CURSO' ? 'Cursos' : 'Exames/Recert.'}
             </button>
           ))}
         </div>
@@ -121,7 +120,7 @@ const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, l
       {sources && sources.length > 0 && (
         <div className="bg-slate-100 dark:bg-slate-900/50 p-6 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-inner">
           <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center">
-            <span className="mr-2">🔗</span> Fontes Oficiais de Verificação
+            <span className="mr-2">🔗</span> Fontes Oficiais
           </h3>
           <ul className="space-y-2">
             {sources.map((chunk: any, i: number) => (
@@ -141,12 +140,6 @@ const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, l
           </ul>
         </div>
       )}
-
-      <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-2xl border border-blue-100 dark:border-blue-900/50 text-center">
-        <p className="text-[9px] font-bold text-blue-700 dark:text-blue-400 uppercase tracking-widest leading-relaxed">
-          Os dados são obtidos via pesquisa em tempo real no portal da Marinha/ISN. Confirme sempre nos editais oficiais.
-        </p>
-      </div>
     </section>
   );
 };

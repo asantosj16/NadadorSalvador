@@ -1,4 +1,11 @@
 
+export interface BeachFlag {
+  color: string;
+  name: string;
+  meaning: string;
+  hex: string;
+}
+
 export interface ManualCategory {
   id: string;
   title: string;
@@ -33,6 +40,7 @@ export interface QuizQuestion {
   options: string[];
   correctAnswer: number;
   explanation: string;
+  // VideoUrl removido
 }
 
 export interface QuizChapter {
@@ -51,7 +59,7 @@ export interface Tip {
 export interface TrainingItem {
   location: string;
   entity: string;
-  type: 'CURSO' | 'EXAME REVALIDAÇÃO' | 'RECERTIFICAÇÃO 2026';
+  type: 'CURSO' | 'EXAME REVALIDAÇÃO' | 'RECERTIFICAÇÃO';
   dates: string;
   status: string;
   link: string;

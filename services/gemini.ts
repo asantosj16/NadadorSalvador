@@ -1,115 +1,182 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
 
-/**
- * Nota: Sempre inicializar a instância dentro da função para garantir a chave API mais recente.
- */
+const CACHE_KEY = 'lifeguard_pro_weather_v3';
+const CACHE_DURATION = 30 * 60 * 1000; 
 
-export async function getLifeguardAdvice(query: string) {
-  try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-    const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-preview',
-      contents: `Questão técnica de salvamento aquático: ${query}`,
-      config: {
-        systemInstruction: "Age como um Instrutor Sénior do Instituto de Socorros a Náufragos (ISN). Responde exclusivamente com protocolos oficiais portugueses e normas do ERC. Sê técnico, assertivo e foca-te na segurança máxima da vítima e do socorrista.",
-        temperature: 0.3,
-      },
-    });
-    return { text: response.text };
-  } catch (error) {
-    console.error("Gemini Advice Error:", error);
-    return { text: "Lamento, não consegui processar a consulta técnica. Por favor, consulta o manual físico ou contacta a coordenação." };
-  }
+interface WeatherCacheEntry {
+  data: any;
+  timestamp: number;
 }
 
-export async function generateDailyScenario() {
+function getCachedWeather(location: string): any | null {
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-    const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
-      contents: "Gera um cenário breve de emergência numa praia portuguesa para treino mental. Inclui: Condições do Mar, Vítima e Dilema Técnico.",
-      config: {
-        temperature: 0.8,
-      }
-    });
-    return response.text;
-  } catch (error) {
-    return "Cenário de rotina: Mar calmo, vento de Norte, vigilância ativa padrão.";
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (!cached) return null;
+    const store = JSON.parse(cached);
+    const entry = store[location] as WeatherCacheEntry;
+    
+    if (entry && (Date.now() - entry.timestamp < CACHE_DURATION)) {
+      return entry.data;
+    }
+    if (entry) return { ...entry.data, isStale: true };
+  } catch (e) {
+    console.error("Erro cache:", e);
   }
+  return null;
+}
+
+function saveWeatherToCache(location: string, data: any) {
+  try {
+    const cached = localStorage.getItem(CACHE_KEY);
+    const store = cached ? JSON.parse(cached) : {};
+    store[location] = { data, timestamp: Date.now() };
+    localStorage.setItem(CACHE_KEY, JSON.stringify(store));
+  } catch (e) {}
 }
 
 export async function getBeachConditions(location: string) {
+  const cached = getCachedWeather(location);
+  if (cached && !cached.isStale) return cached;
+
   try {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
-      contents: `Forneça as condições meteorológicas e do mar em tempo real para a localização: ${location}. Se for uma praia portuguesa famosa, use dados típicos sazonais realistas.`,
+      contents: `Obtenha as condições meteorológicas e marítimas EM TEMPO REAL para a praia de ${location}, Portugal. 
+      Verifique riscos de: trovoada, ventos >40km/h, ondas >2.5m, índice UV Extremo.
+      Retorne APENAS um JSON válido.`,
       config: {
+        tools: [{ googleSearch: {} }],
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.OBJECT,
           properties: {
-            airTemp: { type: Type.STRING, description: "Temperatura do ar, ex: 24°C" },
-            waterTemp: { type: Type.STRING, description: "Temperatura da água, ex: 18°C" },
-            waves: { type: Type.STRING, description: "Altura das ondas, ex: 1.2m" },
-            windSpeed: { type: Type.STRING, description: "Velocidade do vento, ex: 15km/h" },
-            windDir: { type: Type.STRING, description: "Direção do vento, ex: NW" },
-            uvIndex: { type: Type.STRING, description: "Índice UV, ex: Baixo, Moderado, Alto" },
-            condition: { type: Type.STRING, description: "Condição do céu, ex: Céu Limpo, Parcialmente Nublado" }
+            airTemp: { type: Type.STRING },
+            waterTemp: { type: Type.STRING },
+            waves: { type: Type.STRING },
+            windSpeed: { type: Type.STRING },
+            windDir: { type: Type.STRING },
+            uvIndex: { type: Type.STRING },
+            condition: { type: Type.STRING },
+            riskLevel: { type: Type.STRING, description: "low, moderate, high, extreme" },
+            alerts: { type: Type.ARRAY, items: { type: Type.STRING } }
           },
-          required: ["airTemp", "waterTemp", "waves", "windSpeed", "windDir", "uvIndex", "condition"],
+          required: ["airTemp", "waterTemp", "waves", "windSpeed", "windDir", "uvIndex", "condition", "riskLevel", "alerts"],
         }
       }
     });
     
     const text = response.text;
-    if (!text) throw new Error("Empty response");
-    return JSON.parse(text);
-  } catch (error) {
-    console.error("Conditions Fetch Error:", error);
-    return { 
-      airTemp: "22°C", 
-      waterTemp: "18°C", 
-      waves: "1.0m", 
-      windSpeed: "15km/h", 
-      windDir: "N", 
-      uvIndex: "Moderado", 
-      condition: "Céu Limpo" 
+    if (!text) throw new Error("Empty API Response");
+    
+    const sources = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
+    const result = { 
+      data: JSON.parse(text),
+      sources: sources.filter(s => s.web).map(s => ({ uri: s.web?.uri, title: s.web?.title }))
     };
+
+    saveWeatherToCache(location, result);
+    return result;
+  } catch (error: any) {
+    console.error("Gemini Error:", error);
+    if (cached) return { ...cached, isStale: true, error: "quota" };
+    return { 
+      data: {
+        airTemp: "22°C", waterTemp: "18°C", waves: "1.2m", windSpeed: "15km/h", 
+        windDir: "NW", uvIndex: "6", condition: "Sem dados", riskLevel: "low", alerts: ["⚠️ Sistema offline / Quota excedida"]
+      },
+      sources: []
+    };
+  }
+}
+
+export async function generateDailyScenario() {
+  const sessionKey = 'daily_scenario_session';
+  const cached = sessionStorage.getItem(sessionKey);
+  if (cached) return cached;
+
+  try {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-flash-preview',
+      contents: "Gera um cenário breve de emergência técnica para Nadador Salvador (praia em Portugal). Foca-te num dilema de salvamento.",
+    });
+    const scenario = response.text || "Cenário de rotina: vigilância ativa.";
+    sessionStorage.setItem(sessionKey, scenario);
+    return scenario;
+  } catch (error) {
+    return "Cenário: Mar de levante, forte corrente de retorno. Banhista em pânico a 50m.";
+  }
+}
+
+export async function getLifeguardAdvice(query: string) {
+  try {
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-flash-preview',
+      contents: query,
+      config: {
+        systemInstruction: "Age como instrutor ISN. Responde com protocolos oficiais portugueses.",
+        temperature: 0.2
+      }
+    });
+    return response.text;
+  } catch (error) {
+    return "Consulte o manual técnico. Erro de ligação ao assistente.";
   }
 }
 
 export async function getTrainingSchedules() {
   try {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-    const today = new Date().toLocaleDateString('pt-PT');
-    
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
-      contents: `Pesquisa no site oficial do ISN (isn.marinha.pt) o "Calendário de Sessões para Recertificação (EEAT-REC) 2026" e cursos de 2025. Fornece uma lista de cursos de Nadador Salvador e exames de revalidação com inscrições abertas. Retorna um array JSON com: location, entity, type (CURSO, EXAME REVALIDAÇÃO ou RECERTIFICAÇÃO 2026), dates, status, link.`,
-      config: {
+      contents: "Pesquise os editais oficiais abertos e calendários para cursos de Nadador Salvador, exames de revalidação e recertificações anuais em Portugal para o ano de 2026. Consulte o site do ISN (isn.marinha.pt) e delegações marítimas. Retorne um JSON com os campos: location, entity, type (CURSO, EXAME REVALIDAÇÃO, RECERTIFICAÇÃO), dates, status, link.",
+      config: { 
         tools: [{ googleSearch: {} }],
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            trainings: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  location: { type: Type.STRING },
+                  entity: { type: Type.STRING },
+                  type: { type: Type.STRING },
+                  dates: { type: Type.STRING },
+                  status: { type: Type.STRING },
+                  link: { type: Type.STRING }
+                },
+                required: ["location", "entity", "type", "dates", "status", "link"]
+              }
+            }
+          },
+          required: ["trainings"]
+        }
       }
     });
-
-    const sources = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
     
-    const jsonMatch = response.text?.match(/\[\s*\{.*\}\s*\]/s);
-    if (jsonMatch) {
-      const data = JSON.parse(jsonMatch[0]);
-      return { data, sources };
+    let data = [];
+    try {
+      const text = response.text;
+      if (text) {
+        const parsed = JSON.parse(text);
+        data = parsed.trainings || [];
+      }
+    } catch (e) {
+      console.error("Parse Error in getTrainingSchedules:", e);
     }
-    
+
     return { 
-      data: [
-        { location: "Site ISN", entity: "ISN", type: "RECERTIFICAÇÃO 2026", dates: "Calendário EEAT-REC 2026", status: "Publicado", link: "https://isn.marinha.pt/pt/nadador-salvador/Paginas/Exames-de-Nadador-Salvador.aspx" },
-        { location: "Sede ISN - Caxias", entity: "ISN", type: "CURSO", dates: "Calendário 2025", status: "Abertas", link: "https://isn.marinha.pt/pt/formacao/Paginas/Calendario-de-Cursos.aspx" }
-      ], 
-      sources 
+      data: data,
+      sources: response.candidates?.[0]?.groundingMetadata?.groundingChunks || [] 
     };
   } catch (error) {
-    console.error("Training Fetch Error:", error);
+    console.error("Error fetching training schedules:", error);
     return { data: [], sources: [] };
   }
 }
