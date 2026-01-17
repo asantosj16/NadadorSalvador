@@ -174,12 +174,30 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     link: "https://asnasa.pt"
   },
   {
-    location: "Escariz - Complexo Desportivo",
-    entity: "Câmara Municipal de Arouca",
+    location: "Escariz - 201/26",
+    entity: "ISN",
     type: "RECERTIFICAÇÃO",
-    dates: "A definir",
-    status: "Brevemente",
-    link: "https://www.cm-arouca.pt"
+    dates: "28 de Janeiro 2026 (Inscrições: 5 a 18 Jan)",
+    status: "Inscrições Abertas",
+    link: "https://www.isn.pt"
+  },
+
+  // ==================== ISN - RECERTIFICAÇÕES ADICIONAIS ====================
+  {
+    location: "Albufeira - 202/26",
+    entity: "ISN",
+    type: "RECERTIFICAÇÃO",
+    dates: "04 de Fevereiro 2026 (Inscrições: 5 a 25 Jan)",
+    status: "Inscrições Abertas",
+    link: "https://www.isn.pt"
+  },
+  {
+    location: "Santa Maria da Feira - 203/26",
+    entity: "ISN",
+    type: "RECERTIFICAÇÃO",
+    dates: "11 de Fevereiro 2026 (Inscrições: 12 Jan a 1 Fev)",
+    status: "Inscrições Abertas",
+    link: "https://www.isn.pt"
   },
 
   // ==================== CRUZ VERMELHA ====================
