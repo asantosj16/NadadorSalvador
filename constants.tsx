@@ -26,6 +26,30 @@ export const MANUALS: ManualCategory[] = [
         title: 'Deveres e Ética Profissional',
         description: 'Normas de conduta e sigilo.',
         fullContent: 'Deveres: Permanência no posto, uso de uniforme, vigilância ativa e colaboração com autoridades. A ética exige imparcialidade e sigilo profissional sobre o estado das vítimas.'
+      },
+      {
+        id: 'leg-3',
+        title: 'Responsabilidade Civil e Criminal',
+        description: 'Implicações legais da atuação do NS.',
+        fullContent: 'O NS pode ser responsabilizado civil ou criminalmente por negligência, imprudência ou omissão de socorro. Está protegido legalmente quando atua segundo as boas práticas e protocolos estabelecidos. A responsabilidade civil pode recair sobre a entidade gestora da praia.'
+      },
+      {
+        id: 'leg-4',
+        title: 'Certificação e Revalidação Profissional',
+        description: 'Requisitos para exercício e renovação.',
+        fullContent: 'O certificado de NS tem validade de 3 anos. Para revalidação, é obrigatória formação contínua (mínimo 16h) ou exame prático-teórico. Deve-se manter atualizado o registo no ISN (Instituto de Socorros a Náufragos) ou entidade certificadora.'
+      },
+      {
+        id: 'leg-5',
+        title: 'Direitos Laborais e Condições de Trabalho',
+        description: 'Enquadramento laboral e segurança.',
+        fullContent: 'Direito a equipamento adequado, proteção solar, rotatividade de turnos e pausas. Contrato conforme Código de Trabalho. Deve haver seguro de acidentes de trabalho. Exposição solar e física exige acompanhamento médico-laboral periódico.'
+      },
+      {
+        id: 'leg-6',
+        title: 'Protocolo de Reporte e Documentação',
+        description: 'Registo obrigatório de ocorrências.',
+        fullContent: 'Todo o socorro deve ser registado em livro de ocorrências com: hora, identificação da vítima, natureza do incidente, atuação realizada e encaminhamento. Relatórios críticos devem ser enviados às autoridades competentes (Capitania, INEM) dentro de 24h.'
       }
     ]
   },
@@ -45,6 +69,30 @@ export const MANUALS: ManualCategory[] = [
         title: 'Hipotermia e Choque Térmico',
         description: 'Impacto do frio no sistema cardiovascular.',
         fullContent: 'Hipotermia (temp < 35°C). Perda de calor na água é 25x superior ao ar. Choque térmico pode causar arritmias letais.'
+      },
+      {
+        id: 'phys-3',
+        title: 'Classificação de Afogamento',
+        description: 'Graus de severidade segundo Szpilman.',
+        fullContent: 'Grau 1: tosse sem espuma. Grau 2: espuma boca/nariz. Grau 3: edema pulmonar agudo. Grau 4: paragem respiratória. Grau 5: paragem cardiorrespiratória. Grau 6: óbito. Orientar abordagem conforme gravidade.'
+      },
+      {
+        id: 'phys-4',
+        title: 'Fisiopatologia do Afogamento em Água Doce vs Salgada',
+        description: 'Diferenças osmóticas e impacto pulmonar.',
+        fullContent: 'Água doce: hipotónica, causa hemodilução e hemólise rápida. Água salgada: hipertónica, provoca edema pulmonar por gradiente osmótico. Ambas levam a hipoxemia grave. Tratamento pré-hospitalar é idêntico: ventilação precoce.'
+      },
+      {
+        id: 'phys-5',
+        title: 'Resposta do Mergulho e Reflexo Mamífero',
+        description: 'Mecanismos protetores de imersão.',
+        fullContent: 'Reflexo de mergulho: bradicardia, vasoconstrição periférica e shunt sanguíneo para órgãos vitais. Mais pronunciado em água fria e crianças. Pode prolongar janela de reanimação em hipotermia (até 60 min em casos raros).'
+      },
+      {
+        id: 'phys-6',
+        title: 'Afogamento Secundário (Seco) e ARDS',
+        description: 'Complicações pós-reanimação.',
+        fullContent: 'Afogamento seco: laringospasmo sem aspiração. ARDS (Síndrome de Dificuldade Respiratória Aguda) pode surgir 24-48h após. Todas as vítimas de submersão devem ser avaliadas em hospital, mesmo se aparentemente recuperadas.'
       }
     ]
   },
@@ -65,6 +113,53 @@ export const MANUALS: ManualCategory[] = [
           { id: '4', type: 'action', label: 'Ciclo 30:2 e DAE', next: '4' },
           { id: 'end-1', type: 'end', label: 'Posição Lateral de Segurança' }
         ]
+      },
+      {
+        id: 'fa-2',
+        title: 'SBV Pediátrico (< 8 anos)',
+        description: 'Adaptações para crianças e bebés.',
+        fullContent: 'Insuflações mais suaves (cheeks puffing). 5 ventilações de resgate iniciais. Compressões: 1/3 da profundidade torácica. Rácio 15:2 com 2 reanimadores. Ativar 112 após 1 minuto se sozinho.',
+        flowSteps: [
+          { id: '1', type: 'start', label: 'Segurança e VOS', next: '2' },
+          { id: '2', type: 'decision', label: 'Respira?', yes: 'end-1', no: '3' },
+          { id: '3', type: 'action', label: '5 Ventilações Suaves', next: '4' },
+          { id: '4', type: 'decision', label: 'Sozinho?', yes: '5', no: '6' },
+          { id: '5', type: 'action', label: '1 min SBV → 112', next: '6' },
+          { id: '6', type: 'action', label: 'Ciclo 15:2 (2 socorristas)', next: '6' },
+          { id: 'end-1', type: 'end', label: 'PLS e Vigilância' }
+        ]
+      },
+      {
+        id: 'fa-3',
+        title: 'Uso do DAE/DEA',
+        description: 'Desfibrilhação automática externa.',
+        fullContent: 'Ligar DAE e seguir instruções verbais. Secar tórax se molhado. Pás: direita sub-clavicular, esquerda axilar. Desfibrilhar se indicado. Retomar SBV imediatamente. Em crianças < 8 anos usar pás pediátricas ou atenuador se disponível.',
+        flowSteps: [
+          { id: '1', type: 'start', label: 'Vítima Inconsciente', next: '2' },
+          { id: '2', type: 'action', label: 'Ligar DAE', next: '3' },
+          { id: '3', type: 'action', label: 'Colocar Pás', next: '4' },
+          { id: '4', type: 'decision', label: 'Choque Recomendado?', yes: '5', no: '6' },
+          { id: '5', type: 'action', label: 'Desfibrilhar (afastar)', next: '6' },
+          { id: '6', type: 'action', label: 'SBV 2 min', next: '4' },
+        ]
+      },
+      {
+        id: 'fa-4',
+        title: 'Obstrução da Via Aérea (Engasgamento)',
+        description: 'Manobra de Heimlich e pancadas dorsais.',
+        fullContent: 'Consciente: 5 pancadas inter-escapulares + 5 compressões abdominais (Heimlich). Alternar até desobstruir. Inconsciente: iniciar SBV. Crianças: menor força. Bebés: pancadas dorsais + compressões torácicas (sem Heimlich).'
+      },
+      {
+        id: 'fa-5',
+        title: 'Posição Lateral de Segurança (PLS)',
+        description: 'Vítima inconsciente que respira.',
+        fullContent: 'Indicações: vítima inconsciente com respiração eficaz. Técnica: ajoelhar ao lado, braço proximal a 90°, perna distal fletida, rolar para lateral, estender pescoço. Reavaliar VOS frequentemente. Contraindicada se suspeita trauma vertebral.'
+      },
+      {
+        id: 'fa-6',
+        title: 'Cadeia de Sobrevivência',
+        description: 'Elos críticos da reanimação.',
+        fullContent: 'Elo 1: Reconhecimento precoce e pedido de ajuda (112). Elo 2: SBV imediato. Elo 3: Desfibrilhação precoce. Elo 4: Suporte avançado (INEM/VMER). Elo 5: Cuidados pós-reanimação. A eficácia diminui 10% por cada minuto sem SBV.'
       }
     ]
   },
@@ -78,6 +173,36 @@ export const MANUALS: ManualCategory[] = [
         title: 'Suspeita de Lesão Medular',
         description: 'Imobilização em mergulhos.',
         fullContent: 'Imobilização manual (Head Splint). Uso de plano rígido e colar cervical. Extração controlada com 3-4 socorristas.'
+      },
+      {
+        id: 'tr-2',
+        title: 'Técnica Head Splint',
+        description: 'Estabilização cervical na água.',
+        fullContent: 'Aproximar pela frente, flutuar vítima em decúbito dorsal, usar antebraços para imobilizar cabeça pressionando os braços da vítima. Manter alinhamento cervical até plano rígido. Nunca soltar imobilização manual.'
+      },
+      {
+        id: 'tr-3',
+        title: 'Fraturas e Entorses',
+        description: 'Imobilização de membros.',
+        fullContent: 'Fraturas: imobilizar articulação acima e abaixo. Não reposicionar. Aplicar gelo com proteção. Entorses: repouso, gelo, compressão, elevação (RICE). Entorse grave ou fratura exposta: encaminhar 112.'
+      },
+      {
+        id: 'tr-4',
+        title: 'Traumatismo Crânio-Encefálico (TCE)',
+        description: 'Avaliação e gestão de traumas de crânio.',
+        fullContent: 'Sinais de alarme: alteração consciência, vómitos, cefaleia intensa, líquido claro nariz/ouvido. TCE grave: manter via aérea, imobilizar cervical, INEM urgente. Escala Glasgow < 13 = grave.'
+      },
+      {
+        id: 'tr-5',
+        title: 'Hemorragias e Controlo de Sangramento',
+        description: 'Compressão direta e torniquete.',
+        fullContent: 'Hemorragia externa: compressão direta com compressas, elevação membro. Hemorragia arterial grave: torniquete 5-7cm acima ferida (anotar hora). Hemorragia interna: suspeitar se abdómen rígido, palidez, taquicardia - INEM urgente.'
+      },
+      {
+        id: 'tr-6',
+        title: 'Queimaduras Solares e Térmicas',
+        description: 'Classificação e tratamento inicial.',
+        fullContent: '1º grau: eritema (arrefecer, hidratante). 2º grau: flictenas/bolhas (não rebentar, compressas húmidas, hospital). 3º grau: carbonização (cobrir com campo estéril, INEM). Queimadura > 10% superfície = grave. Queimaduras solares graves: risco insolação.'
       }
     ]
   },
@@ -91,6 +216,36 @@ export const MANUALS: ManualCategory[] = [
         title: 'Aproximação e Reboques',
         description: 'Abordagem segura e transporte.',
         fullContent: 'Aproximação pelas costas. Reboque axilar (consciente) ou cabeça-peito (inconsciente).'
+      },
+      {
+        id: 'res-2',
+        title: 'Entrada na Água e Progressão',
+        description: 'Técnicas de entrada conforme condições.',
+        fullContent: 'Entrada rasa: corrida + deslize. Profundidade: salto compacto. Ondulação forte: mergulho pato. Progressão: crol adaptado com cabeça elevada (vigilância contínua). Evitar perder vítima de vista.'
+      },
+      {
+        id: 'res-3',
+        title: 'Libertação de Agarres',
+        description: 'Técnicas de defesa pessoal aquática.',
+        fullContent: 'Agarre frontal: empurrar queixo para cima e afastar-se. Agarre braços: submersão controlada (vítima solta). Agarre pescoço por trás: elevar cotovelos e girar. Sempre reaproximar com segurança.'
+      },
+      {
+        id: 'res-4',
+        title: 'Salvamento com Equipamento',
+        description: 'Uso de rescue tube, torpedo e prancha.',
+        fullContent: 'Rescue tube: colocar sob axilas da vítima, remar por trás. Torpedo: alcançar vítima, aplicar alça. Prancha: aproximar de lado, rolar vítima para cima. Todos facilitam flutuação e reduzem fadiga.'
+      },
+      {
+        id: 'res-5',
+        title: 'Salvamento Múltiplo',
+        description: 'Gestão de várias vítimas.',
+        fullContent: 'Priorizar: crianças, submersão, inconscientes. Usar rescue tube para flutuar 2-3 vítimas. Pedir apoio adicional (112, outros NS). Em situação de corrente, reunir vítimas e nadar lateralmente para sair.'
+      },
+      {
+        id: 'res-6',
+        title: 'Extração de Vítima e Saída',
+        description: 'Técnicas para retirar vítima da água.',
+        fullContent: 'Vítima consciente: auxílio a caminhar ou carregar às costas (fireman carry). Vítima inconsciente: arrasto axilar ou uso de plano rígido. Em rebentação: aguardar série de ondas, extrair rapidamente na calmaria. Nunca arrastar sem proteger cabeça.'
       }
     ]
   },
@@ -104,6 +259,36 @@ export const MANUALS: ManualCategory[] = [
         title: 'Agueiros (Correntes de Retorno)',
         description: 'Identificação e dinâmica.',
         fullContent: 'Zonas de água calma e escura entre rebentação. Nadar paralelo à costa para sair.'
+      },
+      {
+        id: 'ocean-2',
+        title: 'Marés e Correntes',
+        description: 'Ciclos de maré e impacto na segurança.',
+        fullContent: 'Maré viva (lua cheia/nova): maior amplitude, correntes mais fortes. Maré morta (quartos): menor variação. Preia-mar: maior profundidade. Baixa-mar: exposição de rochas. Consultar tábuas de maré diariamente.'
+      },
+      {
+        id: 'ocean-3',
+        title: 'Ondulação e Rebentação',
+        description: 'Formação e características das ondas.',
+        fullContent: 'Ondulação: depende de fetch (distância), intensidade do vento e duração. Período: tempo entre ondas (> 12s = ondas fortes). Rebentação: onda quebra quando altura = 0.78x profundidade. Série de ondas: 7-10 ondas, última é maior.'
+      },
+      {
+        id: 'ocean-4',
+        title: 'Leitura de Condições Meteorológicas',
+        description: 'Sinais de mudança de tempo.',
+        fullContent: 'Nuvens Cumulonimbus: trovoada iminente (evacuar praia). Vento NW Portugal: ondulação e temperatura baixa. Vento E/SE: calor, calma. Queda brusca pressão atmosférica: tempestade aproxima-se. Verificar previsões IPMA 2x/dia.'
+      },
+      {
+        id: 'ocean-5',
+        title: 'Fenómenos Perigosos: Ondas Gigantes e Tsunami',
+        description: 'Situações excecionais de risco extremo.',
+        fullContent: 'Ondas gigantes (rogue waves): podem surgir súbito em séries. Tsunami: recuo anormal do mar = sinal alarme, evacuar para cota > 20m. Em Portugal, risco sísmico Atlântico existe (precedente 1755). Seguir plano evacuação local.'
+      },
+      {
+        id: 'ocean-6',
+        title: 'Fauna Marinha Perigosa',
+        description: 'Identificação e primeiros socorros.',
+        fullContent: 'Caravela Portuguesa: tentáculos urticantes, dor intensa - lavar com água salgada (não doce), retirar tentáculos com pinça. Arraias: ferroada venenosa - imergir em água quente (45°C). Medusas: vinagre ou água salgada. Alforreca: gelo. INEM se reação grave.'
       }
     ]
   },
@@ -117,6 +302,36 @@ export const MANUALS: ManualCategory[] = [
         title: 'Sinais Visuais e Bandeiras',
         description: 'Linguagem gestual padrão.',
         fullContent: 'Braço levantado: Ajuda. Agitar braços: Perigo. Bandeira Vermelha: Proibido.'
+      },
+      {
+        id: 'eq-2',
+        title: 'Sistema de Bandeiras de Praia',
+        description: 'Código de cores e significado.',
+        fullContent: 'Verde: Banhos autorizados, vigilância ativa. Amarela: Atenção, mar agitado, nadar perto da costa. Vermelha: Proibido entrar na água, perigo extremo. Xadrez: Zona não vigiada ou desportos náuticos. Azul: Qualidade ambiental certificada.'
+      },
+      {
+        id: 'eq-3',
+        title: 'Comunicação Rádio VHF',
+        description: 'Protocolo de comunicação marítima.',
+        fullContent: 'Canal 16: emergência e chamada. Canal 11: trabalho portos. Chamada: identificação do posto, localização, natureza. Confirmar receção. Linguagem clara, objetiva. Código fonético se necessário (Alpha, Bravo, Charlie...). Testar rádio no início do turno.'
+      },
+      {
+        id: 'eq-4',
+        title: 'Manutenção de Equipamento de Resgate',
+        description: 'Verificação e conservação.',
+        fullContent: 'Diário: verificar rescue tube (furos), binóculos (lentes), apito. Semanal: lavar equipamento água doce, verificar fatos neoprene. Mensal: revisão prancha resgate, remos. Anotar defeitos em livro manutenção. Equipamento defeituoso = fora serviço.'
+      },
+      {
+        id: 'eq-5',
+        title: 'Uso de Binóculos e Vigilância Auxiliar',
+        description: 'Ferramentas de observação à distância.',
+        fullContent: 'Binóculos: ampliação 7x ou 10x ideal. Usar para identificar vítima distante, verificar embarcações. Não substituem varrimento visual constante. Drones (onde autorizados): vigilância aérea, identificação rápida vítima, lançamento boia. Sempre manter socorrista como decisor.'
+      },
+      {
+        id: 'eq-6',
+        title: 'Equipamento de Proteção Individual (EPI)',
+        description: 'Fato de neoprene, proteção solar e térmica.',
+        fullContent: 'Fato neoprene: proteção térmica (3-5mm conforme água). Lycra/rash guard: proteção UV. Óculos sol polarizados: reduz reflexo água. Protetor solar FPS 50+ (resistente água). Boné/chapéu: prevenção insolação. Calçado antiderrapante. Hidratar-se frequentemente (2-3L/dia).'
       }
     ]
   },
@@ -130,6 +345,36 @@ export const MANUALS: ManualCategory[] = [
         title: 'Varrimento Visual',
         description: 'Estratégias de observação.',
         fullContent: 'Varrimento em S/Z. Foco em grupos de risco: crianças, idosos e banhistas perto de rochas.'
+      },
+      {
+        id: 'prev-2',
+        title: 'Identificação de Comportamentos de Risco',
+        description: 'Sinais precoces de perigo.',
+        fullContent: 'Sinais de afogamento: vítima vertical na água, boca ao nível da água, braços a bater superfície, sem progresso. NÃO grita. Outros riscos: mergulhos em zona rasa, nadar sozinho longe, crianças sem supervisão, colchões insufláveis com vento offshore.'
+      },
+      {
+        id: 'prev-3',
+        title: 'Ações Preventivas e Sensibilização',
+        description: 'Educação e intervenção antecipada.',
+        fullContent: 'Patrulha preventiva: abordar banhistas em risco antes de entrar na água. Sinalização: colocar avisos em zonas perigosas. Campanhas: sensibilizar crianças (programa "Bandeira Azul"). Demonstrações SBV públicas. Pulseiras identificação para crianças.'
+      },
+      {
+        id: 'prev-4',
+        title: 'Gestão de Multidões e Eventos',
+        description: 'Vigilância em dias de grande afluência.',
+        fullContent: 'Épocas alta: reforçar equipa, reduzir rácio NS/banhistas (ideal 1:50-100). Delimitar zonas banho. Fechar áreas perigosas. Megafone para avisos. Coordenação com autoridades (PSP, GNR). Plano contingência para evacuação rápida (ex: tubarão avistado).'
+      },
+      {
+        id: 'prev-5',
+        title: 'Vigilância Noturna e Condições Especiais',
+        description: 'Desafios fora do horário padrão.',
+        fullContent: 'Praia noturna (onde autorizada): iluminação adequada, rondas frequentes, proibir banhos fora zona iluminada. Nevoeiro: reduzir zona vigiada, usar apito/megafone. Tempestade: evacuar praia antecipadamente. Pôr-do-sol: última verificação da água antes encerrar posto.'
+      },
+      {
+        id: 'prev-6',
+        title: 'Perfil de Risco: Crianças, Idosos e Turistas',
+        description: 'Grupos vulneráveis e abordagem específica.',
+        fullContent: 'Crianças: supervisão parental insuficiente é principal causa. Aproximar pais. Idosos: risco cardíaco por choque térmico, medicação. Turistas: desconhecem perigos locais (correntes, rochas). Sinalização multilíngue. Agueiros: principal risco para todos os grupos.'
       }
     ]
   },
@@ -143,6 +388,36 @@ export const MANUALS: ManualCategory[] = [
         title: 'Gestão de Posto de Socorro',
         description: 'Manutenção de material.',
         fullContent: 'Verificar O2 (min 150 bar), DAE e validade de fármacos diariamente.'
+      },
+      {
+        id: 'san-2',
+        title: 'Oxigenoterapia no Afogamento',
+        description: 'Administração de O2 suplementar.',
+        fullContent: 'Indicações: qualquer vítima de submersão, mesmo consciente. Via: máscara alta concentração (12-15 L/min) ou insuflador (bag-valve-mask) se ventilação inadequada. Garrafas: verificar pressão (mínimo 150 bar). Duração: continuar até chegada INEM.'
+      },
+      {
+        id: 'san-3',
+        title: 'Feridas e Tratamento Básico',
+        description: 'Limpeza, desinfeção e pensos.',
+        fullContent: 'Limpeza: soro fisiológico ou água potável. Desinfeção: povidona iodada ou clorohexidina. Pensos: compressas estéreis + adesivo. Feridas extensas/profundas: comprimir, elevar e encaminhar hospital. Tétano: recomendar atualização vacinal (10 anos).'
+      },
+      {
+        id: 'san-4',
+        title: 'Gestão de Medicação de Emergência',
+        description: 'Fármacos e protocolos de administração.',
+        fullContent: 'Adrenalina (epinefrina): choque anafilático (picadas, alergias). Aspirina: suspeita enfarte. Salbutamol: crise asmática. Glicose: hipoglicemia. Apenas administrar se protocolo aprovado e formação específica. Registar administração (hora, dose, via). Verificar validades mensalmente.'
+      },
+      {
+        id: 'san-5',
+        title: 'Triagem e Priorização de Vítimas',
+        description: 'Sistema de cores em múltiplas vítimas.',
+        fullContent: 'Vermelho (imediato): paragem cardíaca, hemorragia grave, dificuldade respiratória. Amarelo (urgente): fraturas, feridas moderadas. Verde (adiável): feridas ligeiras. Preto (expectante): vítima irrecuperável (em catástrofe). Reavaliar continuamente prioridades.'
+      },
+      {
+        id: 'san-6',
+        title: 'Higiene e Controlo de Infeção',
+        description: 'Prevenção de contaminação cruzada.',
+        fullContent: 'Uso de luvas descartáveis em todo o contacto com fluidos. Máscara bolso com válvula unidirecional (SBV). Lavar mãos após cada atendimento. Desinfetar equipamento reutilizável. Descartar material contaminado em contentores adequados. Vacinação hepatite B recomendada para NS.'
       }
     ]
   },
@@ -156,6 +431,36 @@ export const MANUALS: ManualCategory[] = [
         title: 'Operação de Motas de Água (RWC)',
         description: 'Salvamento com meios motorizados.',
         fullContent: 'Aproximação por sotavento. Uso de Sled (plataforma de resgate). Protocolos de comunicação rádio VHF.'
+      },
+      {
+        id: 'spec-2',
+        title: 'Uso de Prancha de Resgate (IRB)',
+        description: 'Embarcação inflável a motor.',
+        fullContent: 'Operação: piloto + NS resgatador. Aproximação lateral da vítima. Recolha: parar motor, puxar vítima pela prancha lateral. Capacidade: 3-5 pessoas. Verificação pré-turno: combustível, motor, casco (furos).'
+      },
+      {
+        id: 'spec-3',
+        title: 'Helicóptero e Meios Aéreos',
+        description: 'Coordenação com INEM/Força Aérea.',
+        fullContent: 'Indicações: vítima inacessível, zona remota, politrauma grave. Comunicação via 112 → CODU. Sinalização: fumo laranja, espelho reflexo ou braços em Y. Zona aterragem: 30x30m, sem objetos soltos. Aproximar helicóptero agachado, nunca por trás.'
+      },
+      {
+        id: 'spec-4',
+        title: 'Mergulho de Resgate e Busca',
+        description: 'Procura subaquática de vítima.',
+        fullContent: 'Formação específica obrigatória (Rescue Diver). Equipamento: fato, máscara, barbatanas, snorkel/escafandro. Técnica: busca em padrão de grelha. Profundidade máxima 10m (sem escafandro). Vítima submersa > 10 min: probabilidade recuperação baixa, mas sempre tentar.'
+      },
+      {
+        id: 'spec-5',
+        title: 'Resgate em Cavernas e Zonas Rochosas',
+        description: 'Técnicas para terrenos complexos.',
+        fullContent: 'Cavernas marinhas: risco afogamento por ondulação súbita. Nunca entrar sozinho. Uso de corda guia. Rochas: aproximar na calmaria entre ondas. Uso de calçado antiderrapante. Banhista preso: libertação com cuidado (maré baixa), chamar bombeiros se necessário.'
+      },
+      {
+        id: 'spec-6',
+        title: 'Operações Noturnas e Baixa Visibilidade',
+        description: 'Salvamento em condições adversas.',
+        fullContent: 'Iluminação: lanternas LED potentes, bastões químicos para marcação. Comunicação sonora: apito (3 toques = ajuda). Coordenação: linha de socorristas para varrimento. Risco acrescido: só operar com equipa completa. Prevenção: evitar banhistas na água ao anoitecer.'
       }
     ]
   },
@@ -169,6 +474,36 @@ export const MANUALS: ManualCategory[] = [
         title: 'Gestão de Stress e Pânico',
         description: 'Abordagem psicológica à vítima.',
         fullContent: 'Vítima em pânico: falar calmo, dar ordens claras, manter distância física até segurança. Gestão de stress pós-incidente para o socorrista.'
+      },
+      {
+        id: 'psy-2',
+        title: 'Comunicação com Vítima Consciente',
+        description: 'Técnicas de acalmia e controlo.',
+        fullContent: 'Tom de voz firme e confiante. Instruções simples: "Fique calmo, vou ajudá-lo". Evitar gritar. Contacto visual. Não fazer promessas irrealistas ("vai ficar tudo bem"). Explicar ações: "vou colocar isto no seu peito" (DAE).'
+      },
+      {
+        id: 'psy-3',
+        title: 'Síndrome de Stress Pós-Traumático (PTSD)',
+        description: 'Reconhecimento e apoio ao socorrista.',
+        fullContent: 'Sintomas: flashbacks, insónia, hipervigilância, evitamento. Após incidente crítico: debriefing em 24-72h com equipa. Apoio psicológico profissional. Aceitável sentir emoções. Não é fraqueza procurar ajuda. Burnout: prevenção com rotação tarefas, pausas.'
+      },
+      {
+        id: 'psy-4',
+        title: 'Gestão de Familiares e Testemunhas',
+        description: 'Comunicação em situações críticas.',
+        fullContent: 'Afastar curiosos da zona operacional. Designar NS para apoiar família. Informação: honesta mas sem detalhes gráficos. Evitar dar prognóstico ("não sei se vai sobreviver" → "estamos a fazer tudo"). Permitir despedida se vítima consciente. Acionar apoio psicológico se disponível.'
+      },
+      {
+        id: 'psy-5',
+        title: 'Técnicas de Resiliência e Autocuidado',
+        description: 'Manutenção da saúde mental do NS.',
+        fullContent: 'Prática regular: exercício físico, sono adequado (7-8h), alimentação equilibrada. Mindfulness e respiração controlada. Rede apoio: partilhar com colegas. Hobbies fora do trabalho. Reconhecer limites pessoais. Supervisão psicológica anual recomendada.'
+      },
+      {
+        id: 'psy-6',
+        title: 'Intervenção em Crise Suicida',
+        description: 'Abordagem a tentativa de suicídio na praia.',
+        fullContent: 'Aproximação calma, não-julgadora. Estabelecer diálogo: "Como posso ajudar?". Ganhar tempo: envolver em conversa. Não desafiar ("não vai fazer isso"). Pedir apoio PSP/GNR. Nunca tentar resgate físico sozinho se pessoa em local perigoso. Após resolução: encaminhamento psiquiátrico obrigatório.'
       }
     ]
   },
@@ -182,6 +517,36 @@ export const MANUALS: ManualCategory[] = [
         title: 'Proteção de Dunas e Ecossistemas',
         description: 'Papel do NS na conservação.',
         fullContent: 'Sensibilização de banhistas para uso de passadiços. Identificação de focos de poluição marinha.'
+      },
+      {
+        id: 'env-2',
+        title: 'Sistema Dunar e Importância Ecológica',
+        description: 'Proteção e regeneração natural.',
+        fullContent: 'Dunas primárias: barreira contra erosão, habitat espécies protegidas. Pisoteio: principal ameaça (destrói vegetação). Promover uso de acessos marcados. Flora protegida: estorno, erva-das-dunas. Denunciar destruição intencional (crime ambiental).'
+      },
+      {
+        id: 'env-3',
+        title: 'Poluição Marinha e Resíduos',
+        description: 'Identificação e reporte.',
+        fullContent: 'Microplásticos: principal poluente. Recolher resíduos visíveis. Manchas óleo: não tocar, reportar Capitania urgente. Lixo hospitalar (seringas): recolher com pinça, contentor próprio. Campanha "praia limpa": envolver banhistas. Ecopontos e contentores adequados.'
+      },
+      {
+        id: 'env-4',
+        title: 'Espécies Protegidas e Intervenção',
+        description: 'Fauna marinha em situação vulnerável.',
+        fullContent: 'Tartarugas marinhas: desorientadas ou feridas → contactar CRAM (Centro Recuperação). Golfinhos/focas encalhadas: não devolver ao mar (podem estar doentes), manter húmidas, SEPNA/ICN. Aves marinhas oleadas: capturar com toalha, caixa ventilada, centro recuperação.'
+      },
+      {
+        id: 'env-5',
+        title: 'Qualidade da Água e Bandeira Azul',
+        description: 'Monitorização e certificação ambiental.',
+        fullContent: 'Análises bacteriológicas: E. coli, enterococos. APA realiza amostragens quinzenais. Bandeira Azul: certificação internacional (qualidade água + equipamentos + educação ambiental). NS deve reportar alterações água (cor, cheiro, espuma anormal). Proibir banhos se poluição detetada.'
+      },
+      {
+        id: 'env-6',
+        title: 'Alterações Climáticas e Erosão Costeira',
+        description: 'Impacto e adaptação.',
+        fullContent: 'Aumento nível mar: pressão sobre infraestruturas. Erosão: recuo da linha costa. Eventos extremos: tempestades mais frequentes. Papel NS: observar mudanças (recuo dunas, colapso arribas), reportar. Planeamento: postos de socorro em zonas seguras. Futuro: possível relocação estruturas.'
       }
     ]
   },
@@ -195,6 +560,36 @@ export const MANUALS: ManualCategory[] = [
         title: 'Choque Anafilático e Diabético',
         description: 'Emergências médicas comuns.',
         fullContent: 'Anafilaxia: Uso de epinefrina (se protocolado). Hipoglicemia: Administração de açúcar se consciente.'
+      },
+      {
+        id: 'adv-2',
+        title: 'Reconhecimento de AVC e Enfarte',
+        description: 'Sinais de alerta cerebrovascular e cardíaco.',
+        fullContent: 'AVC (Escala Cincinnati): Face descaída, Braço fraco, Fala arrastada → Tempo crítico (112 urgente). Enfarte: Dor torácica, irradiação braço esquerdo, sudorese, náusea. Dar aspirina se consciente. Oxigénio 15L/min. INEM imediato. Tempo = músculo cardíaco.'
+      },
+      {
+        id: 'adv-3',
+        title: 'Convulsões e Epilepsia',
+        description: 'Gestão de crise convulsiva.',
+        fullContent: 'Proteger cabeça (toalha, roupa). NÃO imobilizar ou colocar objetos na boca. Posicionar de lado após convulsão (evitar aspiração). Registar duração. > 5 min ou convulsões repetidas = Status Epilepticus (INEM urgente). Período pós-ictal: confusão normal, tranquilizar.'
+      },
+      {
+        id: 'adv-4',
+        title: 'Insolação e Golpe de Calor',
+        description: 'Emergência térmica por hipertermia.',
+        fullContent: 'Insolação: Cefaleia, náusea, tonturas (temperatura < 40°C). Tratamento: sombra, hidratar, compressas frias. Golpe calor: temperatura > 40°C, confusão, pele quente e SECA, convulsões. EMERGÊNCIA: arrefecer imediatamente (água fria, gelo axilas/virilhas), INEM urgente. Pode causar falência órgãos.'
+      },
+      {
+        id: 'adv-5',
+        title: 'Picadas e Envenenamentos Marinhos',
+        description: 'Tratamento específico por espécie.',
+        fullContent: 'Caravela Portuguesa: Lavar água salgada (NÃO doce), vinagre, remover tentáculos. Peixe-aranha: Imergir em água quente (45°C, 30-90 min). Ouriços-mar: Remover espinhos, água quente. Medusas: Vinagre ou água salgada. Reação alérgica (dispneia, urticária): epinefrina + INEM.'
+      },
+      {
+        id: 'adv-6',
+        title: 'Parto de Emergência na Praia',
+        description: 'Assistência a parto não planeado.',
+        fullContent: 'Chamar INEM imediatamente. Se nascimento iminente: lavagem mãos, luvas. Apoiar cabeça do bebé, não puxar. Verificar cordão no pescoço (afastar suavemente). Secar e aquecer bebé. Não cortar cordão. Colocar bebé ao peito da mãe. Conservar placenta para hospital. Observar hemorragia materna (comprimir útero se excessiva).'
       }
     ]
   }
