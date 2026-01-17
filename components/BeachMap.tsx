@@ -88,27 +88,46 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach }) => {
           </h3>
         </div>
 
-        {/* Map Area */}
-        <div className="relative w-full md:w-2/3 aspect-[4/5] bg-slate-50 dark:bg-slate-950/50 rounded-[2rem] border border-slate-100 dark:border-slate-800 overflow-hidden shadow-inner flex items-center justify-center p-4">
+        {/* Map Area - Google Maps Style */}
+        <div className="relative w-full md:w-2/3 aspect-[4/5] bg-gradient-to-br from-blue-100 via-blue-50 to-cyan-50 dark:from-blue-950 dark:via-slate-900 dark:to-blue-950 rounded-[2rem] border border-slate-200 dark:border-slate-700 overflow-hidden shadow-2xl flex items-center justify-center p-4">
           
-          <svg className="h-[90%] w-auto opacity-10 dark:opacity-20 pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
-            {/* Portugal Mainland */}
+          {/* Water effect overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-200/10 to-blue-300/20 dark:from-transparent dark:via-blue-900/20 dark:to-blue-800/30 pointer-events-none"></div>
+          
+          <svg className="h-[90%] w-auto opacity-90 dark:opacity-80 pointer-events-none drop-shadow-lg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+            {/* Portugal Mainland - com sombra */}
             <path 
               d="M30,5 L45,5 L48,12 L42,25 L48,40 L38,50 L42,70 L48,95 L85,95 L90,90 L65,85 L50,80 L40,60 L30,30 L30,5 Z" 
-              fill="currentColor" 
-              className="text-slate-400 dark:text-white"
+              fill="#f8f9fa" 
+              className="dark:fill-slate-700"
+              stroke="#cbd5e1"
+              strokeWidth="0.3"
             />
-            {/* Islands Boxes */}
-            <rect x="70" y="10" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2" />
-            <text x="71" y="24" fontSize="3" className="fill-current text-slate-400">MADEIRA</text>
-            <rect x="70" y="35" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2" />
-            <text x="71" y="49" fontSize="3" className="fill-current text-slate-400">AÇORES</text>
+            {/* Sombra suave do continente */}
+            <path 
+              d="M30,5 L45,5 L48,12 L42,25 L48,40 L38,50 L42,70 L48,95 L85,95 L90,90 L65,85 L50,80 L40,60 L30,30 L30,5 Z" 
+              fill="none" 
+              stroke="#94a3b8"
+              strokeWidth="0.5"
+              className="dark:stroke-slate-600"
+            />
+            {/* Islands Boxes - Google Maps Style */}
+            <rect x="70" y="10" width="15" height="15" fill="#f8f9fa" className="dark:fill-slate-700" stroke="#cbd5e1" strokeWidth="0.4" />
+            <text x="71" y="24" fontSize="3" fill="#64748b" fontWeight="bold" className="dark:fill-slate-400">MADEIRA</text>
+            <rect x="70" y="35" width="15" height="15" fill="#f8f9fa" className="dark:fill-slate-700" stroke="#cbd5e1" strokeWidth="0.4" />
+            <text x="71" y="49" fontSize="3" fill="#64748b" fontWeight="bold" className="dark:fill-slate-400">AÇORES</text>
           </svg>
 
-          <div className="absolute inset-0 pointer-events-none grid grid-cols-6 grid-rows-8 opacity-[0.03] dark:opacity-[0.05]">
+          {/* Grid overlay sutil - estilo Google Maps */}
+          <div className="absolute inset-0 pointer-events-none grid grid-cols-6 grid-rows-8 opacity-[0.06] dark:opacity-[0.08]">
             {Array.from({ length: 48 }).map((_, i) => (
-              <div key={i} className="border-[0.5px] border-slate-900 dark:border-white"></div>
+              <div key={i} className="border-[0.3px] border-blue-300 dark:border-blue-700"></div>
             ))}
+          </div>
+          
+          {/* Compass indicator - Google Maps style */}
+          <div className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/90 dark:bg-slate-800/90 shadow-lg border border-slate-200 dark:border-slate-600 flex items-center justify-center text-xs font-black text-slate-600 dark:text-slate-300">
+            <span className="transform -rotate-45">N</span>
           </div>
 
           {/* Markers */}
@@ -124,29 +143,39 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach }) => {
                 onClick={() => handlePointClick(point)}
                 className={`
                   relative flex items-center justify-center -translate-x-1/2 -translate-y-1/2
-                  w-8 h-8 md:w-10 md:h-10 rounded-xl shadow-lg border border-white dark:border-slate-700
+                  w-9 h-9 md:w-11 md:h-11 rounded-full shadow-2xl border-2 border-white dark:border-slate-900
                   transition-all duration-300 active:scale-90 touch-manipulation
                   ${getAlertColor(point.alert)}
-                  ${activePoint?.id === point.id ? 'ring-4 ring-red-500/20 scale-125 z-30' : 'hover:scale-110'}
+                  ${activePoint?.id === point.id ? 'ring-4 ring-blue-500/40 scale-125 z-30 shadow-xl' : 'hover:scale-110 hover:shadow-2xl'}
                 `}
+                style={{
+                  boxShadow: activePoint?.id === point.id 
+                    ? '0 10px 40px rgba(0,0,0,0.3), 0 0 0 4px rgba(59, 130, 246, 0.2)'
+                    : '0 4px 12px rgba(0,0,0,0.15)'
+                }}
               >
-                <span className="text-base md:text-xl">{point.icon}</span>
+                <span className="text-base md:text-xl drop-shadow">{point.icon}</span>
                 {point.alert && (
-                  <span className="absolute -inset-1 rounded-xl border border-current opacity-40 animate-ping pointer-events-none"></span>
+                  <span className="absolute -inset-1.5 rounded-full border-2 border-current opacity-60 animate-ping pointer-events-none"></span>
                 )}
               </button>
               
-              {/* Beach Name Label */}
+              {/* Beach Name Label - Google Maps style */}
               <div className={`
-                absolute top-full left-1/2 -translate-x-1/2 mt-1.5 pointer-events-none transition-all duration-300
-                ${activePoint?.id === point.id ? 'opacity-100 scale-110 z-30' : 'opacity-60 group-hover:opacity-100'}
+                absolute top-full left-1/2 -translate-x-1/2 mt-2 pointer-events-none transition-all duration-300
+                ${activePoint?.id === point.id ? 'opacity-100 scale-110 z-30' : 'opacity-70 group-hover:opacity-100'}
               `}>
                 <span className={`
-                  whitespace-nowrap text-[6px] md:text-[8px] font-black uppercase tracking-tighter px-1.5 py-0.5 rounded-md shadow-sm border
+                  whitespace-nowrap text-[7px] md:text-[9px] font-bold tracking-tight px-2 py-1 rounded-lg shadow-lg
                   ${activePoint?.id === point.id 
-                    ? 'bg-red-600 text-white border-red-400' 
-                    : 'bg-white/90 dark:bg-slate-900/90 text-slate-900 dark:text-white border-slate-200 dark:border-slate-700'}
-                `}>
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100'}
+                `}
+                style={{
+                  boxShadow: activePoint?.id === point.id 
+                    ? '0 4px 12px rgba(37, 99, 235, 0.4)'
+                    : '0 2px 8px rgba(0,0,0,0.15)'
+                }}>
                   {point.name}
                 </span>
               </div>

@@ -215,20 +215,52 @@ const App: React.FC = () => {
       <section className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-6 md:p-10 border border-slate-200 dark:border-slate-800 shadow-lg">
         <div className="flex justify-between items-center mb-6 px-1">
            <h3 className="text-xl md:text-2xl font-black tracking-tighter uppercase flex items-center">
-             <span className="mr-2">🎓</span> Editais Ativos 2026
+             <span className="mr-2">🎓</span> Formações e Editais Ativos 2026
            </h3>
-           <button onClick={() => setCurrentTab('training')} className="text-[9px] font-black text-red-600 uppercase tracking-widest">Aceder a Listagem Completa →</button>
+           <button onClick={() => setCurrentTab('training')} className="text-[9px] font-black text-red-600 uppercase tracking-widest hover:text-red-700 transition-colors">Ver Todas as Formações →</button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {trainingData.slice(0, 3).map((item, i) => (
-            <div key={i} className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
-               <span className="text-[7px] font-black uppercase bg-red-100 dark:bg-red-900/30 text-red-600 px-2 py-0.5 rounded-md mb-2 inline-block">{item.type}</span>
-               <h4 className="font-black text-slate-900 dark:text-slate-100 leading-tight mb-1 text-sm">{item.location}</h4>
-               <p className="text-[9px] text-slate-500 font-bold mb-3">{item.dates}</p>
-               <a href={item.link} className="text-[8px] font-black text-blue-600 uppercase tracking-widest flex items-center">Consultar Edital ↗</a>
-            </div>
-          ))}
-        </div>
+        {loadingTraining ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 animate-pulse">
+                <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded mb-2 w-20"></div>
+                <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded mb-2"></div>
+                <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded mb-3 w-32"></div>
+                <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded w-24"></div>
+              </div>
+            ))}
+          </div>
+        ) : trainingData.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {trainingData.slice(0, 3).map((item, i) => (
+              <div key={i} className="p-5 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/40 dark:to-slate-800/20 border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all hover:scale-[1.02]">
+                 <div className="flex items-center gap-2 mb-3">
+                   <span className="text-[7px] font-black uppercase bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-2 py-1 rounded-md">{item.type}</span>
+                   <span className={`text-[7px] font-black uppercase px-2 py-1 rounded-md ${
+                     item.status === 'Inscrições Abertas' ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400' :
+                     item.status === 'Lista de Espera' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400' :
+                     'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400'
+                   }`}>{item.status}</span>
+                 </div>
+                 <h4 className="font-black text-slate-900 dark:text-slate-100 leading-tight mb-2 text-sm">{item.location}</h4>
+                 <p className="text-[10px] text-slate-600 dark:text-slate-400 font-bold mb-1 flex items-center">
+                   <span className="mr-1">📅</span> {item.dates}
+                 </p>
+                 <p className="text-[10px] text-slate-500 dark:text-slate-500 font-bold mb-3 flex items-center">
+                   <span className="mr-1">🏛️</span> {item.entity}
+                 </p>
+                 <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-[9px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest flex items-center hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
+                   Consultar Edital <span className="ml-1">↗</span>
+                 </a>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-10 text-slate-400">
+            <span className="text-4xl mb-2 block">📚</span>
+            <p className="text-sm font-bold">Nenhuma formação disponível no momento</p>
+          </div>
+        )}
       </section>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 pb-12">
