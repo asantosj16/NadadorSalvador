@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { TrainingItem } from '../types.ts';
+import { TRAINING_INFO } from '../data/trainings';
 
 interface TrainingLocationsProps {
   items: TrainingItem[];
@@ -10,6 +11,7 @@ interface TrainingLocationsProps {
 
 const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, loading }) => {
   const [filter, setFilter] = useState<'ALL' | 'CURSO' | 'EXAME'>('ALL');
+  const [showInfo, setShowInfo] = useState(false);
 
   const today = new Date().toLocaleDateString('pt-PT', { 
     day: '2-digit', 
@@ -54,6 +56,79 @@ const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, l
               {f === 'ALL' ? 'Todos' : f === 'CURSO' ? 'Cursos' : 'Exames/Recert.'}
             </button>
           ))}
+        </div>
+      </div>
+
+      {/* Card de Informações Úteis */}
+      <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 rounded-[2rem] p-6 border-2 border-blue-100 dark:border-blue-900/50 shadow-sm">
+        <button 
+          onClick={() => setShowInfo(!showInfo)}
+          className="w-full flex items-center justify-between"
+        >
+          <div className="flex items-center space-x-3">
+            <span className="text-2xl">ℹ️</span>
+            <h3 className="text-lg font-black text-slate-900 dark:text-slate-100 tracking-tight">Informações Úteis</h3>
+          </div>
+          <span className={`text-slate-400 transition-transform ${showInfo ? 'rotate-180' : ''}`}>▼</span>
+        </button>
+        
+        {showInfo && (
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in">
+            <div className="bg-white dark:bg-slate-900/50 rounded-2xl p-4 border border-blue-100 dark:border-slate-800">
+              <h4 className="text-[10px] font-black uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-3">📋 Requisitos</h4>
+              <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
+                <li className="flex items-start"><span className="mr-2">•</span><span>{TRAINING_INFO.requirements.age}</span></li>
+                <li className="flex items-start"><span className="mr-2">•</span><span>{TRAINING_INFO.requirements.swimming}</span></li>
+                <li className="flex items-start"><span className="mr-2">•</span><span>{TRAINING_INFO.requirements.health}</span></li>
+                <li className="flex items-start"><span className="mr-2">•</span><span>{TRAINING_INFO.requirements.firstAid}</span></li>
+              </ul>
+            </div>
+
+            <div className="bg-white dark:bg-slate-900/50 rounded-2xl p-4 border border-blue-100 dark:border-slate-800">
+              <h4 className="text-[10px] font-black uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-3">💰 Custos Estimados</h4>
+              <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
+                <li className="flex justify-between"><span>Curso Completo (ISN):</span><span className="font-bold">{TRAINING_INFO.costs.curso_isn}</span></li>
+                <li className="flex justify-between"><span>Exame Revalidação:</span><span className="font-bold">{TRAINING_INFO.costs.exame_revalidacao}</span></li>
+                <li className="flex justify-between"><span>Recertificação:</span><span className="font-bold">{TRAINING_INFO.costs.recertificacao}</span></li>
+              </ul>
+            </div>
+
+            <div className="bg-white dark:bg-slate-900/50 rounded-2xl p-4 border border-blue-100 dark:border-slate-800">
+              <h4 className="text-[10px] font-black uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-3">⏱️ Duração</h4>
+              <ul className="space-y-2 text-xs text-slate-700 dark:text-slate-300">
+                <li className="flex justify-between"><span>Curso:</span><span className="font-bold">{TRAINING_INFO.duration.curso}</span></li>
+                <li className="flex justify-between"><span>Exame:</span><span className="font-bold">{TRAINING_INFO.duration.exame}</span></li>
+                <li className="flex justify-between"><span>Recertificação:</span><span className="font-bold">{TRAINING_INFO.duration.recertificacao}</span></li>
+              </ul>
+            </div>
+
+            <div className="bg-white dark:bg-slate-900/50 rounded-2xl p-4 border border-blue-100 dark:border-slate-800">
+              <h4 className="text-[10px] font-black uppercase tracking-widest text-blue-600 dark:text-blue-400 mb-3">🎯 Validade</h4>
+              <p className="text-xs text-slate-700 dark:text-slate-300">
+                O cartão de Nadador-Salvador tem validade de <span className="font-black text-red-600 dark:text-red-400">3 anos</span>, sendo obrigatória a renovação através de exame de revalidação.
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Estatísticas */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-200 dark:border-slate-800 text-center">
+          <div className="text-3xl font-black text-blue-600 dark:text-blue-400">{items.filter(i => i.type === 'CURSO').length}</div>
+          <div className="text-[9px] font-black uppercase tracking-widest text-slate-400 mt-1">Cursos</div>
+        </div>
+        <div className="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-200 dark:border-slate-800 text-center">
+          <div className="text-3xl font-black text-orange-600 dark:text-orange-400">{items.filter(i => i.type === 'EXAME REVALIDAÇÃO').length}</div>
+          <div className="text-[9px] font-black uppercase tracking-widest text-slate-400 mt-1">Exames</div>
+        </div>
+        <div className="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-200 dark:border-slate-800 text-center">
+          <div className="text-3xl font-black text-purple-600 dark:text-purple-400">{items.filter(i => i.type === 'RECERTIFICAÇÃO').length}</div>
+          <div className="text-[9px] font-black uppercase tracking-widest text-slate-400 mt-1">Recertificações</div>
+        </div>
+        <div className="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-200 dark:border-slate-800 text-center">
+          <div className="text-3xl font-black text-green-600 dark:text-green-400">{items.filter(i => i.status.toLowerCase().includes('abertas')).length}</div>
+          <div className="text-[9px] font-black uppercase tracking-widest text-slate-400 mt-1">Disponíveis</div>
         </div>
       </div>
 

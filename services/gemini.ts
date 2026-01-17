@@ -1,5 +1,6 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
+import { PORTUGAL_TRAININGS } from "../data/trainings";
 
 const CACHE_KEY_WEATHER = 'lifeguard_pro_weather_v7';
 const CACHE_KEY_TRAINING = 'lifeguard_pro_training_v7';
@@ -165,11 +166,8 @@ export async function getTrainingSchedules() {
     return trainings;
   } catch (error) {
     console.error("Gemini Training Error:", error);
-    return [
-      { location: "Lisboa", entity: "ISN", type: "CURSO", dates: "Abril 2026", status: "Inscrições Abertas", link: "https://www.isn.pt" },
-      { location: "Porto", entity: "ASNASA", type: "RECERTIFICAÇÃO", dates: "Maio 2026", status: "Brevemente", link: "https://www.isn.pt" },
-      { location: "Algarve", entity: "ISN", type: "EXAME REVALIDAÇÃO", dates: "Junho 2026", status: "Aguardando Edital", link: "https://www.isn.pt" }
-    ];
+    // Retorna dados completos de formações em Portugal
+    return PORTUGAL_TRAININGS;
   }
 }
 
