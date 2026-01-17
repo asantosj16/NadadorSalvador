@@ -111,100 +111,105 @@ const App: React.FC = () => {
   };
 
   const renderHome = () => (
-    <div className="space-y-8 md:space-y-16 animate-fade-in pb-24">
+    <div className="space-y-8 md:space-y-12 animate-fade-in pb-24">
+      {/* Painel de Vigilância Unificado */}
       <section>
         <div className="mb-6 flex justify-between items-end px-1">
           <div>
-            <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tighter uppercase">Painel de Vigilância</h2>
-            <p className="text-slate-500 font-bold uppercase tracking-widest text-[9px] mt-1">Dados Sincronizados IPMA & ISN</p>
+            <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tighter uppercase">Painel de Vigilância Nacional</h2>
+            <p className="text-slate-500 font-bold uppercase tracking-widest text-[9px] mt-1">Sistema Integrado IPMA & ISN • Tempo Real</p>
           </div>
           <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Sinc: {lastUpdated}</div>
         </div>
 
-        <div className="relative p-1 bg-gradient-to-br from-blue-500/50 to-indigo-600/50 rounded-[3rem] md:rounded-[4rem] shadow-2xl group mb-12">
-          <div className="bg-slate-950 dark:bg-slate-950 rounded-[2.9rem] md:rounded-[3.9rem] p-8 md:p-14 overflow-hidden relative">
-            {/* Background design */}
-            <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-[radial-gradient(circle,rgba(30,58,138,0.2)_0%,transparent_70%)]"></div>
-            </div>
-
-            <div className="relative z-10 flex flex-col gap-10">
-              <div className="flex flex-col md:flex-row justify-between items-start gap-6">
-                <div className="w-full">
-                  <div className="flex items-center space-x-6 mb-4">
-                    <span className="text-5xl md:text-7xl font-black text-slate-700/50">09</span>
-                    <div className="min-w-0">
-                      <h1 className="text-4xl md:text-7xl font-black text-white tracking-tighter leading-none truncate">{location.split(',')[0]}</h1>
-                      <p className="text-lg md:text-xl font-bold text-slate-500 mt-2 uppercase tracking-wide">{conditions.condition}</p>
-                    </div>
-                  </div>
-                  <div className={`inline-flex items-center px-4 py-1.5 rounded-full border font-black uppercase tracking-widest text-[10px] md:text-xs ${
-                    conditions.riskLevel === 'extreme' ? 'bg-red-500/10 text-red-500 border-red-500/20' : 
-                    conditions.riskLevel === 'high' ? 'bg-orange-500/10 text-orange-500 border-orange-500/20' : 
-                    'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'
-                  }`}>
-                    Nível de Risco: {conditions.riskLevel.toUpperCase()}
-                  </div>
+        {/* Container Principal Unificado */}
+        <div className="relative p-1 bg-gradient-to-br from-blue-500/50 via-indigo-600/50 to-purple-600/50 rounded-[3rem] md:rounded-[4rem] shadow-2xl">
+          <div className="bg-slate-950 dark:bg-slate-950 rounded-[2.9rem] md:rounded-[3.9rem] overflow-hidden">
+            
+            {/* Grid Principal: Dados + Mapa */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-slate-800">
+              
+              {/* Painel Esquerdo - Dados da Localização */}
+              <div className="p-6 md:p-10 relative">
+                {/* Background design */}
+                <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-[radial-gradient(circle,rgba(30,58,138,0.2)_0%,transparent_70%)]"></div>
                 </div>
 
-                <div className="w-full md:w-auto">
-                  {conditions.alerts.length > 0 ? (
-                    <div className="flex flex-col gap-2">
-                      {conditions.alerts.map((alert, i) => (
-                        <div key={i} className={`p-4 rounded-2xl border flex items-center space-x-4 w-full animate-slide-up bg-yellow-400 text-slate-900 border-yellow-300 shadow-xl shadow-yellow-400/10`}>
-                          <span className="text-2xl">⚠️</span>
-                          <div className="min-w-0">
-                            <h5 className="text-[10px] font-black uppercase leading-none mb-1">Maritime</h5>
-                            <p className="text-[11px] font-bold opacity-90 leading-tight">Strong swell warning</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="p-4 rounded-2xl border flex items-center space-x-4 bg-yellow-400 text-slate-900 border-yellow-300 shadow-xl shadow-yellow-400/10">
-                      <span className="text-2xl">⚠️</span>
-                      <div className="min-w-0">
-                        <h5 className="text-[10px] font-black uppercase leading-none mb-1">Maritime</h5>
-                        <p className="text-[11px] font-bold opacity-90 leading-tight">Strong swell warning</p>
+                <div className="relative z-10 flex flex-col gap-6 h-full">
+                  {/* Header da Localização */}
+                  <div>
+                    <div className="flex items-center space-x-4 mb-4">
+                      <span className="text-4xl md:text-6xl font-black text-slate-700/50">📍</span>
+                      <div className="min-w-0 flex-1">
+                        <h1 className="text-3xl md:text-5xl font-black text-white tracking-tighter leading-none truncate">{location.split(',')[0]}</h1>
+                        <p className="text-base md:text-lg font-bold text-slate-500 mt-1 uppercase tracking-wide">{conditions.condition}</p>
                       </div>
                     </div>
-                  )}
+                    
+                    <div className="flex flex-wrap gap-2">
+                      <div className={`inline-flex items-center px-3 py-1.5 rounded-full border font-black uppercase tracking-widest text-[9px] ${
+                        conditions.riskLevel === 'extreme' ? 'bg-red-500/10 text-red-500 border-red-500/20' : 
+                        conditions.riskLevel === 'high' ? 'bg-orange-500/10 text-orange-500 border-orange-500/20' : 
+                        'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'
+                      }`}>
+                        Risco: {conditions.riskLevel.toUpperCase()}
+                      </div>
+                      
+                      {conditions.alerts.length === 0 && (
+                        <div className="inline-flex items-center px-3 py-1.5 rounded-full border bg-yellow-400/10 text-yellow-500 border-yellow-500/20 font-black uppercase tracking-widest text-[9px]">
+                          ⚠️ Aviso Marítimo
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Grid de Condições */}
+                  <div className="grid grid-cols-2 gap-3 flex-1">
+                    {[
+                      { label: 'Temperatura', val: conditions.airTemp, icon: '🌡️', color: 'from-rose-500 to-rose-600' },
+                      { label: 'Ondulação', val: conditions.waves, icon: '🌊', color: 'from-blue-500 to-blue-600' },
+                      { label: 'Vento', val: conditions.windSpeed, icon: '🌬️', sub: conditions.windDir, color: 'from-slate-400 to-slate-500' },
+                      { label: 'Índice UV', val: conditions.uvIndex, icon: '☀️', color: 'from-amber-400 to-amber-500' },
+                    ].map((card, i) => (
+                      <div key={i} className="p-4 rounded-2xl bg-slate-900/50 border border-slate-800 flex flex-col items-center text-center shadow-inner hover:bg-slate-900 transition-colors">
+                        <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${card.color} flex items-center justify-center text-xl mb-3 shadow-lg`}>
+                          <span className="drop-shadow-md">{card.icon}</span>
+                        </div>
+                        <div className="text-[8px] font-black text-slate-500 uppercase tracking-[0.2em] mb-1">{card.label}</div>
+                        <div className="text-xl md:text-2xl font-black text-white tracking-tight">{card.val}</div>
+                        {card.sub && <div className="text-[9px] font-bold text-slate-600 mt-1 uppercase">{card.sub}</div>}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Busca de Localização */}
+                  <form onSubmit={handleSearch} className="flex bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+                    <input 
+                      type="text" 
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Alterar Localização..."
+                      className="flex-1 bg-transparent px-4 py-3 outline-none font-bold text-xs text-white placeholder:text-slate-600"
+                    />
+                    <button type="submit" className="px-6 bg-slate-200 text-slate-900 font-black uppercase text-[9px] hover:bg-white transition-colors">
+                      Ir
+                    </button>
+                  </form>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-                {[
-                  { label: 'Temperatura Ar', val: conditions.airTemp, icon: '🌡️', color: 'from-rose-500 to-rose-600' },
-                  { label: 'Ondulação', val: conditions.waves, icon: '🌊', color: 'from-blue-500 to-blue-600' },
-                  { label: 'Vento', val: conditions.windSpeed, icon: '🌬️', sub: conditions.windDir, color: 'from-slate-400 to-slate-500' },
-                  { label: 'Índice UV', val: conditions.uvIndex, icon: '☀️', color: 'from-amber-400 to-amber-500' },
-                ].map((card, i) => (
-                  <div key={i} className="p-6 md:p-10 rounded-[2.5rem] bg-slate-900/50 border border-slate-800 flex flex-col items-center text-center shadow-inner hover:bg-slate-900 transition-colors">
-                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${card.color} flex items-center justify-center text-3xl mb-6 shadow-lg`}>
-                      <span className="drop-shadow-md">{card.icon}</span>
-                    </div>
-                    <div className="text-[9px] md:text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2">{card.label}</div>
-                    <div className="text-2xl md:text-4xl font-black text-white tracking-tight">{card.val}</div>
-                    {card.sub && <div className="text-[10px] font-bold text-slate-600 mt-2 uppercase">{card.sub}</div>}
-                  </div>
-                ))}
+              {/* Painel Direito - Mapa Interativo */}
+              <div className="p-6 md:p-10 bg-slate-900/30">
+                <div className="flex items-center space-x-2 mb-4">
+                  <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></div>
+                  <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Mapa Nacional</span>
+                </div>
+                <BeachMap onSelectBeach={(beach) => { setLocation(`${beach.name}, Portugal`); fetchData(`${beach.name}, Portugal`); }} />
               </div>
-
-              <form onSubmit={handleSearch} className="flex bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden max-w-md w-full mx-auto">
-                <input 
-                  type="text" 
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Alterar Localização..."
-                  className="flex-1 bg-transparent px-6 py-4 outline-none font-bold text-sm text-white placeholder:text-slate-600"
-                />
-                <button type="submit" className="px-8 bg-slate-200 text-slate-900 font-black uppercase text-[10px] hover:bg-white transition-colors">Atualizar</button>
-              </form>
             </div>
           </div>
         </div>
-
-        <BeachMap onSelectBeach={(beach) => { setLocation(`${beach.name}, Portugal`); fetchData(`${beach.name}, Portugal`); }} />
       </section>
 
       <section className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-6 md:p-10 border border-slate-200 dark:border-slate-800 shadow-lg">
