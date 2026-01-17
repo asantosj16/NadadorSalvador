@@ -64,10 +64,15 @@ export async function getBeachConditions(location: string) {
   if (cached) return cached;
 
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    if (!apiKey) {
+      console.warn('API Key not configured');
+      throw new Error('API Key missing');
+    }
+    const ai = new GoogleGenAI({ apiKey });
     const result = await callGeminiWithRetry(async () => {
       const response = await ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
+        model: 'gemini-2.0-flash-exp',
         contents: `Context: Lifeguard App. Data for ${location}, Portugal. Shortest JSON response.`,
         config: {
           tools: [{ googleSearch: {} }],
@@ -119,10 +124,15 @@ export async function getTrainingSchedules() {
   if (cached) return cached;
 
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    if (!apiKey) {
+      console.warn('API Key not configured');
+      throw new Error('API Key missing');
+    }
+    const ai = new GoogleGenAI({ apiKey });
     const trainings = await callGeminiWithRetry(async () => {
       const response = await ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
+        model: 'gemini-2.0-flash-exp',
         contents: "Find ALL active lifeguard courses (Nadador Salvador), revalidation exams, and recertifications in Portugal for 2025 and 2026. Include ISN, ANSA, ASNASA, and private entities. Provide an exhaustive list as JSON.",
         config: { 
           tools: [{ googleSearch: {} }],
@@ -168,10 +178,15 @@ export async function generateDailyScenario() {
   if (cached) return cached;
 
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    if (!apiKey) {
+      console.warn('API Key not configured');
+      throw new Error('API Key missing');
+    }
+    const ai = new GoogleGenAI({ apiKey });
     const text = await callGeminiWithRetry(async () => {
       const response = await ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
+        model: 'gemini-2.0-flash-exp',
         contents: "Cenário curto de salvamento aquático para Nadador Salvador. 1 frase.",
       });
       return response.text;
@@ -187,10 +202,15 @@ export async function generateDailyScenario() {
 
 export async function getLifeguardAdvice(query: string) {
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+    if (!apiKey) {
+      console.warn('API Key not configured');
+      throw new Error('API Key missing');
+    }
+    const ai = new GoogleGenAI({ apiKey });
     return await callGeminiWithRetry(async () => {
       const response = await ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
+        model: 'gemini-2.0-flash-exp',
         contents: query,
         config: { systemInstruction: "És um Instrutor Sénior do ISN (Instituto de Socorros a Náufragos). Dá respostas curtas, técnicas e baseadas em manuais oficiais." }
       });
