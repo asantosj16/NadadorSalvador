@@ -25,27 +25,6 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
   const [loading, setLoading] = useState(false);
   const [autoRefresh, setAutoRefresh] = useState(true);
 
-  // Buscar dados do IPMA quando a praia mudar
-  useEffect(() => {
-    if (beach) {
-      // Limpar dados anteriores e mostrar loading
-      setLiveData(null);
-      setLoading(true);
-      fetchLiveData();
-    }
-  }, [beach?.name, beach?.region]); // Observar mudanças específicas
-
-  // Auto-refresh a cada 15 minutos (mais frequente)
-  useEffect(() => {
-    if (!autoRefresh || !beach) return;
-    
-    const interval = setInterval(() => {
-      fetchLiveData(true);
-    }, 900000); // 15 minutos
-
-    return () => clearInterval(interval);
-  }, [autoRefresh, beach?.name]);
-
   const fetchLiveData = async (silent = false) => {
     if (!beach) return;
     
@@ -67,6 +46,29 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
       fetchLiveData();
     }
   };
+
+  // Buscar dados do IPMA quando a praia mudar
+  useEffect(() => {
+    if (beach) {
+      // Limpar dados anteriores e mostrar loading
+      setLiveData(null);
+      setLoading(true);
+      fetchLiveData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [beach?.name, beach?.region]); // fetchLiveData recriado a cada render, mas depende de beach
+
+  // Auto-refresh a cada 15 minutos (mais frequente)
+  useEffect(() => {
+    if (!autoRefresh || !beach) return;
+    
+    const interval = setInterval(() => {
+      fetchLiveData(true);
+    }, 900000); // 15 minutos
+
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoRefresh, beach?.name]); // fetchLiveData depende de beach
 
   return (
     <div className="h-full flex flex-col">

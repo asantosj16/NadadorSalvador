@@ -38,7 +38,7 @@ const EmergencyModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
             </a>
           ))}
         </div>
-        <button onClick={onClose} className="w-full p-4 text-slate-400 font-black uppercase tracking-widest text-[10px] border-t border-slate-100 dark:border-slate-800">Fechar</button>
+        <button onClick={onClose} className="w-full p-4 text-slate-400 font-black uppercase tracking-widest text-[10px] border-t border-slate-100 dark:border-slate-800" aria-label="Fechar modal de emergência">Fechar</button>
       </div>
     </div>
   );
@@ -63,6 +63,40 @@ const App: React.FC = () => {
     condition: 'A carregar...', riskLevel: 'low', alerts: [], ipmaIcon: '⌛'
   });
 
+  // Função para obter as próximas 2 formações/exames por data
+  const getUpcomingTrainings = (trainings: TrainingItem[]): TrainingItem[] => {
+    const now = new Date();
+    const currentMonth = now.getMonth() + 1; // getMonth() retorna 0-11
+    const currentYear = now.getFullYear();
+
+    // Mapa de meses
+    const MONTH_MAP: { [key: string]: number } = {
+      'janeiro': 1, 'fevereiro': 2, 'março': 3, 'abril': 4, 'maio': 5, 'junho': 6,
+      'julho': 7, 'agosto': 8, 'setembro': 9, 'outubro': 10, 'novembro': 11, 'dezembro': 12
+    };
+
+    // Função para extrair o primeiro mês da string de datas
+    const extractFirstMonth = (dateStr: string): number => {
+      const lowerStr = dateStr.toLowerCase();
+      for (const [month, num] of Object.entries(MONTH_MAP)) {
+        if (lowerStr.includes(month)) {
+          return num;
+        }
+      }
+      return 13; // Retorna valor alto se não encontrar mês (vai para o final)
+    };
+
+    // Filtrar e ordenar formações futuras
+    return trainings
+      .map(training => ({
+        ...training,
+        monthNum: extractFirstMonth(training.dates)
+      }))
+      .filter(training => training.monthNum >= currentMonth) // Apenas meses futuros ou atual
+      .sort((a, b) => a.monthNum - b.monthNum) // Ordenar por mês
+      .slice(0, 2); // Pegar apenas as 2 primeiras
+  };
+
   const fetchData = useCallback(async (loc: string) => {
     try {
       const data = await getBeachConditions(loc);
@@ -70,6 +104,8 @@ const App: React.FC = () => {
       setLastUpdated(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
     } catch (error) {
       console.error('Erro ao buscar condições meteorológicas:', error);
+      // Manter dados anteriores em caso de erro
+      setLastUpdated(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
     }
   }, []);
 
@@ -98,7 +134,7 @@ const App: React.FC = () => {
     if (currentTab === 'home' && location) {
       fetchData(location);
     }
-  }, [location, currentTab]);
+  }, [location, currentTab, fetchData]);
 
   // Atualização automática a cada 10 minutos
   useEffect(() => {
@@ -271,13 +307,13 @@ const App: React.FC = () => {
       <section className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-6 md:p-10 border border-slate-200 dark:border-slate-800 shadow-lg">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 px-1 gap-3">
            <h3 className="text-xl md:text-2xl font-black tracking-tighter uppercase flex items-center">
-             <span className="mr-2">🎓</span> Formações e Editais Ativos 2026
+             <span className="mr-2">🎓</span> Próximas Formações e Exames
            </h3>
            <button onClick={() => setCurrentTab('training')} className="text-[9px] font-black text-red-600 uppercase tracking-widest hover:text-red-700 transition-colors whitespace-nowrap active:scale-95">Ver Todas as Formações →</button>
         </div>
         {loadingTraining ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[1, 2, 3].map((i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[1, 2].map((i) => (
               <div key={i} className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 animate-pulse">
                 <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded mb-2 w-20"></div>
                 <div className="h-6 bg-slate-200 dark:bg-slate-700 rounded mb-2"></div>
@@ -287,8 +323,8 @@ const App: React.FC = () => {
             ))}
           </div>
         ) : trainingData.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {trainingData.slice(0, 3).map((item, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {getUpcomingTrainings(trainingData).map((item, i) => (
               <div key={i} className="p-5 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/40 dark:to-slate-800/20 border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all hover:scale-[1.02] active:scale-95">
                  <div className="flex items-center gap-2 mb-3">
                    <span className="text-[7px] font-black uppercase bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-2 py-1 rounded-md">{item.type}</span>
@@ -314,7 +350,10 @@ const App: React.FC = () => {
         ) : (
           <div className="text-center py-10 text-slate-400">
             <span className="text-4xl mb-2 block">📚</span>
-            <p className="text-sm font-bold">Nenhuma formação disponível no momento</p>
+            <p className="text-sm font-bold">Nenhuma formação próxima no momento</p>
+            <button onClick={() => setCurrentTab('training')} className="mt-3 text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors">
+              Ver calendário completo →
+            </button>
           </div>
         )}
       </section>
@@ -323,7 +362,7 @@ const App: React.FC = () => {
         <div className="bg-white dark:bg-slate-900 p-6 md:p-10 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-lg border-b-8 border-b-rose-600">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-xl font-black tracking-tighter uppercase">Dilema de Intervenção</h3>
-            <button onClick={loadScenario} disabled={loadingScenario} className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-sm">🔄</button>
+            <button onClick={loadScenario} disabled={loadingScenario} className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-sm" aria-label="Recarregar dilema de intervenção">🔄</button>
           </div>
           {loadingScenario ? <div className="h-16 bg-slate-50 animate-pulse rounded-xl"></div> : <p className="text-slate-600 dark:text-slate-400 font-medium italic text-sm leading-relaxed border-l-4 border-rose-500/20 pl-4">"{dailyScenario}"</p>}
         </div>
@@ -352,7 +391,7 @@ const App: React.FC = () => {
         {currentTab === 'training' && <TrainingLocations items={trainingData} loading={loadingTraining} />}
       </main>
       
-      {/* Footer com créditos IPMA */}
+      {/* Footer com créditos IPMA e ISN */}
       <footer className="max-w-5xl mx-auto px-4 pb-24">
         <div className="bg-slate-100 dark:bg-slate-900/50 rounded-2xl p-4 border border-slate-200 dark:border-slate-800">
           <div className="flex flex-col md:flex-row items-center justify-between gap-3 text-[9px] text-slate-500">
@@ -377,11 +416,43 @@ const App: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Seção ISN/Autoridade Marítima */}
+        <div className="mt-4 bg-slate-100 dark:bg-slate-900/50 rounded-2xl p-4 border border-slate-200 dark:border-slate-800">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-3 text-[9px] text-slate-500">
+            <div className="flex items-center space-x-2">
+              <span className="text-lg">🛟</span>
+              <div>
+                <p className="font-black uppercase tracking-wider">Autoridade Marítima Nacional</p>
+                <p className="font-bold">ISN - Instituto de Socorros a Náufragos</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-2 justify-center">
+              <a 
+                href="https://www.amn.pt/ISN/paginas/missao.aspx" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-3 py-1.5 bg-blue-600 text-white rounded-lg font-black uppercase tracking-wider hover:bg-blue-700 transition-colors whitespace-nowrap"
+              >
+                Autoridade Marítima
+              </a>
+              <a 
+                href="https://www.isn.pt" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-3 py-1.5 bg-red-600 text-white rounded-lg font-black uppercase tracking-wider hover:bg-red-700 transition-colors whitespace-nowrap"
+              >
+                ISN.pt
+              </a>
+            </div>
+          </div>
+        </div>
       </footer>
       
       <button 
         onClick={() => setShowEmergency(true)} 
         className="fixed bottom-6 right-6 z-50 bg-red-600 text-white w-16 h-16 md:w-20 md:h-20 rounded-full shadow-2xl flex items-center justify-center text-3xl md:text-4xl border-4 border-white dark:border-slate-900 active:scale-90 transition-transform"
+        aria-label="Abrir contactos de emergência"
       >
         🚨
       </button>
