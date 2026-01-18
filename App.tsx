@@ -221,14 +221,14 @@ const App: React.FC = () => {
       </section>
 
       <section className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-6 md:p-10 border border-slate-200 dark:border-slate-800 shadow-lg">
-        <div className="flex justify-between items-center mb-6 px-1">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 px-1 gap-3">
            <h3 className="text-xl md:text-2xl font-black tracking-tighter uppercase flex items-center">
              <span className="mr-2">🎓</span> Formações e Editais Ativos 2026
            </h3>
-           <button onClick={() => setCurrentTab('training')} className="text-[9px] font-black text-red-600 uppercase tracking-widest hover:text-red-700 transition-colors">Ver Todas as Formações →</button>
+           <button onClick={() => setCurrentTab('training')} className="text-[9px] font-black text-red-600 uppercase tracking-widest hover:text-red-700 transition-colors whitespace-nowrap active:scale-95">Ver Todas as Formações →</button>
         </div>
         {loadingTraining ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[1, 2, 3].map((i) => (
               <div key={i} className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 animate-pulse">
                 <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded mb-2 w-20"></div>
@@ -239,9 +239,9 @@ const App: React.FC = () => {
             ))}
           </div>
         ) : trainingData.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {trainingData.slice(0, 3).map((item, i) => (
-              <div key={i} className="p-5 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/40 dark:to-slate-800/20 border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all hover:scale-[1.02]">
+              <div key={i} className="p-5 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/40 dark:to-slate-800/20 border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all hover:scale-[1.02] active:scale-95">
                  <div className="flex items-center gap-2 mb-3">
                    <span className="text-[7px] font-black uppercase bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-2 py-1 rounded-md">{item.type}</span>
                    <span className={`text-[7px] font-black uppercase px-2 py-1 rounded-md ${

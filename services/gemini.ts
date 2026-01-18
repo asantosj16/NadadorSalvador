@@ -120,6 +120,39 @@ export async function getBeachConditions(location: string) {
   }
 }
 
+/**
+ * Mapeia nomes de meses em português para números (para ordenação)
+ */
+const MONTH_MAP: Record<string, number> = {
+  'janeiro': 1, 'fevereiro': 2, 'março': 3, 'abril': 4,
+  'maio': 5, 'junho': 6, 'julho': 7, 'agosto': 8,
+  'setembro': 9, 'outubro': 10, 'novembro': 11, 'dezembro': 12
+};
+
+/**
+ * Extrai o primeiro mês de uma string de datas
+ * Ex: "Março a Junho 2026" -> 3
+ */
+function extractFirstMonth(dateString: string): number {
+  const lowerDate = dateString.toLowerCase();
+  
+  // Tentar encontrar padrão "DD de MÊS"
+  const dateMatch = lowerDate.match(/\d{1,2}\s+de\s+(\w+)/);
+  if (dateMatch) {
+    const month = dateMatch[1];
+    return MONTH_MAP[month] || 99;
+  }
+  
+  // Tentar encontrar padrão "MÊS a MÊS"
+  for (const [month, num] of Object.entries(MONTH_MAP)) {
+    if (lowerDate.includes(month)) {
+      return num;
+    }
+  }
+  
+  return 99; // Colocar no final se não encontrar mês
+}
+
 export async function getTrainingSchedules() {
   const cached = getFromCache(CACHE_KEY_TRAINING, 'global_schedules');
   if (cached) return cached;
@@ -162,12 +195,23 @@ export async function getTrainingSchedules() {
       return JSON.parse(response.text).trainings || [];
     });
 
-    saveToCache(CACHE_KEY_TRAINING, 'global_schedules', trainings);
-    return trainings;
+    // Ordena por mês antes de retornar
+    const sortedTrainings = trainings.sort((a: any, b: any) => {
+      const monthA = extractFirstMonth(a.dates);
+      const monthB = extractFirstMonth(b.dates);
+      return monthA - monthB;
+    });
+
+    saveToCache(CACHE_KEY_TRAINING, 'global_schedules', sortedTrainings);
+    return sortedTrainings;
   } catch (error) {
     console.error("Gemini Training Error:", error);
-    // Retorna dados completos de formações em Portugal
-    return PORTUGAL_TRAININGS;
+    // Retorna dados completos de formações em Portugal ordenados por mês
+    return [...PORTUGAL_TRAININGS].sort((a, b) => {
+      const monthA = extractFirstMonth(a.dates);
+      const monthB = extractFirstMonth(b.dates);
+      return monthA - monthB;
+    });
   }
 }
 
