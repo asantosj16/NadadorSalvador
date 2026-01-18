@@ -296,13 +296,40 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-500">
       <Navbar currentTab={currentTab} setTab={setCurrentTab} manuals={MANUALS} isDark={isDark} toggleDark={() => setIsDark(!isDark)} />
-      <main className="max-w-5xl mx-auto px-4 pt-24 md:pt-40">
+      <main className="max-w-5xl mx-auto px-4 pt-24 md:pt-40 pb-20">
         {currentTab === 'home' && renderHome()}
         {currentTab === 'manuals' && <ManualView />}
         {currentTab === 'quiz' && <QuizView />}
         {currentTab === 'assistant' && <AssistantView />}
         {currentTab === 'training' && <TrainingLocations items={trainingData} loading={loadingTraining} />}
       </main>
+      
+      {/* Footer com créditos IPMA */}
+      <footer className="max-w-5xl mx-auto px-4 pb-24">
+        <div className="bg-slate-100 dark:bg-slate-900/50 rounded-2xl p-4 border border-slate-200 dark:border-slate-800">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-3 text-[9px] text-slate-500">
+            <div className="flex items-center space-x-2">
+              <span className="text-lg">🌊</span>
+              <div>
+                <p className="font-black uppercase tracking-wider">Dados Meteorológicos</p>
+                <p className="font-bold">Fonte: IPMA - Instituto Português do Mar e da Atmosfera</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-3">
+              <a 
+                href="https://www.ipma.pt" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="px-3 py-1.5 bg-blue-600 text-white rounded-lg font-black uppercase tracking-wider hover:bg-blue-700 transition-colors"
+              >
+                IPMA.pt
+              </a>
+              <span className="text-slate-400">•</span>
+              <span className="font-bold">API Pública</span>
+            </div>
+          </div>
+        </div>
+      </footer>
       
       <button 
         onClick={() => setShowEmergency(true)} 

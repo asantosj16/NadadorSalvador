@@ -1,16 +1,87 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BeachPoint } from '../data/weatherData';
+import { getIPMAWeatherData, refreshData } from '../services/ipma';
 
 interface BeachDataPanelProps {
   beach: BeachPoint | null;
 }
 
+interface LiveWeatherData {
+  airTemp: string;
+  waterTemp: string;
+  waves: string;
+  windSpeed: string;
+  windDir: string;
+  uvIndex: string;
+  condition: string;
+  riskLevel: 'low' | 'medium' | 'high';
+  alerts: Array<{ type: string; level: string; description: string }>;
+  ipmaIcon: string;
+  lastUpdate: string;
+}
+
 const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
+  const [liveData, setLiveData] = useState<LiveWeatherData | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [autoRefresh, setAutoRefresh] = useState(true);
+
+  // Buscar dados do IPMA quando a praia mudar
+  useEffect(() => {
+    if (beach) {
+      fetchLiveData();
+    }
+  }, [beach]);
+
+  // Auto-refresh a cada 30 minutos
+  useEffect(() => {
+    if (!autoRefresh || !beach) return;
+    
+    const interval = setInterval(() => {
+      fetchLiveData(true);
+    }, 1800000); // 30 minutos
+
+    return () => clearInterval(interval);
+  }, [autoRefresh, beach]);
+
+  const fetchLiveData = async (silent = false) => {
+    if (!beach) return;
+    
+    if (!silent) setLoading(true);
+    
+    try {
+      const data = await getIPMAWeatherData(beach.region);
+      setLiveData(data);
+    } catch (error) {
+      console.error('Erro ao buscar dados:', error);
+    } finally {
+      if (!silent) setLoading(false);
+    }
+  };
+
+  const handleRefresh = () => {
+    if (beach) {
+      refreshData(beach.region);
+      fetchLiveData();
+    }
+  };
+
   return (
     <div className="h-full flex flex-col">
-      <div className="flex items-center space-x-2 mb-6">
-        <div className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></div>
-        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Dados da Praia</span>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center space-x-2">
+          <div className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></div>
+          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Dados IPMA em Tempo Real</span>
+        </div>
+        {beach && (
+          <button
+            onClick={handleRefresh}
+            disabled={loading}
+            className="p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700 transition-colors disabled:opacity-50"
+            title="Atualizar dados"
+          >
+            <span className={`text-sm ${loading ? 'animate-spin' : ''}`}>🔄</span>
+          </button>
+        )}
       </div>
 
       <div className={`
@@ -20,17 +91,56 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
         {beach ? (
           <div className="animate-slide-up space-y-4">
             <div className="space-y-1 text-center md:text-left">
-              <span className="text-[8px] font-black text-blue-600 dark:text-blue-500 uppercase tracking-wider">Status Meteorológico</span>
+              <span className="text-[8px] font-black text-blue-600 dark:text-blue-500 uppercase tracking-wider">
+                {loading ? 'A carregar...' : 'Status Meteorológico IPMA'}
+              </span>
               <h4 className="text-2xl md:text-3xl font-black text-white tracking-tighter leading-none">{beach.name}</h4>
               <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wide">{beach.region}</p>
+              {liveData?.lastUpdate && (
+                <p className="text-[8px] text-slate-500 uppercase tracking-wide">
+                  Atualizado: {liveData.lastUpdate}
+                </p>
+              )}
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               {[
-                { label: 'Temp', val: beach.temp, icon: '🌡️', color: 'from-orange-500 to-orange-600' },
-                { label: 'Ondas', val: beach.waves, icon: '🌊', color: 'from-blue-500 to-blue-600' },
-                { label: 'Vento', val: beach.wind, icon: '💨', color: 'from-slate-400 to-slate-500' },
-                { label: 'Maré', val: beach.tide, icon: '⏳', color: 'from-indigo-500 to-indigo-600' },
+                { 
+                  label: 'Temp Ar', 
+                  val: liveData?.airTemp || beach.temp, 
+                  icon: '🌡️', 
+                  color: 'from-orange-500 to-orange-600' 
+                },
+                { 
+                  label: 'Temp Água', 
+                  val: liveData?.waterTemp || '17°C', 
+                  icon: '🌊', 
+                  color: 'from-blue-500 to-blue-600' 
+                },
+                { 
+                  label: 'Ondas', 
+                  val: liveData?.waves || beach.waves, 
+                  icon: '〰️', 
+                  color: 'from-cyan-500 to-cyan-600' 
+                },
+                { 
+                  label: 'Vento', 
+                  val: liveData ? `${liveData.windSpeed}` : beach.wind, 
+                  icon: '💨', 
+                  color: 'from-slate-400 to-slate-500' 
+                },
+                { 
+                  label: 'Dir. Vento', 
+                  val: liveData?.windDir || 'N', 
+                  icon: '🧭', 
+                  color: 'from-indigo-500 to-indigo-600' 
+                },
+                { 
+                  label: 'UV Index', 
+                  val: liveData?.uvIndex || '--', 
+                  icon: '☀️', 
+                  color: 'from-yellow-500 to-yellow-600' 
+                },
               ].map((stat, i) => (
                 <div key={i} className="p-3 rounded-2xl bg-slate-900/50 border border-slate-800 shadow-inner">
                   <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center text-lg mb-2 shadow-lg`}>
@@ -42,28 +152,59 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
               ))}
             </div>
 
-            {beach.alert && (
-              <div className={`p-4 rounded-2xl border flex items-center space-x-3 animate-pulse-slow ${
-                beach.alert === 'Vermelho' ? 'bg-red-600/20 border-red-500/40 text-red-300' : 
-                beach.alert === 'Laranja' ? 'bg-orange-500/20 border-orange-400/40 text-orange-300' : 
-                'bg-yellow-400/20 border-yellow-300/40 text-yellow-200'
-              }`}>
-                <span className="text-2xl">⚠️</span>
-                <div>
-                  <h5 className="font-black uppercase text-[9px] tracking-wider leading-none mb-1">Aviso {beach.alert}</h5>
-                  <p className="text-[10px] font-bold leading-tight opacity-90">Condições severas. Vigilância Nv.3</p>
-                </div>
+            {liveData?.alerts && liveData.alerts.length > 0 && (
+              <div className="space-y-2">
+                {liveData.alerts.map((alert, idx) => (
+                  <div key={idx} className={`p-4 rounded-2xl border flex items-center space-x-3 animate-pulse-slow ${
+                    alert.level.toLowerCase().includes('alto') || alert.level === 'red' ? 'bg-red-600/20 border-red-500/40 text-red-300' : 
+                    alert.level.toLowerCase().includes('moderado') || alert.level === 'orange' ? 'bg-orange-500/20 border-orange-400/40 text-orange-300' : 
+                    'bg-yellow-400/20 border-yellow-300/40 text-yellow-200'
+                  }`}>
+                    <span className="text-2xl">⚠️</span>
+                    <div className="flex-1">
+                      <h5 className="font-black uppercase text-[9px] tracking-wider leading-none mb-1">
+                        {alert.type} - {alert.level}
+                      </h5>
+                      <p className="text-[10px] font-bold leading-tight opacity-90">{alert.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
 
             <div className="pt-3 border-t border-slate-800">
               <div className="flex items-center justify-between text-[9px]">
-                <span className="font-black text-slate-500 uppercase tracking-wider">Condição</span>
+                <span className="font-black text-slate-500 uppercase tracking-wider">Condição Atual</span>
                 <div className="flex items-center space-x-2">
-                  <span className="text-xl">{beach.icon}</span>
-                  <span className="font-bold text-slate-300">{beach.condition}</span>
+                  <span className="text-xl">{liveData?.ipmaIcon || beach.icon}</span>
+                  <span className="font-bold text-slate-300">{liveData?.condition || beach.condition}</span>
                 </div>
               </div>
+              
+              <div className="mt-2 flex items-center justify-between">
+                <span className="font-black text-slate-500 uppercase tracking-wider text-[9px]">Nível de Risco</span>
+                <div className={`px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-wider ${
+                  liveData?.riskLevel === 'high' ? 'bg-red-600/30 text-red-300 border border-red-500/50' :
+                  liveData?.riskLevel === 'medium' ? 'bg-orange-500/30 text-orange-300 border border-orange-400/50' :
+                  'bg-green-600/30 text-green-300 border border-green-500/50'
+                }`}>
+                  {liveData?.riskLevel === 'high' ? '🔴 Alto' :
+                   liveData?.riskLevel === 'medium' ? '🟠 Moderado' :
+                   '🟢 Baixo'}
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center pt-2">
+              <label className="flex items-center justify-center space-x-2 text-[9px] text-slate-400 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={autoRefresh}
+                  onChange={(e) => setAutoRefresh(e.target.checked)}
+                  className="rounded"
+                />
+                <span>Auto-atualizar a cada 30 min</span>
+              </label>
             </div>
           </div>
         ) : (
