@@ -64,3 +64,29 @@ export interface TrainingItem {
   status: string;
   link: string;
 }
+
+export interface WeatherAlert {
+  type: string;
+  level: string;
+  description: string;
+}
+
+export interface BeachConditions {
+  airTemp: string;
+  waterTemp: string;
+  waves: string;
+  windSpeed: string;
+  windDir: string;
+  uvIndex: string;
+  condition: string;
+  riskLevel: string;
+  alerts: WeatherAlert[];
+  ipmaIcon: string;
+}
+
+export interface ChunkSource {
+  web?: {
+    uri: string;
+    title?: string;
+  };
+}

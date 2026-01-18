@@ -121,9 +121,9 @@ const WIND_SPEED_CLASSES: Record<number, string> = {
 };
 
 // Cache simples
-const cache = new Map<string, { data: any; timestamp: number }>();
+const cache = new Map<string, { data: BeachConditions; timestamp: number }>();
 
-function getFromCache(key: string): any | null {
+function getFromCache(key: string): BeachConditions | null {
   const cached = cache.get(key);
   if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
     return cached.data;
@@ -132,7 +132,7 @@ function getFromCache(key: string): any | null {
   return null;
 }
 
-function saveToCache(key: string, data: any): void {
+function saveToCache(key: string, data: BeachConditions): void {
   cache.set(key, { data, timestamp: Date.now() });
 }
 
@@ -167,7 +167,7 @@ export async function getIPMAWeatherData(location: string): Promise<BeachConditi
       const uvResponse = await fetch(`${IPMA_API_BASE}/forecast/meteorology/uv/uv.json`);
       if (uvResponse.ok) {
         const uvData = await uvResponse.json();
-        const todayUV = uvData.data?.find((d: any) => 
+        const todayUV = uvData.data?.find((d: { globalIdLocal: string; iUv: number }) => 
           new Date(d.globalIdLocal).toDateString() === new Date().toDateString()
         );
         if (todayUV) {
@@ -251,7 +251,7 @@ export async function getIPMAWeatherData(location: string): Promise<BeachConditi
       if (warningsResponse.ok) {
         const warningsData = await warningsResponse.json();
         if (warningsData.data && Array.isArray(warningsData.data) && warningsData.data.length > 0) {
-          const relevantWarning = warningsData.data.find((w: any) => 
+          const relevantWarning = warningsData.data.find((w: { idAreaAviso: string; awarenessLevelID: string; awarenessTypeName: string }) => 
             w.idAreaAviso && String(w.idAreaAviso).startsWith(String(locationId).substring(0, 4))
           );
           

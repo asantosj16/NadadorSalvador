@@ -7,17 +7,17 @@ const CACHE_KEY_TRAINING = 'lifeguard_pro_training_v7';
 const CACHE_KEY_SCENARIO = 'lifeguard_pro_scenario_v7';
 const CACHE_DURATION = 3600000; // 1 hour
 
-interface CacheEntry {
-  data: any;
+interface CacheEntry<T = unknown> {
+  data: T;
   timestamp: number;
 }
 
-function getFromCache(key: string, subKey: string): any | null {
+function getFromCache<T>(key: string, subKey: string): T | null {
   try {
     const cached = localStorage.getItem(key);
     if (!cached) return null;
     const store = JSON.parse(cached);
-    const entry = store[subKey] as CacheEntry;
+    const entry = store[subKey] as CacheEntry<T>;
     
     if (entry && (Date.now() - entry.timestamp < CACHE_DURATION)) {
       return entry.data;
@@ -28,7 +28,7 @@ function getFromCache(key: string, subKey: string): any | null {
   return null;
 }
 
-function saveToCache(key: string, subKey: string, data: any) {
+function saveToCache<T>(key: string, subKey: string, data: T) {
   try {
     const cached = localStorage.getItem(key);
     const store = cached ? JSON.parse(cached) : {};
@@ -42,13 +42,14 @@ function saveToCache(key: string, subKey: string, data: any) {
 /**
  * Exponential backoff wrapper for Gemini API calls
  */
-async function callGeminiWithRetry(fn: () => Promise<any>, maxRetries = 3) {
+async function callGeminiWithRetry<T>(fn: () => Promise<T>, maxRetries = 3): Promise<T> {
   let delay = 1000;
   for (let i = 0; i < maxRetries; i++) {
     try {
       return await fn();
-    } catch (error: any) {
-      const isRateLimit = error?.message?.includes('429') || error?.status === 429;
+    } catch (error: unknown) {
+      const err = error as { message?: string; status?: number };
+      const isRateLimit = err?.message?.includes('429') || err?.status === 429;
       if (isRateLimit && i < maxRetries - 1) {
         console.warn(`Rate limit hit, retrying in ${delay}ms... (Attempt ${i + 1}/${maxRetries})`);
         await new Promise(resolve => setTimeout(resolve, delay));
@@ -196,7 +197,7 @@ export async function getTrainingSchedules() {
     });
 
     // Ordena por mês antes de retornar
-    const sortedTrainings = trainings.sort((a: any, b: any) => {
+    const sortedTrainings = trainings.sort((a: { dates: string }, b: { dates: string }) => {
       const monthA = extractFirstMonth(a.dates);
       const monthB = extractFirstMonth(b.dates);
       return monthA - monthB;

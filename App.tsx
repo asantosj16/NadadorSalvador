@@ -8,7 +8,7 @@ import TrainingLocations from './components/TrainingLocations.tsx';
 import BeachMap from './components/BeachMap.tsx';
 import BeachDataPanel from './components/BeachDataPanel.tsx';
 import { TIPS, MANUALS } from './constants.tsx';
-import { TrainingItem } from './types.ts';
+import { TrainingItem, BeachConditions, WeatherAlert } from './types.ts';
 import { generateDailyScenario, getBeachConditions, getTrainingSchedules } from './services/gemini.ts';
 import { BeachPoint } from './data/weatherData';
 
@@ -58,9 +58,9 @@ const App: React.FC = () => {
   const [loadingTraining, setLoadingTraining] = useState(false);
   const [selectedBeach, setSelectedBeach] = useState<BeachPoint | null>(null);
 
-  const [conditions, setConditions] = useState({
+  const [conditions, setConditions] = useState<BeachConditions>({
     airTemp: '--', waterTemp: '--', waves: '--', windSpeed: '--', windDir: '--', uvIndex: '--',
-    condition: 'A carregar...', riskLevel: 'low', alerts: [] as any[], ipmaIcon: '⌛'
+    condition: 'A carregar...', riskLevel: 'low', alerts: [], ipmaIcon: '⌛'
   });
 
   const fetchData = useCallback(async (loc: string) => {
@@ -68,8 +68,8 @@ const App: React.FC = () => {
       const data = await getBeachConditions(loc);
       setConditions(data);
       setLastUpdated(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error('Erro ao buscar condições meteorológicas:', error);
     }
   }, []);
 
@@ -171,7 +171,7 @@ const App: React.FC = () => {
                 }`}>
                   Risco: {conditions.riskLevel.toUpperCase()}
                 </div>
-                {conditions.alerts && conditions.alerts.length > 0 && conditions.alerts.map((alert: any, idx: number) => (
+                {conditions.alerts && conditions.alerts.length > 0 && conditions.alerts.map((alert: WeatherAlert, idx: number) => (
                   <div key={idx} className="inline-flex items-center px-3 py-1.5 rounded-full border bg-yellow-400/10 text-yellow-500 border-yellow-500/20 font-black uppercase tracking-widest text-[9px]">
                     ⚠️ {alert.type}
                   </div>

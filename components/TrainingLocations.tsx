@@ -1,11 +1,11 @@
 
 import React, { useState } from 'react';
-import { TrainingItem } from '../types.ts';
+import { TrainingItem, ChunkSource } from '../types.ts';
 import { TRAINING_INFO } from '../data/trainings';
 
 interface TrainingLocationsProps {
   items: TrainingItem[];
-  sources?: any[];
+  sources?: ChunkSource[];
   loading: boolean;
 }
 
