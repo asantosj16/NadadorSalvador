@@ -1,12 +1,15 @@
 {
   "name": "nadador-salvador",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "Lifeguard Pro - Sistema de Apoio para Nadadores Salvadores",
+  "author": "asantosj16",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "react": "^19.2.3",

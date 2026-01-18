@@ -2,23 +2,126 @@
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# Run and deploy your AI Studio app
+# 🌊 Lifeguard Pro - Nadador Salvador
 
-This contains everything you need to run your app locally.
+Sistema de Apoio para Nadadores Salvadores com IA integrada
 
-View your app in AI Studio: https://ai.studio/apps/drive/11gOo2SLIa20TE-nIEyLYX6-zG_pukdA-
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/asantosj16/NadadorSalvador)
 
-## Run Locally
+## 🚀 Deploy no Vercel
 
-**Prerequisites:**  Node.js
+### Deploy Rápido
+1. Clique no botão "Deploy with Vercel" acima
+2. Configure a variável de ambiente: `VITE_GEMINI_API_KEY`
+3. Deploy automático!
 
+### Deploy Manual
+```bash
+# Instalar Vercel CLI
+npm install -g vercel
 
-1. Install dependencies:
-   `npm install`
-2. Create a `.env` file in the root directory and add your Gemini API key:
+# Login
+vercel login
+
+# Deploy
+vercel --prod
+```
+
+📖 **[Guia completo de deploy](DEPLOY.md)**
+
+## 💻 Executar Localmente
+
+**Pré-requisitos:** Node.js 18+
+
+1. **Instalar dependências:**
+   ```bash
+   npm install
    ```
-   VITE_GEMINI_API_KEY=your_api_key_here
+
+2. **Configurar variáveis de ambiente:**
+   ```bash
+   cp .env.example .env
    ```
-   Get your API key from: https://aistudio.google.com/app/apikey
-3. Run the app:
-   `npm run dev`
+   Edite `.env` e adicione sua API key do Gemini:
+   ```
+   VITE_GEMINI_API_KEY=sua_chave_aqui
+   ```
+   🔑 Obtenha sua API key em: https://aistudio.google.com/app/apikey
+
+3. **Executar em desenvolvimento:**
+   ```bash
+   npm run dev
+   ```
+   Acesse: http://localhost:3000
+
+4. **Build de produção:**
+   ```bash
+   npm run build
+   npm run preview
+   ```
+
+## 🔍 Verificar antes de Deploy
+
+Execute o script de verificação:
+```bash
+./verify-deploy.sh
+```
+
+## 🛠️ Tecnologias
+
+- ⚡ **Vite** - Build tool
+- ⚛️ **React 19** - UI Framework
+- 📘 **TypeScript** - Tipagem estática
+- 🎨 **TailwindCSS** - Estilização
+- 🤖 **Google Gemini AI** - Inteligência Artificial
+- 🚀 **Vercel** - Hospedagem
+
+## 📱 Funcionalidades
+
+- 🗺️ Mapa interativo de praias de Portugal
+- 🌊 Dados meteorológicos em tempo real
+- 🚨 Sistema de alertas e emergências
+- 📚 Manuais e guias de salvamento
+- 🎯 Cenários de treino com IA
+- 🏋️ Gestão de locais de treino
+- 💬 Assistente IA para dúvidas
+
+## 🌐 Links
+
+- **AI Studio**: https://ai.studio/apps/drive/11gOo2SLIa20TE-nIEyLYX6-zG_pukdA-
+
+## 📝 Variáveis de Ambiente
+
+| Variável | Descrição | Obrigatória |
+|----------|-----------|-------------|
+| `VITE_GEMINI_API_KEY` | Chave da API do Google Gemini | ✅ Sim |
+
+## 🐛 Troubleshooting
+
+### Build falha
+```bash
+# Limpar cache e reinstalar
+rm -rf node_modules dist
+npm install
+npm run build
+```
+
+### Variável de ambiente não encontrada
+- Certifique-se de que o nome começa com `VITE_`
+- Reinicie o servidor de desenvolvimento após alterar `.env`
+- No Vercel, configure em Settings > Environment Variables
+
+## 📄 Licença
+
+Este projeto foi desenvolvido para apoio aos Nadadores Salvadores de Portugal.
+
+## 👤 Autor
+
+**asantosj16**
+- GitHub: [@asantosj16](https://github.com/asantosj16)
+
+---
+
+<div align="center">
+Desenvolvido com ❤️ para os Nadadores Salvadores 🏖️
+</div>
