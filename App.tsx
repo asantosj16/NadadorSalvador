@@ -93,21 +93,45 @@ const App: React.FC = () => {
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   }, [isDark]);
 
+  // Atualizar dados quando a localização mudar
+  useEffect(() => {
+    if (currentTab === 'home' && location) {
+      fetchData(location);
+    }
+  }, [location, currentTab]);
+
+  // Atualização automática a cada 10 minutos
+  useEffect(() => {
+    if (currentTab !== 'home') return;
+
+    const interval = setInterval(() => {
+      if (location) {
+        fetchData(location);
+      }
+    }, 600000); // 10 minutos
+
+    return () => clearInterval(interval);
+  }, [location, currentTab, fetchData]);
+
   useEffect(() => {
     if (currentTab === 'home') {
-      if (!lastUpdated) fetchData(location);
       if (!dailyScenario) loadScenario();
     }
     if (currentTab === 'training' && trainingData.length === 0) {
       fetchTrainingData();
     }
-  }, [currentTab, fetchData, loadScenario, fetchTrainingData, location, lastUpdated, dailyScenario, trainingData.length]);
+  }, [currentTab, loadScenario, fetchTrainingData, dailyScenario, trainingData.length]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       const newLoc = searchQuery.includes(',') ? searchQuery : `${searchQuery}, Portugal`;
       setLocation(newLoc);
+      // Limpar dados anteriores e forçar nova busca
+      setConditions({
+        airTemp: '--', waterTemp: '--', waves: '--', windSpeed: '--', windDir: '--', uvIndex: '--',
+        condition: 'A carregar...', riskLevel: 'low', alerts: [], ipmaIcon: '⌛'
+      });
       fetchData(newLoc);
       setSearchQuery('');
     }
@@ -120,14 +144,20 @@ const App: React.FC = () => {
         <div className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-end px-1 gap-3">
           <div>
             <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tighter uppercase">Central de Vigilância</h2>
-            <p className="text-slate-500 font-bold uppercase tracking-widest text-[9px] mt-1">Dados IPMA em Tempo Real • {lastUpdated}</p>
+            <div className="flex items-center gap-2 mt-1">
+              <p className="text-slate-500 font-bold uppercase tracking-widest text-[9px]">Dados IPMA em Tempo Real • {lastUpdated}</p>
+              <div className="flex items-center gap-1">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                <span className="text-[8px] text-green-500 font-bold uppercase tracking-wider">Live</span>
+              </div>
+            </div>
           </div>
           <button 
             onClick={() => fetchData(location)} 
             className="px-4 py-2 bg-blue-600 text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-blue-700 transition-colors active:scale-95 flex items-center space-x-2"
           >
             <span>🔄</span>
-            <span>Atualizar Dados</span>
+            <span>Atualizar Agora</span>
           </button>
         </div>
 
@@ -216,8 +246,14 @@ const App: React.FC = () => {
                 </h4>
                 <BeachMap onSelectBeach={(beach) => { 
                   setSelectedBeach(beach);
-                  setLocation(`${beach.region}, Portugal`); 
-                  fetchData(`${beach.region}, Portugal`); 
+                  // Atualizar localiza\u00e7\u00e3o e for\u00e7ar busca imediata dos dados
+                  const newLocation = `${beach.region}, Portugal`;
+                  setLocation(newLocation);
+                  // Limpar dados anteriores para mostrar loading
+                  setConditions({
+                    airTemp: '--', waterTemp: '--', waves: '--', windSpeed: '--', windDir: '--', uvIndex: '--',
+                    condition: 'A carregar...', riskLevel: 'low', alerts: [], ipmaIcon: '\u231b'
+                  }); 
                 }} />
               </div>
             </div>

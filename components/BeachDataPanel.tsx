@@ -28,20 +28,23 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
   // Buscar dados do IPMA quando a praia mudar
   useEffect(() => {
     if (beach) {
+      // Limpar dados anteriores e mostrar loading
+      setLiveData(null);
+      setLoading(true);
       fetchLiveData();
     }
-  }, [beach]);
+  }, [beach?.name, beach?.region]); // Observar mudanças específicas
 
-  // Auto-refresh a cada 30 minutos
+  // Auto-refresh a cada 15 minutos (mais frequente)
   useEffect(() => {
     if (!autoRefresh || !beach) return;
     
     const interval = setInterval(() => {
       fetchLiveData(true);
-    }, 1800000); // 30 minutos
+    }, 900000); // 15 minutos
 
     return () => clearInterval(interval);
-  }, [autoRefresh, beach]);
+  }, [autoRefresh, beach?.name]);
 
   const fetchLiveData = async (silent = false) => {
     if (!beach) return;
@@ -70,17 +73,36 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-2">
           <div className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></div>
-          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Dados IPMA em Tempo Real</span>
+          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">IPMA Tempo Real</span>
+          {autoRefresh && !loading && (
+            <div className="flex items-center gap-1 ml-2">
+              <div className="w-1 h-1 rounded-full bg-green-500 animate-pulse"></div>
+              <span className="text-[8px] text-green-500 font-bold uppercase tracking-wider">Auto</span>
+            </div>
+          )}
         </div>
         {beach && (
-          <button
-            onClick={handleRefresh}
-            disabled={loading}
-            className="p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700 transition-colors disabled:opacity-50"
-            title="Atualizar dados"
-          >
-            <span className={`text-sm ${loading ? 'animate-spin' : ''}`}>🔄</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setAutoRefresh(!autoRefresh)}
+              className={`px-2 py-1 rounded-lg text-[8px] font-bold uppercase tracking-wider transition-colors ${
+                autoRefresh 
+                  ? 'bg-green-600/20 text-green-500 border border-green-500/30' 
+                  : 'bg-slate-800/50 text-slate-500 border border-slate-700'
+              }`}
+              title={autoRefresh ? 'Auto-atualização ativa (15 min)' : 'Auto-atualização desativada'}
+            >
+              {autoRefresh ? '●' : '○'} Auto
+            </button>
+            <button
+              onClick={handleRefresh}
+              disabled={loading}
+              className="p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700 transition-colors disabled:opacity-50"
+              title="Atualizar dados agora"
+            >
+              <span className={`text-sm ${loading ? 'animate-spin' : ''}`}>🔄</span>
+            </button>
+          </div>
         )}
       </div>
 
