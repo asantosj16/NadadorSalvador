@@ -115,107 +115,119 @@ const App: React.FC = () => {
 
   const renderHome = () => (
     <div className="space-y-8 md:space-y-12 animate-fade-in pb-24">
-      {/* Painel de Vigilância Unificado */}
+      {/* Painel Unificado de Vigilância e Dados */}
       <section>
-        <div className="mb-6 flex justify-between items-end px-1">
+        <div className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-end px-1 gap-3">
           <div>
-            <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tighter uppercase">Painel de Vigilância Nacional</h2>
-            <p className="text-slate-500 font-bold uppercase tracking-widest text-[9px] mt-1">Sistema Integrado IPMA & ISN • Tempo Real</p>
+            <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tighter uppercase">Central de Vigilância</h2>
+            <p className="text-slate-500 font-bold uppercase tracking-widest text-[9px] mt-1">Dados IPMA em Tempo Real • {lastUpdated}</p>
           </div>
-          <div className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Sinc: {lastUpdated}</div>
+          <button 
+            onClick={() => fetchData(location)} 
+            className="px-4 py-2 bg-blue-600 text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-blue-700 transition-colors active:scale-95 flex items-center space-x-2"
+          >
+            <span>🔄</span>
+            <span>Atualizar Dados</span>
+          </button>
         </div>
 
-        {/* Container Principal Unificado */}
-        <div className="relative p-1 bg-gradient-to-br from-blue-500/50 via-indigo-600/50 to-purple-600/50 rounded-[3rem] md:rounded-[4rem] shadow-2xl">
-          <div className="bg-slate-950 dark:bg-slate-950 rounded-[2.9rem] md:rounded-[3.9rem] overflow-hidden">
+        {/* Painel Único Integrado */}
+        <div className="relative p-1 bg-gradient-to-br from-blue-500/50 via-indigo-600/50 to-purple-600/50 rounded-[3rem] shadow-2xl">
+          <div className="bg-slate-950 rounded-[2.9rem] overflow-hidden">
             
-            {/* Grid Principal: Dados + Mapa */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-slate-800">
-              
-              {/* Painel Esquerdo - Dados da Localização */}
-              <div className="p-6 md:p-10 relative">
-                {/* Background design */}
-                <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-[radial-gradient(circle,rgba(30,58,138,0.2)_0%,transparent_70%)]"></div>
+            {/* Seção de Localização e Busca */}
+            <div className="p-6 md:p-8 border-b border-slate-800">
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                {/* Localização Atual */}
+                <div className="flex items-center space-x-3 flex-1 min-w-0">
+                  <span className="text-3xl md:text-4xl">📍</span>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-2xl md:text-3xl font-black text-white tracking-tighter truncate">{location.split(',')[0]}</h3>
+                    <p className="text-sm font-bold text-slate-400 uppercase tracking-wide">{conditions.condition} {conditions.ipmaIcon}</p>
+                  </div>
                 </div>
 
-                <div className="relative z-10 flex flex-col gap-6 h-full">
-                  {/* Header da Localização */}
-                  <div>
-                    <div className="flex items-center space-x-4 mb-4">
-                      <span className="text-4xl md:text-6xl font-black text-slate-700/50">📍</span>
-                      <div className="min-w-0 flex-1">
-                        <h1 className="text-3xl md:text-5xl font-black text-white tracking-tighter leading-none truncate">{location.split(',')[0]}</h1>
-                        <p className="text-base md:text-lg font-bold text-slate-500 mt-1 uppercase tracking-wide">{conditions.condition}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex flex-wrap gap-2">
-                      <div className={`inline-flex items-center px-3 py-1.5 rounded-full border font-black uppercase tracking-widest text-[9px] ${
-                        conditions.riskLevel === 'extreme' ? 'bg-red-500/10 text-red-500 border-red-500/20' : 
-                        conditions.riskLevel === 'high' ? 'bg-orange-500/10 text-orange-500 border-orange-500/20' : 
-                        'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'
-                      }`}>
-                        Risco: {conditions.riskLevel.toUpperCase()}
-                      </div>
-                      
-                      {conditions.alerts.length === 0 && (
-                        <div className="inline-flex items-center px-3 py-1.5 rounded-full border bg-yellow-400/10 text-yellow-500 border-yellow-500/20 font-black uppercase tracking-widest text-[9px]">
-                          ⚠️ Aviso Marítimo
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                {/* Busca de Localização */}
+                <form onSubmit={handleSearch} className="flex bg-slate-900 border border-slate-700 rounded-xl overflow-hidden w-full md:w-auto md:min-w-[300px]">
+                  <input 
+                    type="text" 
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Alterar localização..."
+                    className="flex-1 bg-transparent px-4 py-2.5 outline-none font-bold text-xs text-white placeholder:text-slate-500"
+                  />
+                  <button type="submit" className="px-5 bg-blue-600 text-white font-black uppercase text-[9px] hover:bg-blue-700 transition-colors active:scale-95">
+                    Ir
+                  </button>
+                </form>
+              </div>
 
-                  {/* Grid de Condições */}
-                  <div className="grid grid-cols-2 gap-3 flex-1">
-                    {[
-                      { label: 'Temperatura', val: conditions.airTemp, icon: '🌡️', color: 'from-rose-500 to-rose-600' },
-                      { label: 'Ondulação', val: conditions.waves, icon: '🌊', color: 'from-blue-500 to-blue-600' },
-                      { label: 'Vento', val: conditions.windSpeed, icon: '🌬️', sub: conditions.windDir, color: 'from-slate-400 to-slate-500' },
-                      { label: 'Índice UV', val: conditions.uvIndex, icon: '☀️', color: 'from-amber-400 to-amber-500' },
-                    ].map((card, i) => (
-                      <div key={i} className="p-4 rounded-2xl bg-slate-900/50 border border-slate-800 flex flex-col items-center text-center shadow-inner hover:bg-slate-900 transition-colors">
-                        <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${card.color} flex items-center justify-center text-xl mb-3 shadow-lg`}>
-                          <span className="drop-shadow-md">{card.icon}</span>
-                        </div>
-                        <div className="text-[8px] font-black text-slate-500 uppercase tracking-[0.2em] mb-1">{card.label}</div>
-                        <div className="text-xl md:text-2xl font-black text-white tracking-tight">{card.val}</div>
-                        {card.sub && <div className="text-[9px] font-bold text-slate-600 mt-1 uppercase">{card.sub}</div>}
-                      </div>
-                    ))}
+              {/* Indicadores de Risco */}
+              <div className="flex flex-wrap gap-2 mt-4">
+                <div className={`inline-flex items-center px-3 py-1.5 rounded-full border font-black uppercase tracking-widest text-[9px] ${
+                  conditions.riskLevel === 'extreme' ? 'bg-red-500/10 text-red-500 border-red-500/20' : 
+                  conditions.riskLevel === 'high' ? 'bg-orange-500/10 text-orange-500 border-orange-500/20' : 
+                  'bg-emerald-500/10 text-emerald-500 border-emerald-500/20'
+                }`}>
+                  Risco: {conditions.riskLevel.toUpperCase()}
+                </div>
+                {conditions.alerts && conditions.alerts.length > 0 && conditions.alerts.map((alert: any, idx: number) => (
+                  <div key={idx} className="inline-flex items-center px-3 py-1.5 rounded-full border bg-yellow-400/10 text-yellow-500 border-yellow-500/20 font-black uppercase tracking-widest text-[9px]">
+                    ⚠️ {alert.type}
                   </div>
+                ))}
+              </div>
+            </div>
 
-                  {/* Busca de Localização */}
-                  <form onSubmit={handleSearch} className="flex bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
-                    <input 
-                      type="text" 
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Alterar Localização..."
-                      className="flex-1 bg-transparent px-4 py-3 outline-none font-bold text-xs text-white placeholder:text-slate-600"
-                    />
-                    <button type="submit" className="px-6 bg-slate-200 text-slate-900 font-black uppercase text-[9px] hover:bg-white transition-colors">
-                      Ir
-                    </button>
-                  </form>
+            {/* Grid Principal: Dados Meteorológicos e Mapa */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-0">
+              
+              {/* Dados Meteorológicos Principais */}
+              <div className="lg:col-span-1 p-6 md:p-8 border-b lg:border-b-0 lg:border-r border-slate-800">
+                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2 animate-pulse"></span>
+                  Condições Atuais
+                </h4>
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { label: 'Temp. Ar', val: conditions.airTemp, icon: '🌡️', color: 'from-rose-500 to-rose-600' },
+                    { label: 'Ondulação', val: conditions.waves, icon: '🌊', color: 'from-blue-500 to-blue-600' },
+                    { label: 'Vento', val: conditions.windSpeed, icon: '🌬️', sub: conditions.windDir, color: 'from-slate-400 to-slate-500' },
+                    { label: 'UV Index', val: conditions.uvIndex, icon: '☀️', color: 'from-amber-400 to-amber-500' },
+                    { label: 'Temp. Água', val: conditions.waterTemp, icon: '🌊', color: 'from-cyan-500 to-cyan-600' },
+                  ].map((card, i) => (
+                    <div key={i} className="p-3 rounded-xl bg-slate-900/50 border border-slate-800 text-center hover:bg-slate-900 transition-colors">
+                      <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${card.color} flex items-center justify-center text-lg mb-2 shadow-lg mx-auto`}>
+                        <span className="drop-shadow-md">{card.icon}</span>
+                      </div>
+                      <div className="text-[7px] font-black text-slate-500 uppercase tracking-wider mb-1">{card.label}</div>
+                      <div className="text-lg font-black text-white tracking-tight">{card.val}</div>
+                      {card.sub && <div className="text-[8px] font-bold text-slate-600 mt-0.5 uppercase">{card.sub}</div>}
+                    </div>
+                  ))}
                 </div>
               </div>
 
-              {/* Painel Direito - Mapa Interativo */}
-              <div className="p-6 md:p-10 bg-slate-900/30">
+              {/* Mapa Interativo */}
+              <div className="lg:col-span-2 p-6 md:p-8 bg-slate-900/30">
+                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2 animate-pulse"></span>
+                  Mapa de Praias
+                </h4>
                 <BeachMap onSelectBeach={(beach) => { 
                   setSelectedBeach(beach);
-                  setLocation(`${beach.name}, Portugal`); 
-                  fetchData(`${beach.name}, Portugal`); 
+                  setLocation(`${beach.region}, Portugal`); 
+                  fetchData(`${beach.region}, Portugal`); 
                 }} />
               </div>
             </div>
 
-            {/* Painel Inferior - Dados da Praia Selecionada */}
-            <div className="p-6 md:p-10 border-t border-slate-800">
-              <BeachDataPanel beach={selectedBeach} />
-            </div>
+            {/* Painel Expandido - Dados Detalhados da Praia Selecionada */}
+            {selectedBeach && (
+              <div className="p-6 md:p-8 border-t border-slate-800 bg-slate-900/20">
+                <BeachDataPanel beach={selectedBeach} />
+              </div>
+            )}
           </div>
         </div>
       </section>
