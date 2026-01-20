@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from './components/Navbar.tsx';
 import ManualView from './components/ManualView.tsx';
@@ -245,16 +244,35 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            {/* Grid Principal: Dados Meteorológicos e Mapa */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-0">
-              
-              {/* Dados Meteorológicos Principais */}
-              <div className="lg:col-span-1 p-6 md:p-8 border-b lg:border-b-0 lg:border-r border-slate-800">
+            {/* Grid Principal: Mapa e Dados Meteorológicos */}
+            <div className="grid grid-cols-1 gap-0">
+
+              {/* Mapa Interativo */}
+              <div className="p-6 md:p-8 bg-slate-900/30">
                 <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2 animate-pulse"></span>
-                  Condições Atuais
+                  Mapa de Praias
                 </h4>
-                <div className="grid grid-cols-2 gap-3">
+                <BeachMap onSelectBeach={(beach) => {
+                  setSelectedBeach(beach);
+                  // Atualizar localização e forçar busca imediata dos dados
+                  const newLocation = `${beach.name}, Portugal`;
+                  setLocation(newLocation);
+                  // Limpar dados anteriores para mostrar loading
+                  setConditions({
+                    airTemp: '--', waterTemp: '--', waves: '--', windSpeed: '--', windDir: '--', uvIndex: '--',
+                    condition: 'A carregar...', riskLevel: 'low', alerts: [], ipmaIcon: '⌛'
+                  });
+                }} />
+              </div>
+
+              {/* Dados Meteorológicos da Praia Selecionada */}
+              <div className="p-6 md:p-8 border-t border-slate-800">
+                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2 animate-pulse"></span>
+                  Condições no Ponto Selecionado
+                </h4>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                   {[
                     { label: 'Temp. Ar', val: conditions.airTemp, icon: '🌡️', color: 'from-rose-500 to-rose-600' },
                     { label: 'Ondulação', val: conditions.waves, icon: '🌊', color: 'from-blue-500 to-blue-600' },
@@ -272,25 +290,6 @@ const App: React.FC = () => {
                     </div>
                   ))}
                 </div>
-              </div>
-
-              {/* Mapa Interativo */}
-              <div className="lg:col-span-2 p-6 md:p-8 bg-slate-900/30">
-                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2 animate-pulse"></span>
-                  Mapa de Praias
-                </h4>
-                <BeachMap onSelectBeach={(beach) => { 
-                  setSelectedBeach(beach);
-                  // Atualizar localiza\u00e7\u00e3o e for\u00e7ar busca imediata dos dados
-                  const newLocation = `${beach.region}, Portugal`;
-                  setLocation(newLocation);
-                  // Limpar dados anteriores para mostrar loading
-                  setConditions({
-                    airTemp: '--', waterTemp: '--', waves: '--', windSpeed: '--', windDir: '--', uvIndex: '--',
-                    condition: 'A carregar...', riskLevel: 'low', alerts: [], ipmaIcon: '\u231b'
-                  }); 
-                }} />
               </div>
             </div>
 

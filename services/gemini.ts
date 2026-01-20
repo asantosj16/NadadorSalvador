@@ -1,4 +1,3 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { PORTUGAL_TRAININGS } from "../data/trainings";
 
@@ -253,9 +252,12 @@ export async function getLifeguardAdvice(query: string) {
     const ai = new GoogleGenAI({ apiKey });
     return await callGeminiWithRetry(async () => {
       const response = await ai.models.generateContent({
-        model: 'gemini-2.0-flash-exp',
+        model: 'gemini-pro',
         contents: query,
-        config: { systemInstruction: "És um Instrutor Sénior do ISN (Instituto de Socorros a Náufragos). Dá respostas curtas, técnicas e baseadas em manuais oficiais." }
+        config: { 
+          tools: [{ googleSearch: {} }],
+          systemInstruction: "És um Instrutor Sénior do ISN (Instituto de Socorros a Náufragos). Dá respostas curtas, técnicas e baseadas em manuais oficiais e fontes de confiança." 
+        }
       });
       return response.text;
     });
