@@ -62,38 +62,56 @@ const App: React.FC = () => {
     condition: 'A carregar...', riskLevel: 'low', alerts: [], ipmaIcon: '⌛'
   });
 
+  // Mapa de meses para parsing de datas
+  const MONTH_MAP: { [key: string]: number } = {
+    'janeiro': 1, 'fevereiro': 2, 'março': 3, 'abril': 4, 'maio': 5, 'junho': 6,
+    'julho': 7, 'agosto': 8, 'setembro': 9, 'outubro': 10, 'novembro': 11, 'dezembro': 12
+  };
+
+  // Extrai o primeiro mês de uma string de datas
+  const extractFirstMonth = (dateStr: string): number => {
+    const lowerStr = dateStr.toLowerCase();
+    for (const [month, num] of Object.entries(MONTH_MAP)) {
+      if (lowerStr.includes(month)) {
+        return num;
+      }
+    }
+    return 13; // Retorna valor alto se não encontrar mês
+  };
+
+  const parseTrainingDate = (dateStr: string): Date => {
+    const nowYear = new Date().getFullYear();
+    const match = dateStr.toLowerCase().match(/(\d{1,2})\s+de\s+(\w+)\s+(\d{4})/);
+    if (match) {
+      const day = Number(match[1]);
+      const month = MONTH_MAP[match[2]] || 1;
+      const year = Number(match[3]);
+      return new Date(year, month - 1, day);
+    }
+    const monthNum = extractFirstMonth(dateStr);
+    const yearMatch = dateStr.match(/(20\d{2})/);
+    const year = yearMatch ? Number(yearMatch[1]) : nowYear;
+    return new Date(year, (monthNum - 1) || 0, 1);
+  };
+
   // Função para obter as próximas 2 formações/exames por data
   const getUpcomingTrainings = (trainings: TrainingItem[]): TrainingItem[] => {
     const now = new Date();
-    const currentMonth = now.getMonth() + 1; // getMonth() retorna 0-11
-    const currentYear = now.getFullYear();
-
-    // Mapa de meses
-    const MONTH_MAP: { [key: string]: number } = {
-      'janeiro': 1, 'fevereiro': 2, 'março': 3, 'abril': 4, 'maio': 5, 'junho': 6,
-      'julho': 7, 'agosto': 8, 'setembro': 9, 'outubro': 10, 'novembro': 11, 'dezembro': 12
-    };
-
-    // Função para extrair o primeiro mês da string de datas
-    const extractFirstMonth = (dateStr: string): number => {
-      const lowerStr = dateStr.toLowerCase();
-      for (const [month, num] of Object.entries(MONTH_MAP)) {
-        if (lowerStr.includes(month)) {
-          return num;
-        }
-      }
-      return 13; // Retorna valor alto se não encontrar mês (vai para o final)
-    };
-
-    // Filtrar e ordenar formações futuras
     return trainings
-      .map(training => ({
-        ...training,
-        monthNum: extractFirstMonth(training.dates)
-      }))
-      .filter(training => training.monthNum >= currentMonth) // Apenas meses futuros ou atual
-      .sort((a, b) => a.monthNum - b.monthNum) // Ordenar por mês
-      .slice(0, 2); // Pegar apenas as 2 primeiras
+      .map(training => ({ ...training, dateValue: parseTrainingDate(training.dates) }))
+      .filter(training => training.dateValue >= now)
+      .sort((a, b) => a.dateValue.getTime() - b.dateValue.getTime())
+      .slice(0, 2);
+  };
+
+  const getNearestByType = (trainings: TrainingItem[], type: TrainingItem['type']): TrainingItem | null => {
+    const now = new Date();
+    const filtered = trainings
+      .filter(t => t.type === type)
+      .map(t => ({ ...t, dateValue: parseTrainingDate(t.dates) }))
+      .filter(t => t.dateValue >= now)
+      .sort((a, b) => a.dateValue.getTime() - b.dateValue.getTime());
+    return filtered[0] || null;
   };
 
   const fetchData = useCallback(async (loc: string) => {
@@ -152,7 +170,7 @@ const App: React.FC = () => {
     if (currentTab === 'home') {
       if (!dailyScenario) loadScenario();
     }
-    if (currentTab === 'training' && trainingData.length === 0) {
+    if (trainingData.length === 0) {
       fetchTrainingData();
     }
   }, [currentTab, loadScenario, fetchTrainingData, dailyScenario, trainingData.length]);
@@ -242,6 +260,39 @@ const App: React.FC = () => {
                   </div>
                 ))}
               </div>
+            </div>
+
+            {/* Destaques: próxima formação e próximo exame */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-6 md:p-8 border-t border-slate-800 bg-slate-900/30">
+              {(() => {
+                const nearestCurso = getNearestByType(trainingData, 'CURSO');
+                const nearestExame = getNearestByType(trainingData, 'EXAME REVALIDAÇÃO');
+                const items = [
+                  { title: 'Formação mais próxima', data: nearestCurso, accent: 'from-emerald-500 to-emerald-600' },
+                  { title: 'Exame mais próximo', data: nearestExame, accent: 'from-blue-500 to-blue-600' },
+                ];
+                return items.map(({ title, data, accent }) => (
+                  <div key={title} className="rounded-2xl bg-slate-900/60 border border-slate-800 p-4 flex items-start gap-3 shadow-lg">
+                    <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${accent} text-white flex items-center justify-center font-black text-lg shadow-md`}>
+                      {title.startsWith('Formação') ? '🎓' : '🧭'}
+                    </div>
+                    {data ? (
+                      <div className="space-y-1">
+                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">{title}</p>
+                        <p className="text-sm font-black text-white leading-tight">{data.location}</p>
+                        <p className="text-[11px] font-bold text-slate-400">{data.dates}</p>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-blue-300">{data.entity} • {data.status}</p>
+                        <a href={data.link} target="_blank" rel="noopener noreferrer" className="text-[10px] font-black text-emerald-300 uppercase tracking-widest hover:text-emerald-200 transition-colors">Ver detalhes ↗</a>
+                      </div>
+                    ) : (
+                      <div>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">{title}</p>
+                        <p className="text-sm font-bold text-slate-400">Sem eventos disponíveis</p>
+                      </div>
+                    )}
+                  </div>
+                ));
+              })()}
             </div>
 
             {/* Grid Principal: Mapa e Dados Meteorológicos */}
