@@ -21,7 +21,7 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     type: "CURSO",
     dates: "Fevereiro a Maio 2026",
     status: "Inscrições Abertas",
-    link: "https://www.isn.pt"
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
   },
   {
     location: "Porto - Complexo Desportivo Dragão Caixa",
@@ -29,7 +29,7 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     type: "CURSO",
     dates: "Março a Junho 2026",
     status: "Inscrições Abertas",
-    link: "https://www.isn.pt"
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
   },
   {
     location: "Faro - Piscina Municipal de Albufeira",
@@ -37,7 +37,7 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     type: "CURSO",
     dates: "Abril a Julho 2026",
     status: "Inscrições Abertas",
-    link: "https://www.isn.pt"
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
   },
   {
     location: "Coimbra - Piscina Municipal",
@@ -45,7 +45,7 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     type: "CURSO",
     dates: "Março a Junho 2026",
     status: "Lista de Espera",
-    link: "https://www.isn.pt"
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
   },
   {
     location: "Setúbal - Complexo Desportivo Municipal",
@@ -53,7 +53,7 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     type: "CURSO",
     dates: "Maio a Agosto 2026",
     status: "Inscrições Abertas",
-    link: "https://www.isn.pt"
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
   },
   {
     location: "Braga - Piscina Municipal de Braga",
@@ -61,7 +61,7 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     type: "CURSO",
     dates: "Abril a Julho 2026",
     status: "Brevemente",
-    link: "https://www.isn.pt"
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
   },
   {
     location: "Aveiro - Piscina Municipal da Gafanha",
@@ -69,7 +69,7 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     type: "CURSO",
     dates: "Junho a Setembro 2026",
     status: "Inscrições Abertas",
-    link: "https://www.isn.pt"
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
   },
   {
     location: "Viseu - Complexo Desportivo",
@@ -77,7 +77,7 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     type: "CURSO",
     dates: "Maio a Agosto 2026",
     status: "Brevemente",
-    link: "https://www.isn.pt"
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
   },
 
   // ==================== ISN - EXAMES REVALIDAÇÃO ====================
@@ -87,7 +87,7 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     type: "EXAME REVALIDAÇÃO",
     dates: "15 de Março 2026",
     status: "Inscrições Abertas",
-    link: "https://www.isn.pt"
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
   },
   {
     location: "Porto - Praia de Matosinhos",
@@ -95,7 +95,7 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     type: "EXAME REVALIDAÇÃO",
     dates: "22 de Março 2026",
     status: "Inscrições Abertas",
-    link: "https://www.isn.pt"
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
   },
   {
     location: "Algarve - Praia da Rocha",
@@ -103,7 +103,7 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     type: "EXAME REVALIDAÇÃO",
     dates: "5 de Abril 2026",
     status: "Inscrições Abertas",
-    link: "https://www.isn.pt"
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
   },
   {
     location: "Figueira da Foz - Praia de Buarcos",
@@ -111,7 +111,7 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     type: "EXAME REVALIDAÇÃO",
     dates: "12 de Abril 2026",
     status: "Inscrições Abertas",
-    link: "https://www.isn.pt"
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
   },
   {
     location: "Viana do Castelo - Praia do Cabedelo",
@@ -119,7 +119,7 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     type: "EXAME REVALIDAÇÃO",
     dates: "19 de Abril 2026",
     status: "Brevemente",
-    link: "https://www.isn.pt"
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
   },
 
   // ==================== ANSA ====================
@@ -179,7 +179,7 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     type: "RECERTIFICAÇÃO",
     dates: "28 de Janeiro 2026 (Inscrições: 5 a 18 Jan)",
     status: "Inscrições Abertas",
-    link: "https://www.isn.pt"
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
   },
 
   // ==================== ISN - RECERTIFICAÇÕES ADICIONAIS ====================
@@ -189,7 +189,7 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     type: "RECERTIFICAÇÃO",
     dates: "04 de Fevereiro 2026 (Inscrições: 5 a 25 Jan)",
     status: "Inscrições Abertas",
-    link: "https://www.isn.pt"
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
   },
   {
     location: "Santa Maria da Feira - 203/26",
@@ -197,7 +197,7 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     type: "RECERTIFICAÇÃO",
     dates: "11 de Fevereiro 2026 (Inscrições: 12 Jan a 1 Fev)",
     status: "Inscrições Abertas",
-    link: "https://www.isn.pt"
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
   },
 
   // ==================== CRUZ VERMELHA ====================
