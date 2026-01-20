@@ -100,7 +100,7 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach }) => {
             
             {/* Beach Name Label - Google Maps style */}
             <div className={`
-              absolute top-full left-1/2 -translate-x-1/2 mt-2 pointer-events-none transition-all duration-300
+              absolute top-1/2 right-full -translate-y-1/2 mr-3 pointer-events-none transition-all duration-300
               ${activePoint?.id === point.id ? 'opacity-100 scale-110 z-30' : 'opacity-70 group-hover:opacity-100'}
             `}>
               <span className={`
