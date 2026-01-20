@@ -52,28 +52,49 @@ interface BeachConditions {
   lastUpdate: string;
 }
 
-// Mapeamento de IDs IPMA para localidades
+// Mapeamento de IDs IPMA para localidades (inclui praias comuns para maior precisão)
 const LOCATION_IDS: Record<string, number> = {
   'Lisboa': 1110600,
   'Porto': 1131200,
   'Faro': 1080500,
   'Nazaré': 1141400,
+  'Praia do Norte': 1141400,
+  'Praia da Nazaré': 1141400,
   'Cascais': 1091100,
+  'Carcavelos': 1091100,
+  'Guincho': 1091100,
   'Peniche': 1141700,
+  'Baleal': 1141700,
   'Sagres': 1080200,
   'Viana do Castelo': 1160900,
+  'Caminha': 1160900,
   'Aveiro': 1010500,
+  'Costa Nova': 1010500,
+  'Barra': 1010500,
   'Figueira da Foz': 1060600,
+  'Buarcos': 1060600,
   'Setúbal': 1151200,
   'Sesimbra': 1151300,
+  'Troia': 1151200,
+  'Comporta': 1151200,
   'Albufeira': 1080100,
+  'Quarteira': 1080500,
+  'Vilamoura': 1080500,
   'Lagos': 1080700,
+  'Meia Praia': 1080700,
   'Portimão': 1081200,
+  'Praia da Rocha': 1081200,
   'Costa da Caparica': 1090700,
+  'Fonte da Telha': 1090700,
   'Ericeira': 1091600,
+  'Ribeira dIlhas': 1091600,
   'Espinho': 1130500,
+  'Miramar': 1130500,
+  'Granja': 1130500,
   'Matosinhos': 1131100,
-  'Póvoa de Varzim': 1131400
+  'Leça da Palmeira': 1131100,
+  'Póvoa de Varzim': 1131400,
+  'Vila do Conde': 1131400
 };
 
 // Mapeamento de códigos meteorológicos IPMA
@@ -147,6 +168,7 @@ export async function getIPMAWeatherData(location: string): Promise<BeachConditi
   }
 
   try {
+    const logPrefix = `[IPMA] ${location}`;
     const locationId = LOCATION_IDS[location] || LOCATION_IDS['Lisboa'];
     
     // Buscar previsão diária
@@ -176,7 +198,7 @@ export async function getIPMAWeatherData(location: string): Promise<BeachConditi
         }
       }
     } catch (e) {
-      console.warn('UV data not available');
+      console.warn(`${logPrefix} UV data not available`);
     }
 
     // Buscar dados do mar (temperatura água e ondas)
@@ -205,7 +227,7 @@ export async function getIPMAWeatherData(location: string): Promise<BeachConditi
         }
       }
     } catch (e) {
-      console.warn('Sea data not available');
+      console.warn(`${logPrefix} Sea data not available`);
     }
 
     // Determinar temperatura do ar
@@ -271,7 +293,7 @@ export async function getIPMAWeatherData(location: string): Promise<BeachConditi
         }
       }
     } catch (e) {
-      console.warn('Warnings data not available');
+      console.warn(`${logPrefix} Warnings data not available`);
     }
 
     const result: BeachConditions = {
@@ -296,8 +318,13 @@ export async function getIPMAWeatherData(location: string): Promise<BeachConditi
 
   } catch (error) {
     console.error('IPMA API Error:', error);
+    const fallbackAlert = {
+      type: 'Fallback',
+      level: 'info',
+      description: 'Dados IPMA indisponíveis, a mostrar valores aproximados.'
+    };
     
-    // Retornar dados de fallback
+    // Retornar dados de fallback com aviso
     return {
       airTemp: '20°C',
       waterTemp: '17°C',
@@ -307,7 +334,7 @@ export async function getIPMAWeatherData(location: string): Promise<BeachConditi
       uvIndex: '5',
       condition: 'Céu limpo',
       riskLevel: 'low',
-      alerts: [],
+      alerts: [fallbackAlert],
       ipmaIcon: '☀️',
       lastUpdate: new Date().toLocaleTimeString('pt-PT', { 
         hour: '2-digit', 
