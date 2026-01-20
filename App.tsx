@@ -262,39 +262,6 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            {/* Destaques: próxima formação e próximo exame */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 p-6 md:p-8 border-t border-slate-800 bg-slate-900/30">
-              {(() => {
-                const nearestCurso = getNearestByType(trainingData, 'CURSO');
-                const nearestExame = getNearestByType(trainingData, 'EXAME REVALIDAÇÃO');
-                const items = [
-                  { title: 'Formação mais próxima', data: nearestCurso, accent: 'from-emerald-500 to-emerald-600' },
-                  { title: 'Exame mais próximo', data: nearestExame, accent: 'from-blue-500 to-blue-600' },
-                ];
-                return items.map(({ title, data, accent }) => (
-                  <div key={title} className="rounded-2xl bg-slate-900/60 border border-slate-800 p-4 flex items-start gap-3 shadow-lg">
-                    <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${accent} text-white flex items-center justify-center font-black text-lg shadow-md`}>
-                      {title.startsWith('Formação') ? '🎓' : '🧭'}
-                    </div>
-                    {data ? (
-                      <div className="space-y-1">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">{title}</p>
-                        <p className="text-sm font-black text-white leading-tight">{data.location}</p>
-                        <p className="text-[11px] font-bold text-slate-400">{data.dates}</p>
-                        <p className="text-[10px] font-black uppercase tracking-widest text-blue-300">{data.entity} • {data.status}</p>
-                        <a href={data.link} target="_blank" rel="noopener noreferrer" className="text-[10px] font-black text-emerald-300 uppercase tracking-widest hover:text-emerald-200 transition-colors">Ver detalhes ↗</a>
-                      </div>
-                    ) : (
-                      <div>
-                        <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">{title}</p>
-                        <p className="text-sm font-bold text-slate-400">Sem eventos disponíveis</p>
-                      </div>
-                    )}
-                  </div>
-                ));
-              })()}
-            </div>
-
             {/* Grid Principal: Mapa e Dados Meteorológicos */}
             <div className="grid grid-cols-1 gap-0">
 
