@@ -266,31 +266,6 @@ const App: React.FC = () => {
                 }} />
               </div>
 
-              {/* Dados Meteorológicos da Praia Selecionada */}
-              <div className="p-6 md:p-8 border-t border-slate-800">
-                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mr-2 animate-pulse"></span>
-                  Condições no Ponto Selecionado
-                </h4>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-                  {[
-                    { label: 'Temp. Ar', val: conditions.airTemp, icon: '🌡️', color: 'from-rose-500 to-rose-600' },
-                    { label: 'Ondulação', val: conditions.waves, icon: '🌊', color: 'from-blue-500 to-blue-600' },
-                    { label: 'Vento', val: conditions.windSpeed, icon: '🌬️', sub: conditions.windDir, color: 'from-slate-400 to-slate-500' },
-                    { label: 'UV Index', val: conditions.uvIndex, icon: '☀️', color: 'from-amber-400 to-amber-500' },
-                    { label: 'Temp. Água', val: conditions.waterTemp, icon: '🌊', color: 'from-cyan-500 to-cyan-600' },
-                  ].map((card, i) => (
-                    <div key={i} className="p-3 rounded-xl bg-slate-900/50 border border-slate-800 text-center hover:bg-slate-900 transition-colors">
-                      <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${card.color} flex items-center justify-center text-lg mb-2 shadow-lg mx-auto`}>
-                        <span className="drop-shadow-md">{card.icon}</span>
-                      </div>
-                      <div className="text-[7px] font-black text-slate-500 uppercase tracking-wider mb-1">{card.label}</div>
-                      <div className="text-lg font-black text-white tracking-tight">{card.val}</div>
-                      {card.sub && <div className="text-[8px] font-bold text-slate-600 mt-0.5 uppercase">{card.sub}</div>}
-                    </div>
-                  ))}
-                </div>
-              </div>
             </div>
 
             {/* Painel Expandido - Dados Detalhados da Praia Selecionada */}
