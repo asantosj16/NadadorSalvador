@@ -11,6 +11,20 @@ export const BEACH_FLAGS: BeachFlag[] = [
 
 export const MANUALS: ManualCategory[] = [
   {
+    id: 'alg-salvamento',
+    title: 'Algoritmo de Salvamento Aquático',
+    icon: '🛟',
+    content: [
+      {
+        id: 'alg-salvamento-pdf',
+        title: 'Fluxo Oficial ISN',
+        description: 'Algoritmo visual conforme o documento oficial ISN.',
+        fullContent: 'Visualize o fluxograma oficial do Algoritmo de Salvamento Aquático (ISN). Caso o PDF não carregue, use o link direto em "Abrir PDF".',
+        externalLink: 'https://www.amn.pt/ISN/Documents/Algoritmo%20Salvamento%20Aqu%C3%A1tico_final.pdf'
+      }
+    ]
+  },
+  {
     id: 'legal-ethics',
     title: '1. Legislação e Ética',
     icon: '⚖️',

@@ -163,6 +163,33 @@ const ManualView: React.FC = () => {
           <div>
             {selectedItem.flowSteps && viewMode === 'flow' ? (
               <AlgorithmFlow steps={selectedItem.flowSteps} />
+            ) : selectedItem.externalLink && selectedItem.externalLink.toLowerCase().endsWith('.pdf') ? (
+              <div className="space-y-4">
+                <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+                  <object data={selectedItem.externalLink} type="application/pdf" className="w-full" style={{ height: '75vh' }}>
+                    <p className="p-4 text-sm text-slate-600 dark:text-slate-300">
+                      Não foi possível carregar o PDF. Use o link abaixo para abrir em nova aba.
+                    </p>
+                  </object>
+                </div>
+                <a
+                  href={selectedItem.externalLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-blue-600 text-white font-black uppercase tracking-widest text-[10px] hover:bg-blue-700 active:scale-95"
+                >
+                  <span>Abrir PDF</span><span>↗</span>
+                </a>
+                {selectedItem.fullContent && (
+                  <div className="prose prose-slate dark:prose-invert max-w-none">
+                    <div className="bg-slate-50 dark:bg-slate-950 p-4 rounded-2xl border border-slate-100 dark:border-slate-800">
+                      <p className="text-slate-800 dark:text-slate-200 leading-relaxed whitespace-pre-wrap text-sm md:text-lg font-medium">
+                        {selectedItem.fullContent}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
             ) : (
               <div className="prose prose-slate dark:prose-invert max-w-none">
                 <div className="bg-slate-50 dark:bg-slate-950 p-6 rounded-2xl border border-slate-100 dark:border-slate-800">
