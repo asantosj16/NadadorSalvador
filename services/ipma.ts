@@ -161,17 +161,18 @@ export async function getIPMAWeatherData(location: string): Promise<BeachConditi
     const weatherData = await weatherResponse.json();
     const today = weatherData.data[0] as IPMAWeatherData;
 
-    // Buscar dados de UV
+    // Buscar dados de UV para a localidade e data corrente
     let uvIndex = 'N/A';
     try {
       const uvResponse = await fetch(`${IPMA_API_BASE}/forecast/meteorology/uv/uv.json`);
       if (uvResponse.ok) {
         const uvData = await uvResponse.json();
-        const todayUV = uvData.data?.find((d: { globalIdLocal: string; iUv: number }) => 
-          new Date(d.globalIdLocal).toDateString() === new Date().toDateString()
+        const todayISO = new Date().toISOString().split('T')[0];
+        const todayUV = uvData.data?.find((d: { globalIdLocal: number; iUv: number; data?: string; forecastDate?: string }) => 
+          Number(d.globalIdLocal) === locationId && (d.forecastDate?.startsWith(todayISO) || d.data?.startsWith(todayISO))
         );
-        if (todayUV) {
-          uvIndex = String(todayUV.iUv || 'N/A');
+        if (todayUV?.iUv !== undefined && todayUV?.iUv !== null) {
+          uvIndex = String(todayUV.iUv);
         }
       }
     } catch (e) {
@@ -182,21 +183,25 @@ export async function getIPMAWeatherData(location: string): Promise<BeachConditi
     let waterTemp = '17°C';
     let waves = '1.0m';
     try {
-      // Lista de locais costeiros - tentar diferentes IDs
-      const coastalIds = [1010500, 1110600, 1080500]; // Aveiro, Lisboa, Faro
+      // Preferir o local selecionado; fallback para algumas referências costeiras
+      const coastalIds = [locationId, 1010500, 1110600, 1080500]; // Aveiro, Lisboa, Faro
       const seaResponse = await fetch(
         `${IPMA_API_BASE}/forecast/oceanography/daily/hp-daily-sea.json`
       );
       
       if (seaResponse.ok) {
         const seaData = await seaResponse.json();
-        const todaySea = seaData.data?.find((d: IPMASeaData) => 
-          new Date(d.forecastDate).toDateString() === new Date().toDateString()
-        );
+        const todayISO = new Date().toISOString().split('T')[0];
+        const todaySeaList = seaData.data?.filter((d: IPMASeaData) => 
+          (d.forecastDate || '').startsWith(todayISO)
+        ) || [];
+        const preferredSea = coastalIds
+          .map((id) => todaySeaList.find((d: IPMASeaData) => Number(d.globalIdLocal) === id))
+          .find(Boolean) || todaySeaList[0];
         
-        if (todaySea) {
-          waterTemp = `${todaySea.seaTemperature}°C`;
-          waves = `${todaySea.waveHeight.toFixed(1)}m`;
+        if (preferredSea) {
+          waterTemp = `${preferredSea.seaTemperature}°C`;
+          waves = `${Number(preferredSea.waveHeight).toFixed(1)}m`;
         }
       }
     } catch (e) {
