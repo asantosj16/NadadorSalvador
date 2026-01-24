@@ -4,6 +4,8 @@
  */
 
 const TEMPO_PT_BASE = 'https://www.tempo.pt';
+// Proxy para contornar CORS no browser
+const TEMPO_PT_PROXY = 'https://api.allorigins.win/raw?url=';
 const CACHE_DURATION = 1800000; // 30 minutos
 const CACHE_KEY_PREFIX = 'tempo_pt_data_';
 
@@ -96,17 +98,27 @@ export async function getIPMAWeatherData(location: string): Promise<BeachConditi
     const logPrefix = `[Tempo.pt] ${location}`;
     const locationSlug = LOCATION_SLUGS[location] || LOCATION_SLUGS['Lisboa'];
     
-    // Buscar dados do Tempo.pt
+    // Buscar dados do Tempo.pt (tentar proxy para evitar CORS)
     const weatherUrl = `${TEMPO_PT_BASE}/${locationSlug}.html`;
-    console.log(`${logPrefix} Fetching from: ${weatherUrl}`);
-    
-    const response = await fetch(weatherUrl);
-    
-    if (!response.ok) {
-      throw new Error(`Tempo.pt error: ${response.status}`);
+    const proxyUrl = `${TEMPO_PT_PROXY}${encodeURIComponent(weatherUrl)}`;
+    console.log(`${logPrefix} Fetching from: ${weatherUrl} (via proxy)`);
+
+    let html = '';
+    const candidates = [proxyUrl, weatherUrl];
+    for (const url of candidates) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) continue;
+        html = await response.text();
+        if (html) break;
+      } catch (e) {
+        // continua para próximo candidato
+      }
     }
 
-    const html = await response.text();
+    if (!html) {
+      throw new Error('Tempo.pt unavailable (CORS/proxy)');
+    }
     
     // Parser dos dados usando regex
     const airTempMatch = html.match(/temperatura[^>]*>(\d+)°/i) || html.match(/(\d{2})°C/);
