@@ -75,7 +75,7 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-2">
           <div className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></div>
-          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">IPMA Tempo Real</span>
+          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Tempo.pt Tempo Real</span>
           {autoRefresh && !loading && (
             <div className="flex items-center gap-1 ml-2">
               <div className="w-1 h-1 rounded-full bg-green-500 animate-pulse"></div>
@@ -116,7 +116,7 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
           <div className="animate-slide-up space-y-4">
             <div className="space-y-1 text-center md:text-left">
               <span className="text-[8px] font-black text-blue-600 dark:text-blue-500 uppercase tracking-wider">
-                {loading ? 'A carregar...' : 'Status Meteorológico IPMA'}
+                {loading ? 'A carregar...' : 'Status Meteorológico Tempo.pt'}
               </span>
               <h4 className="text-2xl md:text-3xl font-black text-white tracking-tighter leading-none">{beach.name}</h4>
               <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wide">{beach.region}</p>

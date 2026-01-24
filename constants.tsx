@@ -290,7 +290,7 @@ export const MANUALS: ManualCategory[] = [
         id: 'ocean-4',
         title: 'Leitura de Condições Meteorológicas',
         description: 'Sinais de mudança de tempo.',
-        fullContent: 'Nuvens Cumulonimbus: trovoada iminente (evacuar praia). Vento NW Portugal: ondulação e temperatura baixa. Vento E/SE: calor, calma. Queda brusca pressão atmosférica: tempestade aproxima-se. Verificar previsões IPMA 2x/dia.'
+        fullContent: 'Nuvens Cumulonimbus: trovoada iminente (evacuar praia). Vento NW Portugal: ondulação e temperatura baixa. Vento E/SE: calor, calma. Queda brusca pressão atmosférica: tempestade aproxima-se. Verificar previsões meteorológicas 2x/dia.'
       },
       {
         id: 'ocean-5',
