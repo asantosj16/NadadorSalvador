@@ -13,7 +13,7 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ currentTab, setTab, manuals, isDark, toggleDark }) => {
   const tabs = [
     { id: 'home', label: 'Início', icon: '🛟', title: 'Vigilância' },
-    { id: 'training', label: 'Vagas', icon: '🎓', title: 'Cursos' },
+    { id: 'training', label: 'Formação', icon: '🎓', title: 'Formação' },
     { id: 'manuals', label: 'Manuais', icon: '📖', title: 'Manuais' },
     { id: 'quiz', label: 'Quiz', icon: '📝', title: 'Treino' },
     { id: 'assistant', label: 'IA', icon: '🤖', title: 'SafeGuard IA' },

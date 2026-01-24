@@ -129,6 +129,66 @@ const MONTH_MAP: Record<string, number> = {
   'setembro': 9, 'outubro': 10, 'novembro': 11, 'dezembro': 12
 };
 
+function monthToNumber(month: string): number {
+  return MONTH_MAP[month.toLowerCase()] || 0;
+}
+
+function lastDayOfMonth(year: number, month: number): number {
+  return new Date(year, month, 0).getDate();
+}
+
+function parseDateRange(dates: string): { start?: Date; end?: Date } {
+  const lower = dates.toLowerCase();
+  const yearMatch = lower.match(/(20\d{2})/);
+  const year = yearMatch ? Number(yearMatch[1]) : new Date().getFullYear();
+
+  // Padrão "DD de mês YYYY"
+  const singleDay = lower.match(/(\d{1,2})\s+de\s+(\w+)/);
+  if (singleDay) {
+    const day = Number(singleDay[1]);
+    const month = monthToNumber(singleDay[2]);
+    if (month) {
+      const d = new Date(year, month - 1, day);
+      return { start: d, end: d };
+    }
+  }
+
+  // Padrão "mês a mês YYYY"
+  const rangeMonths = lower.match(/(\w+)\s+a\s+(\w+)\s+(20\d{2})?/);
+  if (rangeMonths) {
+    const startMonth = monthToNumber(rangeMonths[1]);
+    const endMonth = monthToNumber(rangeMonths[2]);
+    const yr = rangeMonths[3] ? Number(rangeMonths[3]) : year;
+    if (startMonth && endMonth) {
+      return {
+        start: new Date(yr, startMonth - 1, 1),
+        end: new Date(yr, endMonth - 1, lastDayOfMonth(yr, endMonth))
+      };
+    }
+  }
+
+  // Fallback: usa primeiro mês encontrado
+  for (const [name, num] of Object.entries(MONTH_MAP)) {
+    if (lower.includes(name)) {
+      const start = new Date(year, num - 1, 1);
+      const end = new Date(year, num - 1, lastDayOfMonth(year, num));
+      return { start, end };
+    }
+  }
+
+  return {};
+}
+
+function cleanupOldTrainings(trainings: Array<{ dates: string }>): Array<typeof trainings[number]> {
+  const now = new Date();
+  const threshold = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000); // 7 dias atrás
+  return trainings.filter((t) => {
+    const { end } = parseDateRange(t.dates || '');
+    if (!end) return true; // se não for possível parsear, mantém
+    return end >= threshold;
+  });
+}
+
 /**
  * Extrai o primeiro mês de uma string de datas
  * Ex: "Março a Junho 2026" -> 3
@@ -195,8 +255,10 @@ export async function getTrainingSchedules() {
       return JSON.parse(response.text).trainings || [];
     });
 
+    const cleanedTrainings = cleanupOldTrainings(trainings);
+
     // Ordena por mês antes de retornar
-    const sortedTrainings = trainings.sort((a: { dates: string }, b: { dates: string }) => {
+    const sortedTrainings = cleanedTrainings.sort((a: { dates: string }, b: { dates: string }) => {
       const monthA = extractFirstMonth(a.dates);
       const monthB = extractFirstMonth(b.dates);
       return monthA - monthB;
@@ -206,8 +268,9 @@ export async function getTrainingSchedules() {
     return sortedTrainings;
   } catch (error) {
     console.error("Gemini Training Error:", error);
-    // Retorna dados completos de formações em Portugal ordenados por mês
-    return [...PORTUGAL_TRAININGS].sort((a, b) => {
+    // Retorna dados completos de formações em Portugal ordenados por mês e limpos
+    const cleaned = cleanupOldTrainings(PORTUGAL_TRAININGS);
+    return [...cleaned].sort((a, b) => {
       const monthA = extractFirstMonth(a.dates);
       const monthB = extractFirstMonth(b.dates);
       return monthA - monthB;

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { BeachPoint, FORECAST_POINTS, getAlertColor } from '../data/weatherData';
 
+// Textura satélite pública (NASA Blue Marble)
+const SATELLITE_BG = 'https://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57730/land_shallow_topo_2048.jpg';
+
 interface BeachMapProps {
   onSelectBeach?: (beach: BeachPoint) => void;
 }
@@ -17,7 +20,15 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach }) => {
 
   return (
     <div className="h-full animate-fade-in">
-      <div className="relative h-full w-full aspect-[4/5] bg-gradient-to-br from-blue-100 via-blue-50 to-cyan-50 dark:from-blue-950 dark:via-slate-900 dark:to-blue-950 rounded-[2rem] border border-slate-200 dark:border-slate-700 overflow-hidden shadow-2xl flex items-center justify-center p-4">
+      <div
+        className="relative h-full w-full aspect-[4/5] rounded-[2rem] border border-slate-200 dark:border-slate-700 overflow-hidden shadow-2xl flex items-center justify-center p-4"
+        style={{
+          backgroundImage: `linear-gradient(rgba(12,22,38,0.35), rgba(12,22,38,0.35)), url(${SATELLITE_BG})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
         
         <div className="absolute top-4 left-4 z-10 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm px-4 py-2 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700">
           <div className="flex items-center space-x-2">
