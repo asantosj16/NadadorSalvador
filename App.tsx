@@ -9,7 +9,7 @@ import BeachDataPanel from './components/BeachDataPanel.tsx';
 import { TIPS, MANUALS } from './constants.tsx';
 import { TrainingItem, BeachConditions, WeatherAlert } from './types.ts';
 import { generateDailyScenario, getBeachConditions, getTrainingSchedules } from './services/gemini.ts';
-import { BeachPoint } from './data/weatherData';
+import { BeachPoint, FORECAST_POINTS } from './data/weatherData';
 
 const EmergencyModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -178,14 +178,19 @@ const App: React.FC = () => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      const newLoc = searchQuery.includes(',') ? searchQuery : `${searchQuery}, Portugal`;
-      setLocation(newLoc);
-      // Limpar dados anteriores e forçar nova busca
-      setConditions({
-        airTemp: '--', waterTemp: '--', waves: '--', windSpeed: '--', windDir: '--', uvIndex: '--',
-        condition: 'A carregar...', riskLevel: 'low', alerts: [], ipmaIcon: '⌛'
-      });
-      fetchData(newLoc);
+      const query = searchQuery.trim();
+      setLocation(query.includes(',') ? query : `${query}, Portugal`);
+      
+      // Tentar encontrar a praia no mapa baseada na busca
+      const foundBeach = FORECAST_POINTS.find(point => 
+        point.name.toLowerCase().includes(query.toLowerCase()) ||
+        point.region.toLowerCase().includes(query.toLowerCase())
+      );
+      
+      if (foundBeach) {
+        setSelectedBeach(foundBeach);
+      }
+      
       setSearchQuery('');
     }
   };
@@ -198,7 +203,7 @@ const App: React.FC = () => {
           <div>
             <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tighter uppercase">Central de Vigilância</h2>
             <div className="flex items-center gap-2 mt-1">
-              <p className="text-slate-500 font-bold uppercase tracking-widest text-[9px]">Dados IPMA em Tempo Real • {lastUpdated}</p>
+              <p className="text-slate-500 font-bold uppercase tracking-widest text-[9px]">Dados Tempo.pt em Tempo Real • {lastUpdated}</p>
               <div className="flex items-center gap-1">
                 <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
                 <span className="text-[8px] text-green-500 font-bold uppercase tracking-wider">Live</span>
@@ -236,11 +241,11 @@ const App: React.FC = () => {
                     type="text" 
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Alterar localização..."
+                    placeholder="Ex: Nazaré, Porto, Lisboa..."
                     className="flex-1 bg-transparent px-4 py-2.5 outline-none font-bold text-xs text-white placeholder:text-slate-500"
                   />
                   <button type="submit" className="px-5 bg-blue-600 text-white font-black uppercase text-[9px] hover:bg-blue-700 transition-colors active:scale-95">
-                    Ir
+                    🔍
                   </button>
                 </form>
               </div>
@@ -273,14 +278,9 @@ const App: React.FC = () => {
                 </h4>
                 <BeachMap onSelectBeach={(beach) => {
                   setSelectedBeach(beach);
-                  // Atualizar localização e forçar busca imediata dos dados
-                  const newLocation = `${beach.name}, Portugal`;
+                  // Atualizar localização baseada na região da praia
+                  const newLocation = `${beach.region}, Portugal`;
                   setLocation(newLocation);
-                  // Limpar dados anteriores para mostrar loading
-                  setConditions({
-                    airTemp: '--', waterTemp: '--', waves: '--', windSpeed: '--', windDir: '--', uvIndex: '--',
-                    condition: 'A carregar...', riskLevel: 'low', alerts: [], ipmaIcon: '⌛'
-                  });
                 }} />
               </div>
 
@@ -391,20 +391,20 @@ const App: React.FC = () => {
               <span className="text-lg">🌊</span>
               <div>
                 <p className="font-black uppercase tracking-wider">Dados Meteorológicos</p>
-                <p className="font-bold">Fonte: IPMA - Instituto Português do Mar e da Atmosfera</p>
+                <p className="font-bold">Fonte: Tempo.pt - Meteorologia em Tempo Real</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">
               <a 
-                href="https://www.ipma.pt" 
+                href="https://www.tempo.pt" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="px-3 py-1.5 bg-blue-600 text-white rounded-lg font-black uppercase tracking-wider hover:bg-blue-700 transition-colors"
               >
-                IPMA.pt
+                Tempo.pt
               </a>
               <span className="text-slate-400">•</span>
-              <span className="font-bold">API Pública</span>
+              <span className="font-bold">Tempo Real</span>
             </div>
           </div>
         </div>

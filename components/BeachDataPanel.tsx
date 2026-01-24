@@ -131,37 +131,37 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
               {[
                 { 
                   label: 'Temp Ar', 
-                  val: liveData?.airTemp || beach.temp, 
+                  val: loading ? '...' : (liveData?.airTemp || '--'), 
                   icon: '🌡️', 
                   color: 'from-orange-500 to-orange-600' 
                 },
                 { 
                   label: 'Temp Água', 
-                  val: liveData?.waterTemp || '17°C', 
+                  val: loading ? '...' : (liveData?.waterTemp || '--'), 
                   icon: '🌊', 
                   color: 'from-blue-500 to-blue-600' 
                 },
                 { 
                   label: 'Ondas', 
-                  val: liveData?.waves || beach.waves, 
+                  val: loading ? '...' : (liveData?.waves || '--'), 
                   icon: '〰️', 
                   color: 'from-cyan-500 to-cyan-600' 
                 },
                 { 
                   label: 'Vento', 
-                  val: liveData ? `${liveData.windSpeed}` : beach.wind, 
+                  val: loading ? '...' : (liveData?.windSpeed || '--'), 
                   icon: '💨', 
                   color: 'from-slate-400 to-slate-500' 
                 },
                 { 
                   label: 'Dir. Vento', 
-                  val: liveData?.windDir || 'N', 
+                  val: loading ? '...' : (liveData?.windDir || '--'), 
                   icon: '🧭', 
                   color: 'from-indigo-500 to-indigo-600' 
                 },
                 { 
                   label: 'UV Index', 
-                  val: liveData?.uvIndex || '--', 
+                  val: loading ? '...' : (liveData?.uvIndex || '--'), 
                   icon: '☀️', 
                   color: 'from-yellow-500 to-yellow-600' 
                 },
@@ -171,7 +171,7 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
                     <span className="drop-shadow">{stat.icon}</span>
                   </div>
                   <div className="text-[8px] font-black text-slate-500 uppercase tracking-wider mb-1">{stat.label}</div>
-                  <div className="text-base font-black text-white tracking-tight">{stat.val}</div>
+                  <div className={`text-base font-black text-white tracking-tight ${loading ? 'animate-pulse' : ''}`}>{stat.val}</div>
                 </div>
               ))}
             </div>
@@ -200,8 +200,8 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
               <div className="flex items-center justify-between text-[9px]">
                 <span className="font-black text-slate-500 uppercase tracking-wider">Condição Atual</span>
                 <div className="flex items-center space-x-2">
-                  <span className="text-xl">{liveData?.ipmaIcon || beach.icon}</span>
-                  <span className="font-bold text-slate-300">{liveData?.condition || beach.condition}</span>
+                  <span className="text-xl">{loading ? '⌛' : (liveData?.ipmaIcon || '☀️')}</span>
+                  <span className="font-bold text-slate-300">{loading ? 'A carregar...' : (liveData?.condition || 'Céu limpo')}</span>
                 </div>
               </div>
               
@@ -212,7 +212,8 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
                   liveData?.riskLevel === 'medium' ? 'bg-orange-500/30 text-orange-300 border border-orange-400/50' :
                   'bg-green-600/30 text-green-300 border border-green-500/50'
                 }`}>
-                  {liveData?.riskLevel === 'high' ? '🔴 Alto' :
+                  {loading ? '⌛ Verificando' : 
+                   liveData?.riskLevel === 'high' ? '🔴 Alto' :
                    liveData?.riskLevel === 'medium' ? '🟠 Moderado' :
                    '🟢 Baixo'}
                 </div>
