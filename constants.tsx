@@ -16,11 +16,46 @@ export const MANUALS: ManualCategory[] = [
     icon: '🛟',
     content: [
       {
-        id: 'alg-salvamento-pdf',
-        title: 'Fluxo Oficial ISN',
-        description: 'Algoritmo visual conforme o documento oficial ISN.',
-        fullContent: 'Visualize o fluxograma oficial do Algoritmo de Salvamento Aquático (ISN). Caso o PDF não carregue, use o link direto em "Abrir PDF".',
+        id: 'alg-salvamento-aquatico',
+        title: 'Algoritmo de Salvamento Aquático',
+        description: 'Fluxograma completo de salvamento aquático conforme ISN.',
+        fullContent: 'Visualize o fluxograma oficial do Algoritmo de Salvamento Aquático. Este documento apresenta os procedimentos completos para salvamento em meio aquático.',
         externalLink: 'https://www.amn.pt/ISN/Documents/Algoritmo%20Salvamento%20Aqu%C3%A1tico_final.pdf'
+      },
+      {
+        id: 'alg-sbv-adulto',
+        title: 'SBV Adulto',
+        description: 'Suporte Básico de Vida em adultos.',
+        fullContent: 'Algoritmo de Suporte Básico de Vida (SBV) para vítimas adultas. Sequência de procedimentos de reanimação cardiopulmonar conforme guidelines do ISN.',
+        externalLink: 'https://www.amn.pt/ISN/Documents/Algoritmo%20SBV%20Adulto_final.pdf'
+      },
+      {
+        id: 'alg-sbv-pediatrico',
+        title: 'SBV Pediátrico',
+        description: 'Suporte Básico de Vida em crianças.',
+        fullContent: 'Algoritmo de Suporte Básico de Vida (SBV) para vítimas pediátricas. Procedimentos adaptados para bebés e crianças, com especificidades de ventilação e compressões.',
+        externalLink: 'https://www.amn.pt/ISN/Documents/Algoritmo%20SBV%20Pedi%C3%A1trico_final.pdf'
+      },
+      {
+        id: 'alg-sbv-afogamento',
+        title: 'SBV em Afogamento',
+        description: 'Suporte Básico de Vida específico para afogamento.',
+        fullContent: 'Algoritmo de SBV adaptado para vítimas de afogamento. Inclui prioridades de ventilação precoce e gestão de vias aéreas com água.',
+        externalLink: 'https://www.amn.pt/ISN/Documents/Algoritmo%20SBV%20Afogamento_final.pdf'
+      },
+      {
+        id: 'alg-ova-adulto-crianca',
+        title: 'OVA Adulto e Criança',
+        description: 'Obstrução de Via Aérea em adultos e crianças.',
+        fullContent: 'Algoritmo para desobstrução de vias aéreas por corpo estranho em adultos e crianças. Manobras de Heimlich e pancadas interescapulares.',
+        externalLink: 'https://www.amn.pt/ISN/Documents/Algoritmo%20OVA%20Adulto_Crian%c3%a7a_final.pdf'
+      },
+      {
+        id: 'alg-ova-latente',
+        title: 'OVA Latente',
+        description: 'Obstrução de Via Aérea em vítima inconsciente.',
+        fullContent: 'Algoritmo para gestão de Obstrução de Via Aérea (OVA) em vítimas inconscientes ou latentes. Procedimentos de desobstrução durante SBV.',
+        externalLink: 'https://www.amn.pt/ISN/Documents/Algoritmo%20OVA%20Latente_final.pdf'
       }
     ]
   },
