@@ -147,6 +147,7 @@ const BEACH_COORDINATES: Record<string, { lat: number; lon: number }> = {
   'Tróia': { lat: 38.3666, lon: -8.9679 },
   'Sines': { lat: 37.9581, lon: -8.8683 },
   'Milfontes': { lat: 37.7166, lon: -8.7833 },
+  'Vila Nova de Milfontes': { lat: 37.7166, lon: -8.7833 },
   'Sagres': { lat: 37.0049, lon: -8.9263 },
   'Portimão': { lat: 37.1410, lon: -8.5300 },
   'Lagos': { lat: 37.0945, lon: -8.6675 },
