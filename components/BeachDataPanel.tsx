@@ -114,19 +114,6 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
       `}>
         {beach ? (
           <div className="animate-slide-up space-y-4">
-            <div className="space-y-1 text-center md:text-left">
-              <span className="text-[8px] font-black text-blue-600 dark:text-blue-500 uppercase tracking-wider">
-                {loading ? 'A carregar...' : 'Status Meteorológico Tempo.pt'}
-              </span>
-              <h4 className="text-2xl md:text-3xl font-black text-white tracking-tighter leading-none">{beach.name}</h4>
-              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wide">{beach.region}</p>
-              {liveData?.lastUpdate && (
-                <p className="text-[8px] text-slate-500 uppercase tracking-wide">
-                  Atualizado: {liveData.lastUpdate}
-                </p>
-              )}
-            </div>
-
             {liveData?.alerts && liveData.alerts.length > 0 && (
               <div className="space-y-2">
                 {liveData.alerts.map((alert, idx) => (
