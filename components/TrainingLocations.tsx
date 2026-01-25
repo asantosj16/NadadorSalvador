@@ -1,7 +1,8 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TrainingItem, ChunkSource } from '../types.ts';
 import { TRAINING_INFO } from '../data/trainings';
+import { executeAutomaticCleanup, getLastCleanupInfo } from '../services/trainingCleanup';
 
 const MONTH_MAP: Record<string, number> = {
   'janeiro': 1, 'fevereiro': 2, 'março': 3, 'abril': 4,
@@ -52,6 +53,21 @@ interface TrainingLocationsProps {
 const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, loading, lastUpdated }) => {
   const [filter, setFilter] = useState<'ALL' | 'CURSO' | 'EXAME'>('ALL');
   const [showInfo, setShowInfo] = useState(false);
+  const [cleanupInfo, setCleanupInfo] = useState<{
+    executed: boolean;
+    itemsRemoved: number;
+  }>({ executed: false, itemsRemoved: 0 });
+
+  // Executar limpeza automática mensal quando o componente monta
+  useEffect(() => {
+    const cleanup = executeAutomaticCleanup(items);
+    if (cleanup.executed && cleanup.itemsRemoved > 0) {
+      setCleanupInfo({
+        executed: true,
+        itemsRemoved: cleanup.itemsRemoved
+      });
+    }
+  }, [items]);
 
   const now = new Date();
   const availableItems = items.filter((item) => {
@@ -153,9 +169,34 @@ const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, l
                 O cartão de Nadador-Salvador tem validade de <span className="font-black text-red-600 dark:text-red-400">3 anos</span>, sendo obrigatória a renovação através de exame de revalidação.
               </p>
             </div>
+
+            <div className="bg-white dark:bg-slate-900/50 rounded-2xl p-4 border border-green-100 dark:border-slate-800">
+              <h4 className="text-[10px] font-black uppercase tracking-widest text-green-600 dark:text-green-400 mb-3">🧹 Limpeza Automática</h4>
+              <p className="text-xs text-slate-700 dark:text-slate-300">
+                Os editais e cursos com inscrições encerradas são removidos automaticamente da lista <span className="font-black text-green-600 dark:text-green-400">a cada mês</span>, mantendo a base de dados atualizada.
+              </p>
+            </div>
           </div>
         )}
       </div>
+
+      {/* Notificação de Limpeza Automática */}
+      {cleanupInfo.executed && cleanupInfo.itemsRemoved > 0 && (
+        <div className="bg-green-50 dark:bg-green-900/20 rounded-2xl p-4 border border-green-200 dark:border-green-800 animate-fade-in">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl flex-shrink-0">✅</span>
+            <div className="flex-1 min-w-0">
+              <h4 className="text-sm font-black text-green-700 dark:text-green-400 tracking-tight">Limpeza Mensal Executada</h4>
+              <p className="text-xs text-green-600 dark:text-green-300 mt-1">
+                {cleanupInfo.itemsRemoved} edital(is) com inscrições encerradas foi(foram) removido(s) automaticamente.
+              </p>
+              <p className="text-[10px] text-green-500 dark:text-green-400 mt-2 opacity-75">
+                Próxima verificação: {new Date(new Date().setMonth(new Date().getMonth() + 1)).toLocaleDateString('pt-PT')}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Estatísticas - Otimizado para mobile */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">

@@ -79,6 +79,22 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     status: "Brevemente",
     link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
   },
+  {
+    location: "Évora - Piscina Municipal",
+    entity: "ISN",
+    type: "CURSO",
+    dates: "Julho a Outubro 2026",
+    status: "Brevemente",
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
+  },
+  {
+    location: "Castelo Branco - Complexo Desportivo",
+    entity: "ISN",
+    type: "CURSO",
+    dates: "Agosto a Novembro 2026",
+    status: "Brevemente",
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
+  },
 
   // ==================== ISN - EXAMES REVALIDAÇÃO ====================
   {
@@ -121,6 +137,30 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     status: "Brevemente",
     link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
   },
+  {
+    location: "Cascais - Praia de Carcavelos",
+    entity: "ISN",
+    type: "EXAME REVALIDAÇÃO",
+    dates: "26 de Abril 2026",
+    status: "Brevemente",
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
+  },
+  {
+    location: "Peniche - Praia de Supertubos",
+    entity: "ISN",
+    type: "EXAME REVALIDAÇÃO",
+    dates: "3 de Maio 2026",
+    status: "Brevemente",
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
+  },
+  {
+    location: "Nazaré - Praia da Nazaré",
+    entity: "ISN",
+    type: "EXAME REVALIDAÇÃO",
+    dates: "10 de Maio 2026",
+    status: "Brevemente",
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
+  },
 
   // ==================== ANSA ====================
   {
@@ -145,6 +185,22 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     type: "RECERTIFICAÇÃO",
     dates: "10 de Maio 2026",
     status: "Inscrições Abertas",
+    link: "https://ansa.pt"
+  },
+  {
+    location: "Lagos - Praia de Meia Praia",
+    entity: "ANSA",
+    type: "CURSO",
+    dates: "Julho a Outubro 2026",
+    status: "Brevemente",
+    link: "https://ansa.pt"
+  },
+  {
+    location: "Vilamoura - Praia de Vilamoura",
+    entity: "ANSA",
+    type: "EXAME REVALIDAÇÃO",
+    dates: "24 de Maio 2026",
+    status: "Brevemente",
     link: "https://ansa.pt"
   },
 
@@ -174,12 +230,20 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     link: "https://asnasa.pt"
   },
   {
-    location: "Escariz - 201/26",
-    entity: "ISN",
-    type: "RECERTIFICAÇÃO",
-    dates: "28 de Janeiro 2026 (Inscrições: 5 a 18 Jan)",
-    status: "Inscrições Abertas",
-    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
+    location: "Maia - Piscina Municipal",
+    entity: "ASNASA",
+    type: "CURSO",
+    dates: "Junho a Setembro 2026",
+    status: "Brevemente",
+    link: "https://asnasa.pt"
+  },
+  {
+    location: "Santo Tirso - Complexo Desportivo",
+    entity: "ASNASA",
+    type: "EXAME REVALIDAÇÃO",
+    dates: "31 de Maio 2026",
+    status: "Brevemente",
+    link: "https://asnasa.pt"
   },
 
   // ==================== ISN - RECERTIFICAÇÕES ADICIONAIS ====================
@@ -199,6 +263,38 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     status: "Inscrições Abertas",
     link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
   },
+  {
+    location: "Viseu - 204/26",
+    entity: "ISN",
+    type: "RECERTIFICAÇÃO",
+    dates: "18 de Fevereiro 2026 (Inscrições: 20 a 10 Fev)",
+    status: "Brevemente",
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
+  },
+  {
+    location: "Guarda - 205/26",
+    entity: "ISN",
+    type: "RECERTIFICAÇÃO",
+    dates: "25 de Fevereiro 2026 (Inscrições: 27 Jan a 15 Fev)",
+    status: "Brevemente",
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
+  },
+  {
+    location: "Leiria - 206/26",
+    entity: "ISN",
+    type: "RECERTIFICAÇÃO",
+    dates: "4 de Março 2026 (Inscrições: 3 a 22 Fev)",
+    status: "Brevemente",
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
+  },
+  {
+    location: "Covilhã - 207/26",
+    entity: "ISN",
+    type: "RECERTIFICAÇÃO",
+    dates: "11 de Março 2026 (Inscrições: 10 a 1 Mar)",
+    status: "Brevemente",
+    link: "https://www.amn.pt/ISN/Paginas/Curso.aspx"
+  },
 
   // ==================== CRUZ VERMELHA ====================
   {
@@ -214,6 +310,22 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     entity: "Cruz Vermelha Portuguesa",
     type: "RECERTIFICAÇÃO",
     dates: "8 de Junho 2026",
+    status: "Brevemente",
+    link: "https://www.cruzvermelha.pt"
+  },
+  {
+    location: "Porto - Delegação CVP",
+    entity: "Cruz Vermelha Portuguesa",
+    type: "CURSO",
+    dates: "Abril a Julho 2026",
+    status: "Brevemente",
+    link: "https://www.cruzvermelha.pt"
+  },
+  {
+    location: "Covilhã - Delegação CVP",
+    entity: "Cruz Vermelha Portuguesa",
+    type: "EXAME REVALIDAÇÃO",
+    dates: "2 de Maio 2026",
     status: "Brevemente",
     link: "https://www.cruzvermelha.pt"
   },
@@ -251,6 +363,22 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     status: "Brevemente",
     link: "https://www.azoresmarinesafety.pt"
   },
+  {
+    location: "Tavira - Lifeguard Pro",
+    entity: "Lifeguard Professional Academy",
+    type: "CURSO",
+    dates: "Maio a Agosto 2026",
+    status: "Inscrições Abertas",
+    link: "https://www.lifeguardpro.pt"
+  },
+  {
+    location: "Sesimbra - Sesimbra Safe Waters",
+    entity: "Sesimbra Water Safety",
+    type: "EXAME REVALIDAÇÃO",
+    dates: "15 de Junho 2026",
+    status: "Brevemente",
+    link: "https://www.sesimbrasafewaters.pt"
+  },
 
   // ==================== CÂMARAS MUNICIPAIS ====================
   {
@@ -284,6 +412,30 @@ export const PORTUGAL_TRAININGS: TrainingItem[] = [
     dates: "Junho a Agosto 2026",
     status: "Brevemente",
     link: "https://www.cm-sines.pt"
+  },
+  {
+    location: "Cascais - Praias Municipais",
+    entity: "Câmara Municipal de Cascais",
+    type: "EXAME REVALIDAÇÃO",
+    dates: "18 de Maio 2026",
+    status: "Brevemente",
+    link: "https://www.cm-cascais.pt"
+  },
+  {
+    location: "Almada - Praias Municipais",
+    entity: "Câmara Municipal de Almada",
+    type: "CURSO",
+    dates: "Julho a Outubro 2026",
+    status: "Brevemente",
+    link: "https://www.cm-almada.pt"
+  },
+  {
+    location: "Vila Nova de Gaia - Praias Municipais",
+    entity: "Câmara Municipal de Vila Nova de Gaia",
+    type: "RECERTIFICAÇÃO",
+    dates: "7 de Junho 2026",
+    status: "Brevemente",
+    link: "https://www.cm-vnova-gaia.pt"
   },
 ];
 
