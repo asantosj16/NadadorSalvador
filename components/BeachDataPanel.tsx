@@ -64,7 +64,7 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
   }, [autoRefresh, beach?.name]);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col space-y-3">
       <div className={`
         flex flex-col space-y-4 transition-all duration-500
         ${beach ? 'opacity-100 translate-y-0' : 'opacity-40 translate-y-4 pointer-events-none blur-[2px]'}
