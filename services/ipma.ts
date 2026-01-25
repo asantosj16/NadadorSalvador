@@ -6,7 +6,7 @@
 const TEMPO_PT_BASE = 'https://www.tempo.pt';
 // Proxy para contornar CORS no browser
 const TEMPO_PT_PROXY = 'https://api.allorigins.win/raw?url=';
-const CACHE_DURATION = 1800000; // 30 minutos
+const CACHE_DURATION = 300000; // 5 minutos - Cache mais agressivo para atualizações reais
 const CACHE_KEY_PREFIX = 'tempo_pt_data_';
 
 interface BeachConditions {
@@ -120,24 +120,41 @@ export async function getIPMAWeatherData(location: string): Promise<BeachConditi
       throw new Error('Tempo.pt unavailable (CORS/proxy)');
     }
     
-    // Parser dos dados usando regex
-    const airTempMatch = html.match(/temperatura[^>]*>(\d+)°/i) || html.match(/(\d{2})°C/);
-    const waterTempMatch = html.match(/temperatura.*água[^>]*>(\d+)°/i) || html.match(/água.*(\d{2})°/i);
-    const windSpeedMatch = html.match(/vento[^>]*>(\d+)[\s]*km/i) || html.match(/(\d{1,3})[\s]*km\/h/);
-    const windDirMatch = html.match(/vento[^>]*>(N|S|E|W|NE|NW|SE|SW|NO|SO)/i);
-    const wavesMatch = html.match(/ondulação[^>]*>(\d+[\.,]?\d*)[\s]*m/i) || html.match(/(\d+[\.,]?\d*)[\s]*m/);
-    const uvMatch = html.match(/UV[^>]*>(\d+)/i) || html.match(/índice.*UV[^>]*(\d+)/i);
+    // Parser dos dados usando regex - MELHORADO para detectar melhor
+    const airTempMatch = html.match(/temperatura[^>]*>(\d+)°/i) || 
+                        html.match(/ar[^>]*>(\d+)°/i) ||
+                        html.match(/(\d{2})°C(?!.*água)/i);
+    
+    const waterTempMatch = html.match(/temperatura.*água[^>]*>(\d+)°/i) || 
+                          html.match(/água[^>]*>(\d+)°/i) ||
+                          html.match(/mar[^>]*>(\d+)°/i);
+    
+    const windSpeedMatch = html.match(/vento[^>]*>(\d+)[\s]*km/i) || 
+                          html.match(/(\d{1,3})[\s]*km\/h/);
+    
+    const windDirMatch = html.match(/vento[^>]*>(N|S|E|W|NE|NW|SE|SW|NO|SO)/i) ||
+                        html.match(/direção.*vento[^>]*>(N|S|E|W|NE|NW|SE|SW|NO|SO)/i);
+    
+    const wavesMatch = html.match(/ondulação[^>]*>(\d+[\.,]?\d*)[\s]*m/i) || 
+                      html.match(/onda[^>]*>(\d+[\.,]?\d*)[\s]*m/i) ||
+                      html.match(/(\d+[\.,]?\d*)[\s]*m(?!.*tempo)/i);
+    
+    const uvMatch = html.match(/UV[^>]*>(\d+)/i) || 
+                   html.match(/índice.*UV[^>]*(\d+)/i) ||
+                   html.match(/uv\s*(?:index)?\s*[:\s]*(\d+)/i);
+    
     const conditionMatch = html.match(/<meta[^>]*description[^>]*content="[^"]*tempo[^"]*:\s*([^,"\.]+)/i) ||
-                          html.match(/previsão[^>]*>([^<]+)</i);
+                          html.match(/previsão[^>]*>([^<]+)</i) ||
+                          html.match(/condição[^>]*>([^<]+)</i);
 
     // Extrair valores ou usar defaults
-    const airTemp = airTempMatch ? `${airTempMatch[1]}°C` : '20°C';
-    const waterTemp = waterTempMatch ? `${waterTempMatch[1]}°C` : '17°C';
-    const windSpeed = windSpeedMatch ? `${windSpeedMatch[1]} km/h` : '15 km/h';
-    const windDir = windDirMatch ? windDirMatch[1].toUpperCase() : 'N';
-    const waves = wavesMatch ? `${wavesMatch[1].replace(',', '.')}m` : '1.0m';
-    const uvIndex = uvMatch ? uvMatch[1] : '5';
-    const condition = conditionMatch ? conditionMatch[1].trim() : 'Céu limpo';
+    const airTemp = airTempMatch ? `${airTempMatch[1]}°C` : '--';
+    const waterTemp = waterTempMatch ? `${waterTempMatch[1]}°C` : '--';
+    const windSpeed = windSpeedMatch ? `${windSpeedMatch[1]} km/h` : '--';
+    const windDir = windDirMatch ? windDirMatch[1].toUpperCase() : '--';
+    const waves = wavesMatch ? `${wavesMatch[1].replace(',', '.')}m` : '--';
+    const uvIndex = uvMatch ? uvMatch[1] : '--';
+    const condition = conditionMatch ? conditionMatch[1].trim() : 'Dados temporariamente indisponíveis';
 
     // Determinar ícone baseado na condição
     let ipmaIcon = '☀️';

@@ -58,17 +58,17 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [beach?.name, beach?.region]); // fetchLiveData recriado a cada render, mas depende de beach
 
-  // Auto-refresh a cada 15 minutos (mais frequente)
+  // Auto-refresh a cada 5 minutos (mais frequente para dados reais)
   useEffect(() => {
     if (!autoRefresh || !beach) return;
     
     const interval = setInterval(() => {
       fetchLiveData(true);
-    }, 900000); // 15 minutos
+    }, 300000); // 5 minutos
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [autoRefresh, beach?.name]); // fetchLiveData depende de beach
+  }, [autoRefresh, beach?.name]);
 
   return (
     <div className="h-full flex flex-col">
@@ -92,7 +92,7 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
                   ? 'bg-green-600/20 text-green-500 border border-green-500/30' 
                   : 'bg-slate-800/50 text-slate-500 border border-slate-700'
               }`}
-              title={autoRefresh ? 'Auto-atualização ativa (15 min)' : 'Auto-atualização desativada'}
+              title={autoRefresh ? 'Auto-atualização ativa (5 min)' : 'Auto-atualização desativada'}
             >
               {autoRefresh ? '●' : '○'} Auto
             </button>
@@ -228,7 +228,7 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
                   onChange={(e) => setAutoRefresh(e.target.checked)}
                   className="rounded"
                 />
-                <span>Auto-atualizar a cada 30 min</span>
+                <span>Auto-atualizar a cada 5 min</span>
               </label>
             </div>
           </div>
