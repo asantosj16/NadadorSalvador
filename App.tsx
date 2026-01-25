@@ -299,7 +299,7 @@ const App: React.FC = () => {
 
             {/* Painel Expandido - Dados Detalhados da Praia Selecionada */}
               {selectedBeach && (
-                <div className="p-6 md:p-8 border-t border-slate-800 bg-slate-900/20 mt-4 md:mt-6 rounded-b-[2.5rem]">
+                <div className="p-6 md:p-8 pb-12 md:pb-16 border-t border-slate-800 bg-slate-900/20 mt-6 md:mt-8 rounded-b-[2.5rem]">
                 <BeachDataPanel beach={selectedBeach} />
               </div>
             )}
