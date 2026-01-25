@@ -125,42 +125,6 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
               </div>
             )}
 
-            {/* Condição Atual e Risco */}
-            <div className="pt-3 border-t border-slate-800">
-              <div className="flex items-center justify-between text-[9px]">
-                <span className="font-black text-slate-500 uppercase tracking-wider">Condição Atual</span>
-                <div className="flex items-center space-x-2">
-                  <span className="text-xl">{loading ? '⌛' : (liveData?.ipmaIcon || '☀️')}</span>
-                  <span className="font-bold text-slate-300">{loading ? 'A carregar...' : (liveData?.condition || 'Céu limpo')}</span>
-                </div>
-              </div>
-              
-              <div className="mt-2 flex items-center justify-between">
-                <span className="font-black text-slate-500 uppercase tracking-wider text-[9px]">Nível de Risco</span>
-                <div className={`px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-wider ${
-                  liveData?.riskLevel === 'high' ? 'bg-red-600/30 text-red-300 border border-red-500/50' :
-                  liveData?.riskLevel === 'medium' ? 'bg-orange-500/30 text-orange-300 border border-orange-400/50' :
-                  'bg-green-600/30 text-green-300 border border-green-500/50'
-                }`}>
-                  {loading ? '⌛ Verificando' : 
-                   liveData?.riskLevel === 'high' ? '🔴 Alto' :
-                   liveData?.riskLevel === 'medium' ? '🟠 Moderado' :
-                   '🟢 Baixo'}
-                </div>
-              </div>
-            </div>
-
-            <div className="text-center pt-2">
-              <label className="flex items-center justify-center space-x-2 text-[9px] text-slate-400 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={autoRefresh}
-                  onChange={(e) => setAutoRefresh(e.target.checked)}
-                  className="rounded"
-                />
-                <span>Auto-atualizar a cada 5 min</span>
-              </label>
-            </div>
           </div>
         ) : (
           <div className="text-center py-12">
