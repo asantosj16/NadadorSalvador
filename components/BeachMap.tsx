@@ -168,7 +168,7 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach }) => {
       </div>
 
       {activePoint && (
-        <div className="w-full rounded-b-[2rem] border border-slate-200 dark:border-slate-700 border-t-0 shadow-2xl px-4 sm:px-6 py-4 sm:py-6 flex flex-col gap-3 bg-white/95 dark:bg-slate-900/95 sm:bg-white/90 sm:dark:bg-slate-900/90 backdrop-blur-md overflow-visible" style={{ height: '40%' }}>
+        <div className="w-full rounded-b-[2rem] border border-slate-200 dark:border-slate-700 border-t-0 shadow-2xl px-4 sm:px-6 py-4 sm:py-6 flex flex-col gap-3 bg-white/95 dark:bg-slate-900/95 sm:bg-white/90 sm:dark:bg-slate-900/90 backdrop-blur-md overflow-y-auto" style={{ height: '40%' }}>
           <div className="flex items-start justify-between gap-3">
             <div className="flex-1 min-w-0">
               <p className="text-[9px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] text-slate-500 truncate">Praia selecionada</p>
