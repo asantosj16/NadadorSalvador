@@ -99,7 +99,7 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach }) => {
         `;
 
         const label = document.createElement('div');
-        const baseLabelClass = 'mt-1 px-2 py-1 text-[9px] font-bold tracking-tight rounded-lg shadow-lg whitespace-nowrap transition-all duration-200 backdrop-blur-sm';
+        const baseLabelClass = 'mt-1 px-1.5 py-0.5 text-[7px] md:text-[8px] font-bold tracking-tight rounded-md shadow-lg whitespace-nowrap transition-all duration-200 backdrop-blur-sm text-center';
         label.dataset.baseClass = baseLabelClass;
         label.className = `${baseLabelClass} bg-white/90 dark:bg-slate-800/90 text-slate-900 dark:text-slate-100`;
         label.textContent = point.name;
