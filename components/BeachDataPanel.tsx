@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BeachPoint } from '../data/weatherData';
 import { getIPMAWeatherData, refreshData } from '../services/ipma';
+import WeatherDataCard from './WeatherDataCard';
 
 interface BeachDataPanelProps {
   beach: BeachPoint | null;
@@ -166,13 +167,14 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
                   color: 'from-yellow-500 to-yellow-600' 
                 },
               ].map((stat, i) => (
-                <div key={i} className="p-3 rounded-2xl bg-slate-900/50 border border-slate-800 shadow-inner">
-                  <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center text-lg mb-2 shadow-lg`}>
-                    <span className="drop-shadow">{stat.icon}</span>
-                  </div>
-                  <div className="text-[8px] font-black text-slate-500 uppercase tracking-wider mb-1">{stat.label}</div>
-                  <div className={`text-base font-black text-white tracking-tight ${loading ? 'animate-pulse' : ''}`}>{stat.val}</div>
-                </div>
+                <WeatherDataCard
+                  key={i}
+                  label={stat.label}
+                  value={stat.val}
+                  icon={stat.icon}
+                  color={stat.color}
+                  loading={loading}
+                />
               ))}
             </div>
 
