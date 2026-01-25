@@ -19,25 +19,25 @@ const EmergencyModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
     { name: 'VHF', number: 'CH 16', description: 'Socorro Marítimo' },
   ];
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/95 backdrop-blur-lg animate-fade-in">
-      <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] w-full max-w-sm overflow-hidden shadow-2xl animate-zoom-in border border-slate-200 dark:border-slate-800">
-        <div className="bg-red-600 p-8 text-white text-center">
-          <div className="text-5xl mb-3">🚨</div>
-          <h2 className="text-3xl font-black uppercase tracking-tighter">Emergência</h2>
-          <p className="text-red-100 text-[10px] font-bold uppercase tracking-widest mt-1">Canais Prioritários</p>
+    <div className="fixed inset-0 z-[100] flex items-center sm:items-center justify-center p-3 sm:p-4 bg-slate-900/95 backdrop-blur-lg animate-fade-in">
+      <div className="bg-white dark:bg-slate-900 rounded-[1.5rem] sm:rounded-[2.5rem] w-full max-w-xs sm:max-w-sm overflow-hidden shadow-2xl animate-zoom-in border border-slate-200 dark:border-slate-800">
+        <div className="bg-red-600 p-6 sm:p-8 text-white text-center">
+          <div className="text-4xl sm:text-5xl mb-2 sm:mb-3">🚨</div>
+          <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-tighter">Emergência</h2>
+          <p className="text-red-100 text-[9px] sm:text-[10px] font-bold uppercase tracking-widest mt-1">Canais Prioritários</p>
         </div>
-        <div className="p-4 space-y-2">
+        <div className="p-3 sm:p-4 space-y-1.5 sm:space-y-2">
           {contacts.map((contact) => (
-            <a key={contact.name} href={`tel:${contact.number.replace(/\s/g, '')}`} className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 active:bg-red-50 transition-colors group">
+            <a key={contact.name} href={`tel:${contact.number.replace(/\s/g, '')}`} className="flex items-center justify-between p-3 sm:p-4 rounded-lg sm:rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 active:bg-red-50 transition-colors group">
               <div>
-                <h3 className="font-bold text-slate-900 dark:text-slate-100 text-sm">{contact.name}</h3>
-                <p className="text-[9px] text-slate-500 uppercase tracking-widest">{contact.description}</p>
+                <h3 className="font-bold text-slate-900 dark:text-slate-100 text-xs sm:text-sm">{contact.name}</h3>
+                <p className="text-[8px] sm:text-[9px] text-slate-500 uppercase tracking-widest">{contact.description}</p>
               </div>
-              <span className="text-lg font-black text-red-600">{contact.number}</span>
+              <span className="text-base sm:text-lg font-black text-red-600">{contact.number}</span>
             </a>
           ))}
         </div>
-        <button onClick={onClose} className="w-full p-4 text-slate-400 font-black uppercase tracking-widest text-[10px] border-t border-slate-100 dark:border-slate-800" aria-label="Fechar modal de emergência">Fechar</button>
+        <button onClick={onClose} className="w-full p-3 sm:p-4 text-slate-400 font-black uppercase tracking-widest text-[9px] sm:text-[10px] border-t border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors" aria-label="Fechar modal de emergência">Fechar</button>
       </div>
     </div>
   );
@@ -350,21 +350,21 @@ const App: React.FC = () => {
         )}
       </section>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 pb-12">
-        <div className="bg-white dark:bg-slate-900 p-6 md:p-10 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-lg border-b-8 border-b-rose-600">
-          <div className="flex justify-between items-center mb-6">
-            <h3 className="text-xl font-black tracking-tighter uppercase">Dilema de Intervenção</h3>
-            <button onClick={loadScenario} disabled={loadingScenario} className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-sm" aria-label="Recarregar dilema de intervenção">🔄</button>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6 pb-12">
+        <div className="bg-white dark:bg-slate-900 p-4 sm:p-6 md:p-10 rounded-xl sm:rounded-[1.5rem] md:rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-lg border-b-4 sm:border-b-6 md:border-b-8 border-b-rose-600">
+          <div className="flex justify-between items-center mb-4 sm:mb-6">
+            <h3 className="text-base sm:text-lg md:text-xl font-black tracking-tighter uppercase">Dilema de Intervenção</h3>
+            <button onClick={loadScenario} disabled={loadingScenario} className="w-7 sm:w-8 h-7 sm:h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs sm:text-sm hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors flex-shrink-0" aria-label="Recarregar dilema de intervenção">🔄</button>
           </div>
-          {loadingScenario ? <div className="h-16 bg-slate-50 animate-pulse rounded-xl"></div> : <p className="text-slate-600 dark:text-slate-400 font-medium italic text-sm leading-relaxed border-l-4 border-rose-500/20 pl-4">"{dailyScenario}"</p>}
+          {loadingScenario ? <div className="h-12 sm:h-16 bg-slate-50 dark:bg-slate-800 animate-pulse rounded-lg"></div> : <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-medium italic leading-relaxed border-l-4 border-rose-500/20 pl-3 sm:pl-4">"{dailyScenario}"</p>}
         </div>
 
-        <div className="bg-white dark:bg-slate-900 p-6 md:p-10 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-lg border-b-8 border-b-blue-600">
-          <div className="flex items-center space-x-3 mb-6">
-             <span className="text-2xl">💡</span>
-             <h3 className="text-xl font-black tracking-tighter uppercase">Insight Técnico</h3>
+        <div className="bg-white dark:bg-slate-900 p-4 sm:p-6 md:p-10 rounded-xl sm:rounded-[1.5rem] md:rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-lg border-b-4 sm:border-b-6 md:border-b-8 border-b-blue-600">
+          <div className="flex items-center space-x-2 sm:space-x-3 mb-4 sm:mb-6">
+             <span className="text-lg sm:text-2xl flex-shrink-0">💡</span>
+             <h3 className="text-base sm:text-lg md:text-xl font-black tracking-tighter uppercase">Insight Técnico</h3>
           </div>
-          <p className="text-slate-700 dark:text-slate-300 font-bold text-sm leading-relaxed bg-blue-50 dark:bg-blue-950/20 p-4 rounded-2xl">
+          <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-bold leading-relaxed bg-blue-50 dark:bg-blue-950/20 p-3 sm:p-4 rounded-lg sm:rounded-2xl">
             {TIPS[Math.floor(Date.now() / 3600000) % TIPS.length].text}
           </p>
         </div>
@@ -375,7 +375,7 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-500">
       <Navbar currentTab={currentTab} setTab={setCurrentTab} manuals={MANUALS} isDark={isDark} toggleDark={() => setIsDark(!isDark)} />
-      <main className="max-w-5xl mx-auto px-4 pt-24 md:pt-40 pb-20">
+      <main className="w-full px-3 sm:px-4 md:px-6 pt-20 sm:pt-24 md:pt-40 pb-20 max-w-6xl mx-auto">
         {currentTab === 'home' && renderHome()}
         {currentTab === 'manuals' && <ManualView />}
         {currentTab === 'quiz' && <QuizView />}
@@ -384,47 +384,47 @@ const App: React.FC = () => {
       </main>
       
       {/* Footer com créditos IPMA e ISN */}
-      <footer className="max-w-5xl mx-auto px-4 pb-24">
-        <div className="bg-slate-100 dark:bg-slate-900/50 rounded-2xl p-4 border border-slate-200 dark:border-slate-800">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-3 text-[9px] text-slate-500">
+      <footer className="w-full px-3 sm:px-4 md:px-6 pb-24 max-w-6xl mx-auto">
+        <div className="bg-slate-100 dark:bg-slate-900/50 rounded-lg sm:rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-800">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-3 text-[8px] sm:text-[9px] text-slate-500">
             <div className="flex items-center space-x-2">
-              <span className="text-lg">🌊</span>
-              <div>
+              <span className="text-base sm:text-lg flex-shrink-0">🌊</span>
+              <div className="text-center sm:text-left">
                 <p className="font-black uppercase tracking-wider">Dados Meteorológicos</p>
                 <p className="font-bold">Fonte: Tempo.pt - Meteorologia em Tempo Real</p>
               </div>
             </div>
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
               <a 
                 href="https://www.tempo.pt" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="px-3 py-1.5 bg-blue-600 text-white rounded-lg font-black uppercase tracking-wider hover:bg-blue-700 transition-colors"
+                className="px-2 sm:px-3 py-1 sm:py-1.5 bg-blue-600 text-white rounded-md sm:rounded-lg font-black uppercase tracking-wider text-[7px] sm:text-[8px] hover:bg-blue-700 transition-colors"
               >
                 Tempo.pt
               </a>
-              <span className="text-slate-400">•</span>
+              <span className="text-slate-400 hidden sm:block">•</span>
               <span className="font-bold">Tempo Real</span>
             </div>
           </div>
         </div>
 
         {/* Seção ISN/Autoridade Marítima */}
-        <div className="mt-4 bg-slate-100 dark:bg-slate-900/50 rounded-2xl p-4 border border-slate-200 dark:border-slate-800">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-3 text-[9px] text-slate-500">
+        <div className="mt-3 sm:mt-4 bg-slate-100 dark:bg-slate-900/50 rounded-lg sm:rounded-2xl p-3 sm:p-4 border border-slate-200 dark:border-slate-800">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-3 text-[8px] sm:text-[9px] text-slate-500">
             <div className="flex items-center space-x-2">
-              <span className="text-lg">🛟</span>
-              <div>
+              <span className="text-base sm:text-lg flex-shrink-0">🛟</span>
+              <div className="text-center sm:text-left">
                 <p className="font-black uppercase tracking-wider">Autoridade Marítima Nacional</p>
                 <p className="font-bold">ISN - Instituto de Socorros a Náufragos</p>
               </div>
             </div>
-            <div className="flex flex-wrap items-center gap-2 justify-center">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 justify-center sm:justify-end flex-shrink-0">
               <a 
                 href="https://www.amn.pt/ISN/paginas/missao.aspx" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="px-3 py-1.5 bg-blue-600 text-white rounded-lg font-black uppercase tracking-wider hover:bg-blue-700 transition-colors whitespace-nowrap"
+                className="px-2 sm:px-3 py-1 sm:py-1.5 bg-blue-600 text-white rounded-md sm:rounded-lg font-black uppercase tracking-wider text-[7px] sm:text-[8px] hover:bg-blue-700 transition-colors whitespace-nowrap"
               >
                 Autoridade Marítima
               </a>
@@ -432,7 +432,7 @@ const App: React.FC = () => {
                 href="https://www.isn.pt" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="px-3 py-1.5 bg-red-600 text-white rounded-lg font-black uppercase tracking-wider hover:bg-red-700 transition-colors whitespace-nowrap"
+                className="px-2 sm:px-3 py-1 sm:py-1.5 bg-red-600 text-white rounded-md sm:rounded-lg font-black uppercase tracking-wider text-[7px] sm:text-[8px] hover:bg-red-700 transition-colors whitespace-nowrap"
               >
                 ISN.pt
               </a>
@@ -443,7 +443,7 @@ const App: React.FC = () => {
       
       <button 
         onClick={() => setShowEmergency(true)} 
-        className="fixed bottom-6 right-6 z-50 bg-red-600 text-white w-16 h-16 md:w-20 md:h-20 rounded-full shadow-2xl flex items-center justify-center text-3xl md:text-4xl border-4 border-white dark:border-slate-900 active:scale-90 transition-transform"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 bg-red-600 text-white w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full shadow-2xl flex items-center justify-center text-2xl sm:text-3xl md:text-4xl border-4 border-white dark:border-slate-900 active:scale-90 transition-transform hover:bg-red-700 hover:shadow-red-600/50"
         aria-label="Abrir contactos de emergência"
       >
         🚨

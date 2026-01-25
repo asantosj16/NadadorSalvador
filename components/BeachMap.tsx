@@ -151,70 +151,70 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach }) => {
 
         <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-blue-200/5 to-blue-300/15 dark:via-blue-900/10 dark:to-blue-800/20" />
 
-        <div className="absolute top-4 left-4 z-10 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm px-4 py-2 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700">
+        <div className="absolute top-4 left-4 right-4 sm:left-4 sm:right-auto z-10 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm px-3 py-2 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 max-w-xs">
           <div className="flex items-center space-x-2">
             <div className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse" />
-            <span className="text-[8px] font-black uppercase tracking-[0.25em] text-slate-400">Vigilância</span>
+            <span className="text-[7px] sm:text-[8px] font-black uppercase tracking-[0.2em] sm:tracking-[0.25em] text-slate-400">Vigilância</span>
           </div>
-          <h3 className="text-base font-black text-slate-900 dark:text-slate-100 tracking-tighter mt-0.5">
+          <h3 className="text-sm sm:text-base font-black text-slate-900 dark:text-slate-100 tracking-tighter mt-0.5 truncate">
             {hoveredRegion || activePoint?.region || 'Portugal'}
           </h3>
         </div>
 
-        <div className="absolute top-4 right-4 z-10 bg-slate-900/90 text-white px-3 py-1 rounded-full text-[10px] font-semibold shadow-md border border-slate-700/80">
+        <div className="absolute top-4 right-4 z-10 bg-slate-900/90 text-white px-2 py-1 sm:px-3 sm:py-1 rounded-full text-[8px] sm:text-[10px] font-semibold shadow-md border border-slate-700/80 hidden sm:block">
           Modo Satélite
         </div>
 
         {activePoint && (
-          <div className="absolute bottom-4 left-4 right-4 z-10 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-slate-700 shadow-xl p-4 flex flex-col gap-2">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Praia selecionada</p>
-                <h3 className="text-lg font-black text-slate-900 dark:text-slate-50 leading-tight">
+          <div className="absolute bottom-0 left-0 right-0 sm:bottom-4 sm:left-4 sm:right-4 z-10 bg-white/95 dark:bg-slate-900/95 sm:bg-white/90 sm:dark:bg-slate-900/90 backdrop-blur-md rounded-t-2xl sm:rounded-2xl border-t border-slate-200 dark:border-slate-700 sm:border shadow-xl p-3 sm:p-4 flex flex-col gap-2 max-h-[45vh] sm:max-h-none overflow-y-auto sm:overflow-visible">
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex-1 min-w-0">
+                <p className="text-[9px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] text-slate-500 truncate">Praia selecionada</p>
+                <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-slate-50 leading-tight truncate">
                   {activePoint.name}
                 </h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400">{activePoint.region}</p>
+                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 truncate">{activePoint.region}</p>
               </div>
-              <div className="flex items-center gap-3">
-                <span className="text-3xl drop-shadow-sm">{activePoint.icon}</span>
+              <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                <span className="text-2xl sm:text-3xl drop-shadow-sm">{activePoint.icon}</span>
                 <div className="text-right">
-                  <p className="text-sm font-semibold text-slate-600 dark:text-slate-200">{activePoint.condition}</p>
-                  <p className="text-2xl font-black text-slate-900 dark:text-white">{activePoint.temp}</p>
+                  <p className="text-[10px] sm:text-sm font-semibold text-slate-600 dark:text-slate-200 line-clamp-2">{activePoint.condition}</p>
+                  <p className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">{activePoint.temp}</p>
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-2 text-xs text-slate-600 dark:text-slate-300">
-              <div className="rounded-lg bg-slate-100 dark:bg-slate-800/70 px-3 py-2 border border-slate-200 dark:border-slate-700">
-                <p className="text-[10px] uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">Vento</p>
-                <p className="font-semibold">{activePoint.wind}</p>
+            <div className="grid grid-cols-3 gap-1.5 sm:gap-2 text-xs text-slate-600 dark:text-slate-300">
+              <div className="rounded-lg bg-slate-100 dark:bg-slate-800/70 px-2 sm:px-3 py-2 border border-slate-200 dark:border-slate-700">
+                <p className="text-[8px] sm:text-[10px] uppercase tracking-[0.1em] sm:tracking-[0.15em] text-slate-500 dark:text-slate-400 truncate">Vento</p>
+                <p className="font-semibold text-sm sm:text-base truncate">{activePoint.wind}</p>
               </div>
-              <div className="rounded-lg bg-slate-100 dark:bg-slate-800/70 px-3 py-2 border border-slate-200 dark:border-slate-700">
-                <p className="text-[10px] uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">Ondas</p>
-                <p className="font-semibold">{activePoint.waves}</p>
+              <div className="rounded-lg bg-slate-100 dark:bg-slate-800/70 px-2 sm:px-3 py-2 border border-slate-200 dark:border-slate-700">
+                <p className="text-[8px] sm:text-[10px] uppercase tracking-[0.1em] sm:tracking-[0.15em] text-slate-500 dark:text-slate-400 truncate">Ondas</p>
+                <p className="font-semibold text-sm sm:text-base truncate">{activePoint.waves}</p>
               </div>
-              <div className="rounded-lg bg-slate-100 dark:bg-slate-800/70 px-3 py-2 border border-slate-200 dark:border-slate-700">
-                <p className="text-[10px] uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400">Maré</p>
-                <p className="font-semibold">{activePoint.tide}</p>
+              <div className="rounded-lg bg-slate-100 dark:bg-slate-800/70 px-2 sm:px-3 py-2 border border-slate-200 dark:border-slate-700">
+                <p className="text-[8px] sm:text-[10px] uppercase tracking-[0.1em] sm:tracking-[0.15em] text-slate-500 dark:text-slate-400 truncate">Maré</p>
+                <p className="font-semibold text-sm sm:text-base truncate">{activePoint.tide}</p>
               </div>
             </div>
             {(activePoint.airTemp || activePoint.waterTemp || activePoint.uvIndex) && (
-              <div className="grid grid-cols-3 gap-2 text-xs text-slate-600 dark:text-slate-300">
+              <div className="grid grid-cols-3 gap-1.5 sm:gap-2 text-xs text-slate-600 dark:text-slate-300">
                 {activePoint.airTemp && (
-                  <div className="rounded-lg bg-orange-100/50 dark:bg-orange-900/30 px-3 py-2 border border-orange-200 dark:border-orange-800">
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-orange-600 dark:text-orange-400">Temp Ar</p>
-                    <p className="font-semibold text-slate-900 dark:text-white">{activePoint.airTemp}</p>
+                  <div className="rounded-lg bg-orange-100/50 dark:bg-orange-900/30 px-2 sm:px-3 py-2 border border-orange-200 dark:border-orange-800">
+                    <p className="text-[8px] sm:text-[10px] uppercase tracking-[0.1em] sm:tracking-[0.15em] text-orange-600 dark:text-orange-400 truncate">Temp Ar</p>
+                    <p className="font-semibold text-sm sm:text-base text-slate-900 dark:text-white truncate">{activePoint.airTemp}</p>
                   </div>
                 )}
                 {activePoint.waterTemp && (
-                  <div className="rounded-lg bg-blue-100/50 dark:bg-blue-900/30 px-3 py-2 border border-blue-200 dark:border-blue-800">
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-blue-600 dark:text-blue-400">Temp Água</p>
-                    <p className="font-semibold text-slate-900 dark:text-white">{activePoint.waterTemp}</p>
+                  <div className="rounded-lg bg-blue-100/50 dark:bg-blue-900/30 px-2 sm:px-3 py-2 border border-blue-200 dark:border-blue-800">
+                    <p className="text-[8px] sm:text-[10px] uppercase tracking-[0.1em] sm:tracking-[0.15em] text-blue-600 dark:text-blue-400 truncate">Temp Água</p>
+                    <p className="font-semibold text-sm sm:text-base text-slate-900 dark:text-white truncate">{activePoint.waterTemp}</p>
                   </div>
                 )}
                 {activePoint.uvIndex && (
-                  <div className="rounded-lg bg-yellow-100/50 dark:bg-yellow-900/30 px-3 py-2 border border-yellow-200 dark:border-yellow-800">
-                    <p className="text-[10px] uppercase tracking-[0.15em] text-yellow-600 dark:text-yellow-400">UV Index</p>
-                    <p className="font-semibold text-slate-900 dark:text-white">{activePoint.uvIndex}</p>
+                  <div className="rounded-lg bg-yellow-100/50 dark:bg-yellow-900/30 px-2 sm:px-3 py-2 border border-yellow-200 dark:border-yellow-800">
+                    <p className="text-[8px] sm:text-[10px] uppercase tracking-[0.1em] sm:tracking-[0.15em] text-yellow-600 dark:text-yellow-400 truncate">UV Index</p>
+                    <p className="font-semibold text-sm sm:text-base text-slate-900 dark:text-white truncate">{activePoint.uvIndex}</p>
                   </div>
                 )}
               </div>
