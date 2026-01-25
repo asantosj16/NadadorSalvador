@@ -146,7 +146,7 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach }) => {
 
   return (
     <div className="h-full animate-fade-in flex flex-col gap-0">
-      <div className="relative w-full rounded-t-[2rem] border border-slate-200 dark:border-slate-700 border-b-0 overflow-hidden shadow-2xl" style={{ height: '60%' }}>
+      <div className="relative w-full aspect-[4/5] sm:aspect-[16/10] rounded-t-[2rem] border border-slate-200 dark:border-slate-700 border-b-0 overflow-hidden shadow-2xl">
         <div ref={mapContainerRef} className="absolute inset-0" />
 
         <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-blue-200/5 to-blue-300/15 dark:via-blue-900/10 dark:to-blue-800/20" />
@@ -168,7 +168,7 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach }) => {
       </div>
 
       {activePoint && (
-        <div className="w-full rounded-b-[2rem] border border-slate-200 dark:border-slate-700 border-t-0 shadow-2xl px-4 sm:px-6 py-4 sm:py-6 flex flex-col gap-3 bg-white/95 dark:bg-slate-900/95 sm:bg-white/90 sm:dark:bg-slate-900/90 backdrop-blur-md overflow-y-auto" style={{ height: '40%' }}>
+        <div className="w-full rounded-b-[2rem] border border-slate-200 dark:border-slate-700 border-t-0 shadow-2xl px-4 sm:px-6 py-4 sm:py-6 flex flex-col gap-3 bg-white/95 dark:bg-slate-900/95 sm:bg-white/90 sm:dark:bg-slate-900/90 backdrop-blur-md">
           <div className="flex items-start justify-between gap-3">
             <div className="flex-1 min-w-0">
               <p className="text-[9px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] text-slate-500 truncate">Praia selecionada</p>
