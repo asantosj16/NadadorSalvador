@@ -22,7 +22,6 @@ export interface BeachPoint {
  * Dados meteorológicos de todas as praias monitorizadas em Portugal
  */
 export const FORECAST_POINTS: BeachPoint[] = [
-  // Norte
   { 
     id: 'viana', 
     name: 'Praia do Cabedelo', 
@@ -36,6 +35,19 @@ export const FORECAST_POINTS: BeachPoint[] = [
     waves: '1.2m', 
     tide: 'Baixa (14:30)' 
   },
+  {
+    id: 'caminha',
+    name: 'Praia de Caminha',
+    region: 'Caminha',
+    lat: 41.875,
+    lng: -8.844,
+    condition: 'Limpo',
+    temp: '18°',
+    icon: '☀️',
+    wind: '12km/h N',
+    waves: '1.0m',
+    tide: 'Enchente'
+  },
   { 
     id: 'povoa', 
     name: 'Praia da Póvoa', 
@@ -48,6 +60,19 @@ export const FORECAST_POINTS: BeachPoint[] = [
     wind: '18km/h NW', 
     waves: '1.8m', 
     tide: 'Enchente' 
+  },
+  {
+    id: 'vilaconde',
+    name: 'Praia de Argivai',
+    region: 'Vila do Conde',
+    lat: 41.323,
+    lng: -8.746,
+    condition: 'Nuvens',
+    temp: '18°',
+    icon: '⛅',
+    wind: '16km/h NW',
+    waves: '1.5m',
+    tide: 'Baixa'
   },
   { 
     id: 'porto', 
@@ -63,6 +88,19 @@ export const FORECAST_POINTS: BeachPoint[] = [
     waves: '2.5m', 
     tide: 'Enchente' 
   },
+  {
+    id: 'leca',
+    name: 'Praia de Leça da Palmeira',
+    region: 'Matosinhos',
+    lat: 41.192,
+    lng: -8.711,
+    condition: 'Nuvens',
+    temp: '18°',
+    icon: '⛅',
+    wind: '20km/h NW',
+    waves: '2.0m',
+    tide: 'Enchente'
+  },
   { 
     id: 'espinho', 
     name: 'Praia da Baía', 
@@ -75,6 +113,19 @@ export const FORECAST_POINTS: BeachPoint[] = [
     wind: '14km/h N', 
     waves: '1.1m', 
     tide: 'Baixa' 
+  },
+  {
+    id: 'miramar',
+    name: 'Praia de Miramar',
+    region: 'Espinho',
+    lat: 41.016,
+    lng: -8.637,
+    condition: 'Limpo',
+    temp: '20°',
+    icon: '☀️',
+    wind: '14km/h N',
+    waves: '1.2m',
+    tide: 'Baixa'
   },
   
   // Centro
@@ -91,6 +142,19 @@ export const FORECAST_POINTS: BeachPoint[] = [
     waves: '0.8m', 
     tide: 'Preia-mar' 
   },
+  {
+    id: 'costavova',
+    name: 'Praia de Costa Nova',
+    region: 'Aveiro',
+    lat: 40.603,
+    lng: -8.757,
+    condition: 'Limpo',
+    temp: '20°',
+    icon: '☀️',
+    wind: '11km/h NW',
+    waves: '0.9m',
+    tide: 'Preia-mar'
+  },
   { 
     id: 'figueira', 
     name: 'Praia da Claridade', 
@@ -103,6 +167,19 @@ export const FORECAST_POINTS: BeachPoint[] = [
     wind: '20km/h N', 
     waves: '2.0m', 
     tide: 'Baixa' 
+  },
+  {
+    id: 'buarcos',
+    name: 'Praia de Buarcos',
+    region: 'Figueira da Foz',
+    lat: 40.165,
+    lng: -8.874,
+    condition: 'Nuvens',
+    temp: '19°',
+    icon: '⛅',
+    wind: '19km/h N',
+    waves: '1.9m',
+    tide: 'Enchente'
   },
   { 
     id: 'nazare', 
@@ -131,6 +208,19 @@ export const FORECAST_POINTS: BeachPoint[] = [
     waves: '1.5m', 
     tide: 'Baixa-mar' 
   },
+  {
+    id: 'baleal',
+    name: 'Praia de Baleal',
+    region: 'Peniche',
+    lat: 39.356,
+    lng: -9.367,
+    condition: 'Limpo',
+    temp: '19°',
+    icon: '☀️',
+    wind: '17km/h N',
+    waves: '1.4m',
+    tide: 'Enchente'
+  },
   
   // Lisboa e Setúbal
   { 
@@ -146,6 +236,19 @@ export const FORECAST_POINTS: BeachPoint[] = [
     waves: '1.8m', 
     tide: 'Enchente' 
   },
+  {
+    id: 'ericeirapraiacentrall',
+    name: 'Praia Central',
+    region: 'Ericeira',
+    lat: 38.968,
+    lng: -9.433,
+    condition: 'Limpo',
+    temp: '21°',
+    icon: '☀️',
+    wind: '14km/h N',
+    waves: '1.7m',
+    tide: 'Baixa'
+  },
   { 
     id: 'lisboa', 
     name: 'Praia do Guincho', 
@@ -158,6 +261,32 @@ export const FORECAST_POINTS: BeachPoint[] = [
     wind: '10km/h NW', 
     waves: '0.5m', 
     tide: 'Enchente' 
+  },
+  {
+    id: 'carcavelos',
+    name: 'Praia de Carcavelos',
+    region: 'Cascais',
+    lat: 38.701,
+    lng: -9.353,
+    condition: 'Limpo',
+    temp: '22°',
+    icon: '☀️',
+    wind: '11km/h W',
+    waves: '0.8m',
+    tide: 'Enchente'
+  },
+  {
+    id: 'tamariz',
+    name: 'Praia de Tamariz',
+    region: 'Cascais',
+    lat: 38.704,
+    lng: -9.416,
+    condition: 'Limpo',
+    temp: '22°',
+    icon: '☀️',
+    wind: '10km/h NW',
+    waves: '0.6m',
+    tide: 'Preia-mar'
   },
   { 
     id: 'caparica', 
@@ -172,6 +301,32 @@ export const FORECAST_POINTS: BeachPoint[] = [
     waves: '0.6m', 
     tide: 'Baixa' 
   },
+  {
+    id: 'fontedelha',
+    name: 'Praia de Fonte da Telha',
+    region: 'Costa da Caparica',
+    lat: 38.617,
+    lng: -9.206,
+    condition: 'Limpo',
+    temp: '23°',
+    icon: '☀️',
+    wind: '12km/h W',
+    waves: '0.7m',
+    tide: 'Baixa'
+  },
+  {
+    id: 'sesimbra',
+    name: 'Praia de Sesimbra',
+    region: 'Sesimbra',
+    lat: 38.448,
+    lng: -9.102,
+    condition: 'Limpo',
+    temp: '23°',
+    icon: '☀️',
+    wind: '8km/h SW',
+    waves: '0.5m',
+    tide: 'Enchente'
+  },
   { 
     id: 'setubal', 
     name: 'Praia dos Galapinhos', 
@@ -184,6 +339,19 @@ export const FORECAST_POINTS: BeachPoint[] = [
     wind: '5km/h S', 
     waves: '0.2m', 
     tide: 'Preia-mar' 
+  },
+  {
+    id: 'troiapraia',
+    name: 'Praia de Tróia',
+    region: 'Setúbal',
+    lat: 38.505,
+    lng: -8.955,
+    condition: 'Limpo',
+    temp: '24°',
+    icon: '☀️',
+    wind: '6km/h S',
+    waves: '0.3m',
+    tide: 'Enchente'
   },
   
   // Alentejo
@@ -200,6 +368,19 @@ export const FORECAST_POINTS: BeachPoint[] = [
     waves: '1.1m', 
     tide: 'Preia-mar' 
   },
+  {
+    id: 'sinesligacao',
+    name: 'Praia de Ligação',
+    region: 'Sines',
+    lat: 37.945,
+    lng: -8.813,
+    condition: 'Nuvens',
+    temp: '21°',
+    icon: '⛅',
+    wind: '13km/h W',
+    waves: '1.0m',
+    tide: 'Enchente'
+  },
   { 
     id: 'milfontes', 
     name: 'Praia da Franquia', 
@@ -212,6 +393,19 @@ export const FORECAST_POINTS: BeachPoint[] = [
     wind: '10km/h NW', 
     waves: '0.8m', 
     tide: 'Baixa' 
+  },
+  {
+    id: 'motopraia',
+    name: 'Praia da Moto',
+    region: 'Vila Nova de Milfontes',
+    lat: 37.710,
+    lng: -8.780,
+    condition: 'Limpo',
+    temp: '22°',
+    icon: '☀️',
+    wind: '9km/h NW',
+    waves: '0.7m',
+    tide: 'Preia-mar'
   },
   
   // Algarve
@@ -228,6 +422,19 @@ export const FORECAST_POINTS: BeachPoint[] = [
     waves: '2.2m', 
     tide: 'Enchente' 
   },
+  {
+    id: 'praiadovau',
+    name: 'Praia do Vau',
+    region: 'Sagres',
+    lat: 37.018,
+    lng: -8.963,
+    condition: 'Vento',
+    temp: '21°',
+    icon: '🌬️',
+    wind: '29km/h NW',
+    waves: '2.1m',
+    tide: 'Baixa'
+  },
   { 
     id: 'portimao', 
     name: 'Praia da Rocha', 
@@ -240,6 +447,71 @@ export const FORECAST_POINTS: BeachPoint[] = [
     wind: '8km/h S', 
     waves: '0.4m', 
     tide: 'Baixa-mar' 
+  },
+  {
+    id: 'portimaopraia',
+    name: 'Praia de Vau',
+    region: 'Portimão',
+    lat: 37.129,
+    lng: -8.537,
+    condition: 'Limpo',
+    temp: '24°',
+    icon: '☀️',
+    wind: '7km/h S',
+    waves: '0.5m',
+    tide: 'Enchente'
+  },
+  {
+    id: 'lagosalgarve',
+    name: 'Praia de Meia Praia',
+    region: 'Lagos',
+    lat: 37.095,
+    lng: -8.674,
+    condition: 'Limpo',
+    temp: '24°',
+    icon: '☀️',
+    wind: '6km/h SE',
+    waves: '0.3m',
+    tide: 'Preia-mar'
+  },
+  {
+    id: 'albufera',
+    name: 'Praia de Albufeira',
+    region: 'Albufeira',
+    lat: 37.089,
+    lng: -8.255,
+    condition: 'Limpo',
+    temp: '25°',
+    icon: '☀️',
+    wind: '7km/h SE',
+    waves: '0.4m',
+    tide: 'Enchente'
+  },
+  {
+    id: 'quarteira',
+    name: 'Praia de Quarteira',
+    region: 'Quarteira',
+    lat: 37.064,
+    lng: -8.089,
+    condition: 'Limpo',
+    temp: '25°',
+    icon: '☀️',
+    wind: '8km/h SE',
+    waves: '0.5m',
+    tide: 'Baixa'
+  },
+  {
+    id: 'vilamoura',
+    name: 'Praia de Vilamoura',
+    region: 'Vilamoura',
+    lat: 37.076,
+    lng: -8.103,
+    condition: 'Limpo',
+    temp: '25°',
+    icon: '☀️',
+    wind: '8km/h SE',
+    waves: '0.4m',
+    tide: 'Enchente'
   },
   { 
     id: 'faro', 
@@ -267,6 +539,19 @@ export const FORECAST_POINTS: BeachPoint[] = [
     waves: '0.2m', 
     tide: 'Preia-mar' 
   },
+  {
+    id: 'olhao',
+    name: 'Praia de Olhão',
+    region: 'Olhão',
+    lat: 37.017,
+    lng: -7.843,
+    condition: 'Limpo',
+    temp: '25°',
+    icon: '☀️',
+    wind: '8km/h SE',
+    waves: '0.3m',
+    tide: 'Enchente'
+  },
 
   // Ilhas
   { 
@@ -282,6 +567,19 @@ export const FORECAST_POINTS: BeachPoint[] = [
     waves: '1.5m', 
     tide: 'Preia-mar' 
   },
+  {
+    id: 'funchal',
+    name: 'Praia da Madeira',
+    region: 'Funchal',
+    lat: 32.635,
+    lng: -17.006,
+    condition: 'Nuvens',
+    temp: '23°',
+    icon: '⛅',
+    wind: '10km/h NE',
+    waves: '1.2m',
+    tide: 'Enchente'
+  },
   { 
     id: 'pdelgada', 
     name: 'Praia de Santa Bárbara', 
@@ -294,6 +592,19 @@ export const FORECAST_POINTS: BeachPoint[] = [
     wind: '25km/h SW', 
     waves: '3.0m', 
     tide: 'Enchente' 
+  },
+  {
+    id: 'terceira',
+    name: 'Praia de Turnafe',
+    region: 'Terceira - Açores',
+    lat: 38.659,
+    lng: -27.223,
+    condition: 'Chuva',
+    temp: '18°',
+    icon: '🌧️',
+    wind: '23km/h SW',
+    waves: '2.8m',
+    tide: 'Baixa'
   },
 ];
 
