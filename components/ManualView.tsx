@@ -165,38 +165,60 @@ const ManualView: React.FC = () => {
               <AlgorithmFlow steps={selectedItem.flowSteps} />
             ) : selectedItem.externalLink && selectedItem.externalLink.toLowerCase().endsWith('.pdf') ? (
               <div className="space-y-4">
-                <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 shadow-sm">
-                  <iframe 
-                    src={`${selectedItem.externalLink}#view=FitH`}
-                    className="w-full border-0" 
-                    style={{ height: '75vh' }}
-                    title="PDF Viewer"
-                    onError={(e) => {
-                      const target = e.target as HTMLIFrameElement;
-                      target.style.display = 'none';
-                    }}
-                  />
+                {/* Aviso sobre carregamento */}
+                <div className="bg-amber-50 dark:bg-amber-900/20 rounded-2xl p-4 border border-amber-200 dark:border-amber-800">
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl flex-shrink-0">⚠️</span>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-sm font-black text-amber-700 dark:text-amber-400 tracking-tight mb-1">
+                        Visualização Limitada
+                      </h4>
+                      <p className="text-xs text-amber-600 dark:text-amber-300 leading-relaxed">
+                        O documento está hospedado no site da Autoridade Marítima Nacional (AMN) e pode não carregar diretamente aqui devido a restrições de segurança. 
+                        <span className="font-bold"> Use os botões abaixo para abrir ou fazer download do PDF.</span>
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+
+                {/* Botões de ação em destaque */}
+                <div className="flex flex-col sm:flex-row gap-3 items-stretch">
                   <a
                     href={selectedItem.externalLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center space-x-2 px-4 py-3 rounded-xl bg-blue-600 text-white font-black uppercase tracking-widest text-[10px] hover:bg-blue-700 active:scale-95 transition-all shadow-md"
+                    className="flex-1 flex items-center justify-center gap-3 px-6 py-4 rounded-xl bg-blue-600 text-white font-black uppercase tracking-widest text-xs hover:bg-blue-700 active:scale-95 transition-all shadow-lg hover:shadow-xl"
                   >
-                    <span>📄</span>
-                    <span>Abrir PDF em Nova Aba</span>
-                    <span>↗</span>
+                    <span className="text-2xl">📄</span>
+                    <span>Abrir PDF no Navegador</span>
+                    <span className="text-xl">↗</span>
                   </a>
                   <a
                     href={selectedItem.externalLink}
                     download
-                    className="flex-1 flex items-center justify-center space-x-2 px-4 py-3 rounded-xl bg-green-600 text-white font-black uppercase tracking-widest text-[10px] hover:bg-green-700 active:scale-95 transition-all shadow-md"
+                    className="flex-1 flex items-center justify-center gap-3 px-6 py-4 rounded-xl bg-green-600 text-white font-black uppercase tracking-widest text-xs hover:bg-green-700 active:scale-95 transition-all shadow-lg hover:shadow-xl"
                   >
-                    <span>⬇️</span>
+                    <span className="text-2xl">⬇️</span>
                     <span>Download PDF</span>
                   </a>
                 </div>
+
+                {/* Tentativa de visualização em iframe (pode falhar) */}
+                <div className="rounded-2xl overflow-hidden border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50">
+                  <iframe 
+                    src={selectedItem.externalLink}
+                    className="w-full border-0" 
+                    style={{ height: '70vh', minHeight: '500px' }}
+                    title="Visualização de PDF"
+                    sandbox="allow-same-origin allow-scripts"
+                  />
+                  <div className="bg-slate-100 dark:bg-slate-800 p-3 text-center">
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      Se o documento não aparecer acima, use os botões de ação
+                    </p>
+                  </div>
+                </div>
+
                 {selectedItem.fullContent && (
                   <div className="prose prose-slate dark:prose-invert max-w-none">
                     <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-2xl border border-blue-200 dark:border-blue-800">
