@@ -3,23 +3,68 @@ import React, { useState } from 'react';
 import { TrainingItem, ChunkSource } from '../types.ts';
 import { TRAINING_INFO } from '../data/trainings';
 
+const MONTH_MAP: Record<string, number> = {
+  'janeiro': 1, 'fevereiro': 2, 'março': 3, 'abril': 4,
+  'maio': 5, 'junho': 6, 'julho': 7, 'agosto': 8,
+  'setembro': 9, 'outubro': 10, 'novembro': 11, 'dezembro': 12
+};
+
+const lastDayOfMonth = (year: number, month: number) => new Date(year, month, 0).getDate();
+
+function parseEndDate(dates: string): Date | null {
+  const lower = dates.toLowerCase();
+  const yearMatch = lower.match(/(20\d{2})/);
+  const year = yearMatch ? Number(yearMatch[1]) : new Date().getFullYear();
+
+  const singleDay = lower.match(/(\d{1,2})\s+de\s+(\w+)/);
+  if (singleDay) {
+    const day = Number(singleDay[1]);
+    const month = MONTH_MAP[singleDay[2]];
+    if (month) return new Date(year, month - 1, day);
+  }
+
+  const rangeMonths = lower.match(/(\w+)\s+a\s+(\w+)\s+(20\d{2})?/);
+  if (rangeMonths) {
+    const startMonth = MONTH_MAP[rangeMonths[1]];
+    const endMonth = MONTH_MAP[rangeMonths[2]];
+    const yr = rangeMonths[3] ? Number(rangeMonths[3]) : year;
+    if (startMonth && endMonth) {
+      return new Date(yr, endMonth - 1, lastDayOfMonth(yr, endMonth));
+    }
+  }
+
+  for (const [name, num] of Object.entries(MONTH_MAP)) {
+    if (lower.includes(name)) {
+      return new Date(year, num - 1, lastDayOfMonth(year, num));
+    }
+  }
+
+  return null;
+}
+
 interface TrainingLocationsProps {
   items: TrainingItem[];
   sources?: ChunkSource[];
   loading: boolean;
+  lastUpdated?: string;
 }
 
-const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, loading }) => {
+const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, loading, lastUpdated }) => {
   const [filter, setFilter] = useState<'ALL' | 'CURSO' | 'EXAME'>('ALL');
   const [showInfo, setShowInfo] = useState(false);
 
-  const today = new Date().toLocaleDateString('pt-PT', { 
-    day: '2-digit', 
-    month: 'long', 
-    year: 'numeric' 
+  const now = new Date();
+  const availableItems = items.filter((item) => {
+    const end = parseEndDate(item.dates || '');
+    return !end || end >= now;
   });
 
-  const filteredItems = items.filter(item => {
+  const updatedLabel = lastUpdated || new Date().toLocaleTimeString('pt-PT', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+
+  const filteredItems = availableItems.filter(item => {
     if (filter === 'ALL') return true;
     if (filter === 'CURSO') return item.type === 'CURSO';
     if (filter === 'EXAME') return item.type.includes('EXAME') || item.type.includes('RECERTIFICAÇÃO');
@@ -34,7 +79,7 @@ const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, l
             <h2 className="text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tighter">Editais e Cursos</h2>
             <div className="flex items-center space-x-2 text-blue-600 dark:text-blue-400">
                <span className="w-1.5 h-1.5 bg-current rounded-full animate-pulse"></span>
-               <p className="text-[10px] font-black uppercase tracking-widest">Atualização Anual: {today}</p>
+              <p className="text-[10px] font-black uppercase tracking-widest">Atualização Horária • {updatedLabel}</p>
             </div>
           </div>
           <div className="p-3 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 text-2xl">
@@ -115,19 +160,19 @@ const TrainingLocations: React.FC<TrainingLocationsProps> = ({ items, sources, l
       {/* Estatísticas - Otimizado para mobile */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
         <div className="bg-white dark:bg-slate-900 rounded-2xl p-3 md:p-4 border border-slate-200 dark:border-slate-800 text-center">
-          <div className="text-2xl md:text-3xl font-black text-blue-600 dark:text-blue-400">{items.filter(i => i.type === 'CURSO').length}</div>
+          <div className="text-2xl md:text-3xl font-black text-blue-600 dark:text-blue-400">{availableItems.filter(i => i.type === 'CURSO').length}</div>
           <div className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-slate-400 mt-1">Cursos</div>
         </div>
         <div className="bg-white dark:bg-slate-900 rounded-2xl p-3 md:p-4 border border-slate-200 dark:border-slate-800 text-center">
-          <div className="text-2xl md:text-3xl font-black text-orange-600 dark:text-orange-400">{items.filter(i => i.type === 'EXAME REVALIDAÇÃO').length}</div>
+          <div className="text-2xl md:text-3xl font-black text-orange-600 dark:text-orange-400">{availableItems.filter(i => i.type === 'EXAME REVALIDAÇÃO').length}</div>
           <div className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-slate-400 mt-1">Exames</div>
         </div>
         <div className="bg-white dark:bg-slate-900 rounded-2xl p-3 md:p-4 border border-slate-200 dark:border-slate-800 text-center">
-          <div className="text-2xl md:text-3xl font-black text-purple-600 dark:text-purple-400">{items.filter(i => i.type === 'RECERTIFICAÇÃO').length}</div>
+          <div className="text-2xl md:text-3xl font-black text-purple-600 dark:text-purple-400">{availableItems.filter(i => i.type === 'RECERTIFICAÇÃO').length}</div>
           <div className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-slate-400 mt-1">Recertificações</div>
         </div>
         <div className="bg-white dark:bg-slate-900 rounded-2xl p-3 md:p-4 border border-slate-200 dark:border-slate-800 text-center">
-          <div className="text-2xl md:text-3xl font-black text-green-600 dark:text-green-400">{items.filter(i => i.status.toLowerCase().includes('abertas')).length}</div>
+          <div className="text-2xl md:text-3xl font-black text-green-600 dark:text-green-400">{availableItems.filter(i => i.status.toLowerCase().includes('abertas')).length}</div>
           <div className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-slate-400 mt-1">Disponíveis</div>
         </div>
       </div>

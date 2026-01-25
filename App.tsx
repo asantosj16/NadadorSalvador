@@ -55,6 +55,7 @@ const App: React.FC = () => {
   const [lastUpdated, setLastUpdated] = useState<string>('');
   const [trainingData, setTrainingData] = useState<TrainingItem[]>([]);
   const [loadingTraining, setLoadingTraining] = useState(false);
+  const [trainingLastUpdated, setTrainingLastUpdated] = useState<string>('');
   const [selectedBeach, setSelectedBeach] = useState<BeachPoint | null>(null);
 
   const [conditions, setConditions] = useState<BeachConditions>({
@@ -130,6 +131,7 @@ const App: React.FC = () => {
     setLoadingTraining(true);
     const data = await getTrainingSchedules();
     setTrainingData(data);
+    setTrainingLastUpdated(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
     setLoadingTraining(false);
   }, []);
 
@@ -174,6 +176,15 @@ const App: React.FC = () => {
       fetchTrainingData();
     }
   }, [currentTab, loadScenario, fetchTrainingData, dailyScenario, trainingData.length]);
+
+  // Atualizar formações a cada hora
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchTrainingData();
+    }, 3600000);
+
+    return () => clearInterval(interval);
+  }, [fetchTrainingData]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -380,7 +391,7 @@ const App: React.FC = () => {
         {currentTab === 'manuals' && <ManualView />}
         {currentTab === 'quiz' && <QuizView />}
         {currentTab === 'assistant' && <AssistantView />}
-        {currentTab === 'training' && <TrainingLocations items={trainingData} loading={loadingTraining} />}
+        {currentTab === 'training' && <TrainingLocations items={trainingData} loading={loadingTraining} lastUpdated={trainingLastUpdated} />}
       </main>
       
       {/* Footer com créditos IPMA e ISN */}
