@@ -57,6 +57,22 @@ export const FORECAST_POINTS: BeachPoint[] = [
     waterTemp: '15°C',
     uvIndex: '6'
   },
+  {
+    id: 'moledo',
+    name: 'Praia de Moledo',
+    region: 'Caminha',
+    lat: 41.842,
+    lng: -8.866,
+    condition: 'Limpo',
+    temp: '18°',
+    icon: '☀️',
+    wind: '11km/h N',
+    waves: '1.0m',
+    tide: 'Enchente',
+    airTemp: '18°C',
+    waterTemp: '15°C',
+    uvIndex: '6'
+  },
   { 
     id: 'povoa', 
     name: 'Praia da Póvoa', 
@@ -303,6 +319,22 @@ export const FORECAST_POINTS: BeachPoint[] = [
     waterTemp: '17°C',
     uvIndex: '6'
   },
+  {
+    id: 'saojuliaomafra',
+    name: 'Praia de São Julião',
+    region: 'Mafra',
+    lat: 38.967,
+    lng: -9.422,
+    condition: 'Limpo',
+    temp: '21°',
+    icon: '☀️',
+    wind: '13km/h N',
+    waves: '1.2m',
+    tide: 'Baixa',
+    airTemp: '21°C',
+    waterTemp: '17°C',
+    uvIndex: '6'
+  },
   { 
     id: 'lisboa', 
     name: 'Praia do Guincho', 
@@ -317,6 +349,22 @@ export const FORECAST_POINTS: BeachPoint[] = [
     tide: 'Enchente',
     airTemp: '21°C',
     waterTemp: '18°C',
+    uvIndex: '6'
+  },
+  {
+    id: 'adraga',
+    name: 'Praia da Adraga',
+    region: 'Sintra',
+    lat: 38.799,
+    lng: -9.486,
+    condition: 'Nuvens',
+    temp: '21°',
+    icon: '⛅',
+    wind: '12km/h NW',
+    waves: '1.0m',
+    tide: 'Enchente',
+    airTemp: '20°C',
+    waterTemp: '17°C',
     uvIndex: '6'
   },
   {
@@ -431,6 +479,22 @@ export const FORECAST_POINTS: BeachPoint[] = [
     waterTemp: '20°C',
     uvIndex: '6'
   },
+  {
+    id: 'comporta',
+    name: 'Praia da Comporta',
+    region: 'Grândola',
+    lat: 38.380,
+    lng: -8.784,
+    condition: 'Limpo',
+    temp: '24°',
+    icon: '☀️',
+    wind: '8km/h S',
+    waves: '0.4m',
+    tide: 'Preia-mar',
+    airTemp: '23°C',
+    waterTemp: '20°C',
+    uvIndex: '6'
+  },
   
   // Alentejo
   { 
@@ -497,8 +561,56 @@ export const FORECAST_POINTS: BeachPoint[] = [
     waterTemp: '18°C',
     uvIndex: '6'
   },
+  {
+    id: 'zambujeira',
+    name: 'Praia da Zambujeira do Mar',
+    region: 'Odemira',
+    lat: 37.525,
+    lng: -8.781,
+    condition: 'Limpo',
+    temp: '22°',
+    icon: '☀️',
+    wind: '10km/h NW',
+    waves: '0.9m',
+    tide: 'Enchente',
+    airTemp: '21°C',
+    waterTemp: '18°C',
+    uvIndex: '6'
+  },
   
   // Algarve
+  {
+    id: 'odeceixe',
+    name: 'Praia de Odeceixe',
+    region: 'Aljezur',
+    lat: 37.440,
+    lng: -8.792,
+    condition: 'Limpo',
+    temp: '22°',
+    icon: '☀️',
+    wind: '12km/h NW',
+    waves: '1.0m',
+    tide: 'Baixa',
+    airTemp: '21°C',
+    waterTemp: '18°C',
+    uvIndex: '6'
+  },
+  {
+    id: 'amado',
+    name: 'Praia do Amado',
+    region: 'Aljezur',
+    lat: 37.170,
+    lng: -8.900,
+    condition: 'Limpo',
+    temp: '22°',
+    icon: '☀️',
+    wind: '14km/h NW',
+    waves: '1.4m',
+    tide: 'Enchente',
+    airTemp: '21°C',
+    waterTemp: '18°C',
+    uvIndex: '6'
+  },
   { 
     id: 'sagres', 
     name: 'Praia do Beliche', 
