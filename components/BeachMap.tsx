@@ -166,7 +166,7 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach }) => {
         </div>
 
         {activePoint && (
-          <div className="absolute bottom-4 left-4 right-4 z-10 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-slate-700 shadow-xl p-4 flex flex-col gap-1">
+          <div className="absolute bottom-4 left-4 right-4 z-10 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md rounded-2xl border border-slate-200 dark:border-slate-700 shadow-xl p-4 flex flex-col gap-2">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Praia selecionada</p>
@@ -197,6 +197,28 @@ const BeachMap: React.FC<BeachMapProps> = ({ onSelectBeach }) => {
                 <p className="font-semibold">{activePoint.tide}</p>
               </div>
             </div>
+            {(activePoint.airTemp || activePoint.waterTemp || activePoint.uvIndex) && (
+              <div className="grid grid-cols-3 gap-2 text-xs text-slate-600 dark:text-slate-300">
+                {activePoint.airTemp && (
+                  <div className="rounded-lg bg-orange-100/50 dark:bg-orange-900/30 px-3 py-2 border border-orange-200 dark:border-orange-800">
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-orange-600 dark:text-orange-400">Temp Ar</p>
+                    <p className="font-semibold text-slate-900 dark:text-white">{activePoint.airTemp}</p>
+                  </div>
+                )}
+                {activePoint.waterTemp && (
+                  <div className="rounded-lg bg-blue-100/50 dark:bg-blue-900/30 px-3 py-2 border border-blue-200 dark:border-blue-800">
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-blue-600 dark:text-blue-400">Temp Água</p>
+                    <p className="font-semibold text-slate-900 dark:text-white">{activePoint.waterTemp}</p>
+                  </div>
+                )}
+                {activePoint.uvIndex && (
+                  <div className="rounded-lg bg-yellow-100/50 dark:bg-yellow-900/30 px-3 py-2 border border-yellow-200 dark:border-yellow-800">
+                    <p className="text-[10px] uppercase tracking-[0.15em] text-yellow-600 dark:text-yellow-400">UV Index</p>
+                    <p className="font-semibold text-slate-900 dark:text-white">{activePoint.uvIndex}</p>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         )}
       </div>

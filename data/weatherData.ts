@@ -16,6 +16,9 @@ export interface BeachPoint {
   wind: string;
   waves: string;
   tide: string;
+  airTemp?: string;
+  waterTemp?: string;
+  uvIndex?: string;
 }
 
 /**
@@ -33,7 +36,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️', 
     wind: '15km/h N', 
     waves: '1.2m', 
-    tide: 'Baixa (14:30)' 
+    tide: 'Baixa (14:30)',
+    airTemp: '19°C',
+    waterTemp: '15°C',
+    uvIndex: '3'
   },
   {
     id: 'caminha',
@@ -46,7 +52,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️',
     wind: '12km/h N',
     waves: '1.0m',
-    tide: 'Enchente'
+    tide: 'Enchente',
+    airTemp: '19°C',
+    waterTemp: '15°C',
+    uvIndex: '6'
   },
   { 
     id: 'povoa', 
@@ -59,7 +68,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '⛅', 
     wind: '18km/h NW', 
     waves: '1.8m', 
-    tide: 'Enchente' 
+    tide: 'Enchente',
+    airTemp: '17°C',
+    waterTemp: '14°C',
+    uvIndex: '5'
   },
   {
     id: 'vilaconde',
@@ -72,7 +84,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '⛅',
     wind: '16km/h NW',
     waves: '1.5m',
-    tide: 'Baixa'
+    tide: 'Baixa',
+    airTemp: '17°C',
+    waterTemp: '14°C',
+    uvIndex: '5'
   },
   { 
     id: 'porto', 
@@ -86,7 +101,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     alert: 'Amarelo', 
     wind: '22km/h NW', 
     waves: '2.5m', 
-    tide: 'Enchente' 
+    tide: 'Enchente',
+    airTemp: '17°C',
+    waterTemp: '14°C',
+    uvIndex: '5'
   },
   {
     id: 'leca',
@@ -99,7 +117,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '⛅',
     wind: '20km/h NW',
     waves: '2.0m',
-    tide: 'Enchente'
+    tide: 'Enchente',
+    airTemp: '17°C',
+    waterTemp: '14°C',
+    uvIndex: '5'
   },
   { 
     id: 'espinho', 
@@ -112,7 +133,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️', 
     wind: '14km/h N', 
     waves: '1.1m', 
-    tide: 'Baixa' 
+    tide: 'Baixa',
+    airTemp: '19°C',
+    waterTemp: '16°C',
+    uvIndex: '6'
   },
   {
     id: 'miramar',
@@ -125,7 +149,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️',
     wind: '14km/h N',
     waves: '1.2m',
-    tide: 'Baixa'
+    tide: 'Baixa',
+    airTemp: '19°C',
+    waterTemp: '16°C',
+    uvIndex: '6'
   },
   
   // Centro
@@ -140,7 +167,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️', 
     wind: '12km/h NW', 
     waves: '0.8m', 
-    tide: 'Preia-mar' 
+    tide: 'Preia-mar',
+    airTemp: '19°C',
+    waterTemp: '16°C',
+    uvIndex: '6'
   },
   {
     id: 'costavova',
@@ -153,7 +183,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️',
     wind: '11km/h NW',
     waves: '0.9m',
-    tide: 'Preia-mar'
+    tide: 'Preia-mar',
+    airTemp: '19°C',
+    waterTemp: '16°C',
+    uvIndex: '6'
   },
   { 
     id: 'figueira', 
@@ -166,7 +199,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '⛅', 
     wind: '20km/h N', 
     waves: '2.0m', 
-    tide: 'Baixa' 
+    tide: 'Baixa',
+    airTemp: '18°C',
+    waterTemp: '15°C',
+    uvIndex: '5'
   },
   {
     id: 'buarcos',
@@ -179,7 +215,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '⛅',
     wind: '19km/h N',
     waves: '1.9m',
-    tide: 'Enchente'
+    tide: 'Enchente',
+    airTemp: '18°C',
+    waterTemp: '15°C',
+    uvIndex: '5'
   },
   { 
     id: 'nazare', 
@@ -193,7 +232,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     alert: 'Vermelho', 
     wind: '45km/h W', 
     waves: '7.5m', 
-    tide: 'Vazante' 
+    tide: 'Vazante',
+    airTemp: '16°C',
+    waterTemp: '13°C',
+    uvIndex: '4'
   },
   { 
     id: 'peniche', 
@@ -206,7 +248,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️', 
     wind: '18km/h N', 
     waves: '1.5m', 
-    tide: 'Baixa-mar' 
+    tide: 'Baixa-mar',
+    airTemp: '18°C',
+    waterTemp: '15°C',
+    uvIndex: '6'
   },
   {
     id: 'baleal',
@@ -219,7 +264,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️',
     wind: '17km/h N',
     waves: '1.4m',
-    tide: 'Enchente'
+    tide: 'Enchente',
+    airTemp: '18°C',
+    waterTemp: '15°C',
+    uvIndex: '6'
   },
   
   // Lisboa e Setúbal
@@ -234,7 +282,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️', 
     wind: '15km/h N', 
     waves: '1.8m', 
-    tide: 'Enchente' 
+    tide: 'Enchente',
+    airTemp: '20°C',
+    waterTemp: '17°C',
+    uvIndex: '6'
   },
   {
     id: 'ericeirapraiacentrall',
@@ -247,7 +298,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️',
     wind: '14km/h N',
     waves: '1.7m',
-    tide: 'Baixa'
+    tide: 'Baixa',
+    airTemp: '20°C',
+    waterTemp: '17°C',
+    uvIndex: '6'
   },
   { 
     id: 'lisboa', 
@@ -260,7 +314,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️', 
     wind: '10km/h NW', 
     waves: '0.5m', 
-    tide: 'Enchente' 
+    tide: 'Enchente',
+    airTemp: '21°C',
+    waterTemp: '18°C',
+    uvIndex: '6'
   },
   {
     id: 'carcavelos',
@@ -273,7 +330,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️',
     wind: '11km/h W',
     waves: '0.8m',
-    tide: 'Enchente'
+    tide: 'Enchente',
+    airTemp: '21°C',
+    waterTemp: '18°C',
+    uvIndex: '6'
   },
   {
     id: 'tamariz',
@@ -286,7 +346,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️',
     wind: '10km/h NW',
     waves: '0.6m',
-    tide: 'Preia-mar'
+    tide: 'Preia-mar',
+    airTemp: '21°C',
+    waterTemp: '18°C',
+    uvIndex: '6'
   },
   { 
     id: 'caparica', 
@@ -299,7 +362,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️', 
     wind: '12km/h W', 
     waves: '0.6m', 
-    tide: 'Baixa' 
+    tide: 'Baixa',
+    airTemp: '22°C',
+    waterTemp: '19°C',
+    uvIndex: '6'
   },
   {
     id: 'fontedelha',
@@ -312,7 +378,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️',
     wind: '12km/h W',
     waves: '0.7m',
-    tide: 'Baixa'
+    tide: 'Baixa',
+    airTemp: '22°C',
+    waterTemp: '19°C',
+    uvIndex: '6'
   },
   {
     id: 'sesimbra',
@@ -325,7 +394,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️',
     wind: '8km/h SW',
     waves: '0.5m',
-    tide: 'Enchente'
+    tide: 'Enchente',
+    airTemp: '22°C',
+    waterTemp: '19°C',
+    uvIndex: '6'
   },
   { 
     id: 'setubal', 
@@ -338,7 +410,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️', 
     wind: '5km/h S', 
     waves: '0.2m', 
-    tide: 'Preia-mar' 
+    tide: 'Preia-mar',
+    airTemp: '23°C',
+    waterTemp: '20°C',
+    uvIndex: '6'
   },
   {
     id: 'troiapraia',
@@ -351,7 +426,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️',
     wind: '6km/h S',
     waves: '0.3m',
-    tide: 'Enchente'
+    tide: 'Enchente',
+    airTemp: '23°C',
+    waterTemp: '20°C',
+    uvIndex: '6'
   },
   
   // Alentejo
@@ -366,7 +444,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '⛅', 
     wind: '14km/h W', 
     waves: '1.1m', 
-    tide: 'Preia-mar' 
+    tide: 'Preia-mar',
+    airTemp: '20°C',
+    waterTemp: '17°C',
+    uvIndex: '5'
   },
   {
     id: 'sinesligacao',
@@ -379,7 +460,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '⛅',
     wind: '13km/h W',
     waves: '1.0m',
-    tide: 'Enchente'
+    tide: 'Enchente',
+    airTemp: '20°C',
+    waterTemp: '17°C',
+    uvIndex: '5'
   },
   { 
     id: 'milfontes', 
@@ -392,7 +476,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️', 
     wind: '10km/h NW', 
     waves: '0.8m', 
-    tide: 'Baixa' 
+    tide: 'Baixa',
+    airTemp: '21°C',
+    waterTemp: '18°C',
+    uvIndex: '6'
   },
   {
     id: 'motopraia',
@@ -405,7 +492,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️',
     wind: '9km/h NW',
     waves: '0.7m',
-    tide: 'Preia-mar'
+    tide: 'Preia-mar',
+    airTemp: '21°C',
+    waterTemp: '18°C',
+    uvIndex: '6'
   },
   
   // Algarve
@@ -420,7 +510,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '🌬️', 
     wind: '30km/h NW', 
     waves: '2.2m', 
-    tide: 'Enchente' 
+    tide: 'Enchente',
+    airTemp: '20°C',
+    waterTemp: '17°C',
+    uvIndex: '4'
   },
   {
     id: 'praiadovau',
@@ -433,7 +526,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '🌬️',
     wind: '29km/h NW',
     waves: '2.1m',
-    tide: 'Baixa'
+    tide: 'Baixa',
+    airTemp: '20°C',
+    waterTemp: '17°C',
+    uvIndex: '4'
   },
   { 
     id: 'portimao', 
@@ -446,7 +542,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️', 
     wind: '8km/h S', 
     waves: '0.4m', 
-    tide: 'Baixa-mar' 
+    tide: 'Baixa-mar',
+    airTemp: '23°C',
+    waterTemp: '20°C',
+    uvIndex: '6'
   },
   {
     id: 'portimaopraia',
@@ -459,7 +558,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️',
     wind: '7km/h S',
     waves: '0.5m',
-    tide: 'Enchente'
+    tide: 'Enchente',
+    airTemp: '23°C',
+    waterTemp: '20°C',
+    uvIndex: '6'
   },
   {
     id: 'lagosalgarve',
@@ -472,7 +574,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️',
     wind: '6km/h SE',
     waves: '0.3m',
-    tide: 'Preia-mar'
+    tide: 'Preia-mar',
+    airTemp: '23°C',
+    waterTemp: '21°C',
+    uvIndex: '6'
   },
   {
     id: 'albufera',
@@ -485,7 +590,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️',
     wind: '7km/h SE',
     waves: '0.4m',
-    tide: 'Enchente'
+    tide: 'Enchente',
+    airTemp: '24°C',
+    waterTemp: '22°C',
+    uvIndex: '6'
   },
   {
     id: 'quarteira',
@@ -498,7 +606,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️',
     wind: '8km/h SE',
     waves: '0.5m',
-    tide: 'Baixa'
+    tide: 'Baixa',
+    airTemp: '24°C',
+    waterTemp: '21°C',
+    uvIndex: '6'
   },
   {
     id: 'vilamoura',
@@ -511,7 +622,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️',
     wind: '8km/h SE',
     waves: '0.4m',
-    tide: 'Enchente'
+    tide: 'Enchente',
+    airTemp: '24°C',
+    waterTemp: '21°C',
+    uvIndex: '6'
   },
   { 
     id: 'faro', 
@@ -524,7 +638,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️', 
     wind: '9km/h SE', 
     waves: '0.3m', 
-    tide: 'Enchente' 
+    tide: 'Enchente',
+    airTemp: '24°C',
+    waterTemp: '22°C',
+    uvIndex: '6'
   },
   { 
     id: 'tavira', 
@@ -537,7 +654,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️', 
     wind: '5km/h E', 
     waves: '0.2m', 
-    tide: 'Preia-mar' 
+    tide: 'Preia-mar',
+    airTemp: '25°C',
+    waterTemp: '22°C',
+    uvIndex: '6'
   },
   {
     id: 'olhao',
@@ -550,7 +670,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '☀️',
     wind: '8km/h SE',
     waves: '0.3m',
-    tide: 'Enchente'
+    tide: 'Enchente',
+    airTemp: '24°C',
+    waterTemp: '21°C',
+    uvIndex: '6'
   },
 
   // Ilhas
@@ -565,7 +688,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '⛅', 
     wind: '12km/h NE', 
     waves: '1.5m', 
-    tide: 'Preia-mar' 
+    tide: 'Preia-mar',
+    airTemp: '21°C',
+    waterTemp: '18°C',
+    uvIndex: '5'
   },
   {
     id: 'funchal',
@@ -578,7 +704,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '⛅',
     wind: '10km/h NE',
     waves: '1.2m',
-    tide: 'Enchente'
+    tide: 'Enchente',
+    airTemp: '22°C',
+    waterTemp: '19°C',
+    uvIndex: '5'
   },
   { 
     id: 'pdelgada', 
@@ -591,7 +720,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '🌧️', 
     wind: '25km/h SW', 
     waves: '3.0m', 
-    tide: 'Enchente' 
+    tide: 'Enchente',
+    airTemp: '18°C',
+    waterTemp: '15°C',
+    uvIndex: '2'
   },
   {
     id: 'terceira',
@@ -604,7 +736,10 @@ export const FORECAST_POINTS: BeachPoint[] = [
     icon: '🌧️',
     wind: '23km/h SW',
     waves: '2.8m',
-    tide: 'Baixa'
+    tide: 'Baixa',
+    airTemp: '17°C',
+    waterTemp: '14°C',
+    uvIndex: '2'
   },
 ];
 
