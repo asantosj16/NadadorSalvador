@@ -165,27 +165,47 @@ const ManualView: React.FC = () => {
               <AlgorithmFlow steps={selectedItem.flowSteps} />
             ) : selectedItem.externalLink && selectedItem.externalLink.toLowerCase().endsWith('.pdf') ? (
               <div className="space-y-4">
-                <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
-                  <object data={selectedItem.externalLink} type="application/pdf" className="w-full" style={{ height: '75vh' }}>
-                    <p className="p-4 text-sm text-slate-600 dark:text-slate-300">
-                      Não foi possível carregar o PDF. Use o link abaixo para abrir em nova aba.
-                    </p>
-                  </object>
+                <div className="rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 shadow-sm">
+                  <iframe 
+                    src={`${selectedItem.externalLink}#view=FitH`}
+                    className="w-full border-0" 
+                    style={{ height: '75vh' }}
+                    title="PDF Viewer"
+                    onError={(e) => {
+                      const target = e.target as HTMLIFrameElement;
+                      target.style.display = 'none';
+                    }}
+                  />
                 </div>
-                <a
-                  href={selectedItem.externalLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-blue-600 text-white font-black uppercase tracking-widest text-[10px] hover:bg-blue-700 active:scale-95"
-                >
-                  <span>Abrir PDF</span><span>↗</span>
-                </a>
+                <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+                  <a
+                    href={selectedItem.externalLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center space-x-2 px-4 py-3 rounded-xl bg-blue-600 text-white font-black uppercase tracking-widest text-[10px] hover:bg-blue-700 active:scale-95 transition-all shadow-md"
+                  >
+                    <span>📄</span>
+                    <span>Abrir PDF em Nova Aba</span>
+                    <span>↗</span>
+                  </a>
+                  <a
+                    href={selectedItem.externalLink}
+                    download
+                    className="flex-1 flex items-center justify-center space-x-2 px-4 py-3 rounded-xl bg-green-600 text-white font-black uppercase tracking-widest text-[10px] hover:bg-green-700 active:scale-95 transition-all shadow-md"
+                  >
+                    <span>⬇️</span>
+                    <span>Download PDF</span>
+                  </a>
+                </div>
                 {selectedItem.fullContent && (
                   <div className="prose prose-slate dark:prose-invert max-w-none">
-                    <div className="bg-slate-50 dark:bg-slate-950 p-4 rounded-2xl border border-slate-100 dark:border-slate-800">
-                      <p className="text-slate-800 dark:text-slate-200 leading-relaxed whitespace-pre-wrap text-sm md:text-lg font-medium">
-                        {selectedItem.fullContent}
-                      </p>
+                    <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-2xl border border-blue-200 dark:border-blue-800">
+                      <div className="flex items-start gap-3">
+                        <span className="text-2xl flex-shrink-0">💡</span>
+                        <p className="text-slate-800 dark:text-slate-200 leading-relaxed text-sm md:text-base font-medium">
+                          {selectedItem.fullContent}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 )}
