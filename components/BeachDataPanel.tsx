@@ -91,40 +91,6 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
               </div>
             )}
 
-            {/* Informações Estáticas da Praia */}
-            <div className="grid grid-cols-3 gap-2">
-              <div className="rounded-lg bg-slate-100/10 dark:bg-slate-800/50 px-2 py-2 border border-slate-300/20 dark:border-slate-700/50">
-                <p className="text-[7px] uppercase tracking-[0.1em] text-slate-400 font-bold truncate">Vento</p>
-                <p className="font-semibold text-slate-300 text-[9px] truncate mt-1">{beach?.wind || '--'}</p>
-              </div>
-              <div className="rounded-lg bg-slate-100/10 dark:bg-slate-800/50 px-2 py-2 border border-slate-300/20 dark:border-slate-700/50">
-                <p className="text-[7px] uppercase tracking-[0.1em] text-slate-400 font-bold truncate">Ondas</p>
-                <p className="font-semibold text-slate-300 text-[9px] truncate mt-1">{beach?.waves || '--'}</p>
-              </div>
-              <div className="rounded-lg bg-slate-100/10 dark:bg-slate-800/50 px-2 py-2 border border-slate-300/20 dark:border-slate-700/50">
-                <p className="text-[7px] uppercase tracking-[0.1em] text-slate-400 font-bold truncate">Maré</p>
-                <p className="font-semibold text-slate-300 text-[9px] truncate mt-1">{beach?.tide || '--'}</p>
-              </div>
-            </div>
-
-            {/* Dados Live do IPMA */}
-            {liveData && (
-              <div className="grid grid-cols-3 gap-2">
-                <div className="rounded-lg bg-orange-100/10 dark:bg-orange-900/30 px-2 py-2 border border-orange-300/20 dark:border-orange-700/50">
-                  <p className="text-[7px] uppercase tracking-[0.1em] text-orange-500 dark:text-orange-400 font-bold">Temp Ar</p>
-                  <p className="font-semibold text-orange-300 text-[9px] mt-1">{liveData.airTemp || '--'}</p>
-                </div>
-                <div className="rounded-lg bg-blue-100/10 dark:bg-blue-900/30 px-2 py-2 border border-blue-300/20 dark:border-blue-700/50">
-                  <p className="text-[7px] uppercase tracking-[0.1em] text-blue-500 dark:text-blue-400 font-bold">Temp Água</p>
-                  <p className="font-semibold text-blue-300 text-[9px] mt-1">{liveData.waterTemp || '--'}</p>
-                </div>
-                <div className="rounded-lg bg-yellow-100/10 dark:bg-yellow-900/30 px-2 py-2 border border-yellow-300/20 dark:border-yellow-700/50">
-                  <p className="text-[7px] uppercase tracking-[0.1em] text-yellow-500 dark:text-yellow-400 font-bold">UV Index</p>
-                  <p className="font-semibold text-yellow-300 text-[9px] mt-1">{liveData.uvIndex || '--'}</p>
-                </div>
-              </div>
-            )}
-
           </div>
         ) : (
           <div className="text-center py-12">
