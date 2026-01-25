@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BeachPoint } from '../data/weatherData';
 import { getIPMAWeatherData, refreshData } from '../services/ipma';
-import WeatherDataCard from './WeatherDataCard';
 
 interface BeachDataPanelProps {
   beach: BeachPoint | null;
@@ -126,56 +125,6 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
                   Atualizado: {liveData.lastUpdate}
                 </p>
               )}
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              {[
-                { 
-                  label: 'Temp Ar', 
-                  val: loading ? '...' : (liveData?.airTemp || '--'), 
-                  icon: '🌡️', 
-                  color: 'from-orange-500 to-orange-600' 
-                },
-                { 
-                  label: 'Temp Água', 
-                  val: loading ? '...' : (liveData?.waterTemp || '--'), 
-                  icon: '🌊', 
-                  color: 'from-blue-500 to-blue-600' 
-                },
-                { 
-                  label: 'Ondas', 
-                  val: loading ? '...' : (liveData?.waves || '--'), 
-                  icon: '〰️', 
-                  color: 'from-cyan-500 to-cyan-600' 
-                },
-                { 
-                  label: 'Vento', 
-                  val: loading ? '...' : (liveData?.windSpeed || '--'), 
-                  icon: '💨', 
-                  color: 'from-slate-400 to-slate-500' 
-                },
-                { 
-                  label: 'Dir. Vento', 
-                  val: loading ? '...' : (liveData?.windDir || '--'), 
-                  icon: '🧭', 
-                  color: 'from-indigo-500 to-indigo-600' 
-                },
-                { 
-                  label: 'UV Index', 
-                  val: loading ? '...' : (liveData?.uvIndex || '--'), 
-                  icon: '☀️', 
-                  color: 'from-yellow-500 to-yellow-600' 
-                },
-              ].map((stat, i) => (
-                <WeatherDataCard
-                  key={i}
-                  label={stat.label}
-                  value={stat.val}
-                  icon={stat.icon}
-                  color={stat.color}
-                  loading={loading}
-                />
-              ))}
             </div>
 
             {liveData?.alerts && liveData.alerts.length > 0 && (
