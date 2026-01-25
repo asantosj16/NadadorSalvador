@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BeachPoint } from '../data/weatherData';
-import { getIPMAWeatherData, refreshData } from '../services/ipma';
+import { getIPMAWeatherData } from '../services/ipma';
 
 interface BeachDataPanelProps {
   beach: BeachPoint | null;
@@ -40,13 +40,6 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
     }
   };
 
-  const handleRefresh = () => {
-    if (beach) {
-      refreshData(beach.region);
-      fetchLiveData();
-    }
-  };
-
   // Buscar dados do IPMA quando a praia mudar
   useEffect(() => {
     if (beach) {
@@ -72,42 +65,6 @@ const BeachDataPanel: React.FC<BeachDataPanelProps> = ({ beach }) => {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center space-x-2">
-          <div className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></div>
-          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Tempo.pt Tempo Real</span>
-          {autoRefresh && !loading && (
-            <div className="flex items-center gap-1 ml-2">
-              <div className="w-1 h-1 rounded-full bg-green-500 animate-pulse"></div>
-              <span className="text-[8px] text-green-500 font-bold uppercase tracking-wider">Auto</span>
-            </div>
-          )}
-        </div>
-        {beach && (
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setAutoRefresh(!autoRefresh)}
-              className={`px-2 py-1 rounded-lg text-[8px] font-bold uppercase tracking-wider transition-colors ${
-                autoRefresh 
-                  ? 'bg-green-600/20 text-green-500 border border-green-500/30' 
-                  : 'bg-slate-800/50 text-slate-500 border border-slate-700'
-              }`}
-              title={autoRefresh ? 'Auto-atualização ativa (5 min)' : 'Auto-atualização desativada'}
-            >
-              {autoRefresh ? '●' : '○'} Auto
-            </button>
-            <button
-              onClick={handleRefresh}
-              disabled={loading}
-              className="p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700 transition-colors disabled:opacity-50"
-              title="Atualizar dados agora"
-            >
-              <span className={`text-sm ${loading ? 'animate-spin' : ''}`}>🔄</span>
-            </button>
-          </div>
-        )}
-      </div>
-
       <div className={`
         flex-1 flex flex-col justify-center space-y-4 transition-all duration-500
         ${beach ? 'opacity-100 translate-y-0' : 'opacity-40 translate-y-4 pointer-events-none blur-[2px]'}
