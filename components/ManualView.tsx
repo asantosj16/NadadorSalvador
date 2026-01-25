@@ -164,69 +164,82 @@ const ManualView: React.FC = () => {
             {selectedItem.flowSteps && viewMode === 'flow' ? (
               <AlgorithmFlow steps={selectedItem.flowSteps} />
             ) : selectedItem.externalLink && selectedItem.externalLink.toLowerCase().endsWith('.pdf') ? (
-              <div className="space-y-4">
-                {/* Aviso sobre carregamento */}
-                <div className="bg-amber-50 dark:bg-amber-900/20 rounded-2xl p-4 border border-amber-200 dark:border-amber-800">
-                  <div className="flex items-start gap-3">
-                    <span className="text-2xl flex-shrink-0">⚠️</span>
+              <div className="space-y-6">
+                {/* Card Principal com Informação */}
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 rounded-2xl p-6 border-2 border-blue-200 dark:border-blue-800 shadow-lg">
+                  <div className="flex items-start gap-4 mb-4">
+                    <span className="text-4xl flex-shrink-0">📋</span>
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-black text-amber-700 dark:text-amber-400 tracking-tight mb-1">
-                        Visualização Limitada
+                      <h4 className="text-lg font-black text-blue-900 dark:text-blue-100 tracking-tight mb-2">
+                        Documento Oficial ISN/AMN
                       </h4>
-                      <p className="text-xs text-amber-600 dark:text-amber-300 leading-relaxed">
-                        O documento está hospedado no site da Autoridade Marítima Nacional (AMN) e pode não carregar diretamente aqui devido a restrições de segurança. 
-                        <span className="font-bold"> Use os botões abaixo para abrir ou fazer download do PDF.</span>
+                      <p className="text-sm text-blue-700 dark:text-blue-300 leading-relaxed">
+                        Este documento está hospedado no site oficial da <strong>Autoridade Marítima Nacional</strong>.
+                        Clique nos botões abaixo para visualizar ou fazer download.
                       </p>
                     </div>
                   </div>
+
+                  {/* Botões de Ação - Destacados */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <a
+                      href={selectedItem.externalLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center justify-center gap-3 px-6 py-5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-widest text-xs transition-all shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95"
+                    >
+                      <span className="text-3xl group-hover:scale-110 transition-transform">📄</span>
+                      <div className="text-left">
+                        <div className="text-sm">Visualizar PDF</div>
+                        <div className="text-[10px] font-normal opacity-90">Abre em nova aba</div>
+                      </div>
+                      <span className="text-2xl ml-auto group-hover:translate-x-1 transition-transform">↗</span>
+                    </a>
+                    <a
+                      href={selectedItem.externalLink}
+                      download
+                      className="group flex items-center justify-center gap-3 px-6 py-5 rounded-xl bg-green-600 hover:bg-green-700 text-white font-black uppercase tracking-widest text-xs transition-all shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95"
+                    >
+                      <span className="text-3xl group-hover:scale-110 transition-transform">⬇️</span>
+                      <div className="text-left">
+                        <div className="text-sm">Download PDF</div>
+                        <div className="text-[10px] font-normal opacity-90">Guardar no dispositivo</div>
+                      </div>
+                    </a>
+                  </div>
                 </div>
 
-                {/* Botões de ação em destaque */}
-                <div className="flex flex-col sm:flex-row gap-3 items-stretch">
-                  <a
-                    href={selectedItem.externalLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-3 px-6 py-4 rounded-xl bg-blue-600 text-white font-black uppercase tracking-widest text-xs hover:bg-blue-700 active:scale-95 transition-all shadow-lg hover:shadow-xl"
-                  >
-                    <span className="text-2xl">📄</span>
-                    <span>Abrir PDF no Navegador</span>
-                    <span className="text-xl">↗</span>
-                  </a>
-                  <a
-                    href={selectedItem.externalLink}
-                    download
-                    className="flex-1 flex items-center justify-center gap-3 px-6 py-4 rounded-xl bg-green-600 text-white font-black uppercase tracking-widest text-xs hover:bg-green-700 active:scale-95 transition-all shadow-lg hover:shadow-xl"
-                  >
-                    <span className="text-2xl">⬇️</span>
-                    <span>Download PDF</span>
-                  </a>
-                </div>
-
-                {/* Tentativa de visualização em iframe (pode falhar) */}
-                <div className="rounded-2xl overflow-hidden border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50">
-                  <iframe 
-                    src={selectedItem.externalLink}
-                    className="w-full border-0" 
-                    style={{ height: '70vh', minHeight: '500px' }}
-                    title="Visualização de PDF"
-                    sandbox="allow-same-origin allow-scripts"
-                  />
-                  <div className="bg-slate-100 dark:bg-slate-800 p-3 text-center">
-                    <p className="text-xs text-slate-500 dark:text-slate-400">
-                      Se o documento não aparecer acima, use os botões de ação
-                    </p>
+                {/* Link direto alternativo */}
+                <div className="bg-slate-100 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
+                  <div className="flex items-center gap-3 text-sm">
+                    <span className="text-xl">🔗</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-bold text-slate-700 dark:text-slate-300 mb-1">Link direto:</p>
+                      <a 
+                        href={selectedItem.externalLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 dark:text-blue-400 hover:underline break-all text-xs"
+                      >
+                        {selectedItem.externalLink}
+                      </a>
+                    </div>
                   </div>
                 </div>
 
                 {selectedItem.fullContent && (
                   <div className="prose prose-slate dark:prose-invert max-w-none">
-                    <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-2xl border border-blue-200 dark:border-blue-800">
+                    <div className="bg-indigo-50 dark:bg-indigo-950/30 p-5 rounded-2xl border border-indigo-200 dark:border-indigo-800">
                       <div className="flex items-start gap-3">
-                        <span className="text-2xl flex-shrink-0">💡</span>
-                        <p className="text-slate-800 dark:text-slate-200 leading-relaxed text-sm md:text-base font-medium">
-                          {selectedItem.fullContent}
-                        </p>
+                        <span className="text-3xl flex-shrink-0">💡</span>
+                        <div className="flex-1 min-w-0">
+                          <h5 className="text-sm font-black text-indigo-900 dark:text-indigo-100 mb-2 uppercase tracking-wide">
+                            Sobre este documento
+                          </h5>
+                          <p className="text-slate-800 dark:text-slate-200 leading-relaxed text-sm md:text-base">
+                            {selectedItem.fullContent}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
